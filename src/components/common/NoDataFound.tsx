@@ -18,6 +18,7 @@ const NoDataFound: React.FC<NoDataFoundProps> = ({
   handleReset,
   operationsAllowed,
 }) => {
+  console.log(operationsAllowed,"ghvhyhjg")
   return (
     <div className="flex gap-5 justify-between font-semibold">
       {/* Image Section */}

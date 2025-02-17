@@ -75,7 +75,7 @@ const ShipForm: React.FC<LedgerProps> = (props: any) => {
       ]);
       const response: any = data?._id
         ? await Put(url, nestedObj)
-        : await Post(url, nestedObj);
+        : await Post(`http://localhost:3000/${url}`, nestedObj);
 
       if (response.success) {
         const fetchUrl = `${endpoints[formType].fetchAll}`;

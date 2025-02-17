@@ -5,7 +5,7 @@ import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const api = axios.create({
-  baseURL: BASE_URL,
+  baseURL: "http://localhost:3000",
   timeout: 10000, // Default timeout in milliseconds
 });
 

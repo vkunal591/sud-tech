@@ -1,42 +1,102 @@
-import mongoose from "mongoose";
+import { NextResponse } from 'next/server';
+import { dbConnect } from '../../lib/config/db';
+import Vessel from '../../lib/models/ShipModel';
 
-const Schema = new mongoose.Schema({
-    companyName: { type: String, required: true },
-    companyType: { type: String, required: true, enum: ['Private', 'Public', 'Government', 'Others'] },
-    registrationNo: { type: String, required: true },
-    registrationDate: { type: Date, required: true },
-    vatNo: { type: String },
-    gstNo: { type: String },
-    panNo: { type: String },
-    contactPerson: { type: String, required: true },
-    email: { type: String, required: true, match: /\S+@\S+\.\S+/ },
-    phone: { type: String, required: true },
-    website: { type: String },
-    address: {
-        line1: { type: String, required: true },
-        line2: { type: String },
-        city: { type: String, required: true },
-        state: { type: String, required: true },
-        pinCode: { type: String, required: true, maxLength: 15 },
-        country: { type: String, required: true },
-        landmark: { type: String },
-    },
-    revenue: { type: Number, required: true },
-    netIncome: { type: Number, required: true },
-    annualTurnover: { type: Number, required: true },
-    bank: {
-        accountNo: { type: String, required: false },
-        bankName: { type: String, required: true },
-        branchAddress: { type: String, required: false },
-        ifscCode: { type: String, required: false }
-    },
-    industry: { type: String, required: true },
-    sector: { type: String, required: true },
-    establishedYear: { type: Number, required: true },
-    numberOfEmployees: { type: Number, required: true },
-    logoUrl: { type: String },
-    remarks: { type: String },
-}, { timestamps: true });
+// Create a new Vessel entry
+export async function POST(req) {
+  await dbConnect();
+  const data = await req.json();
 
-const CompanyModel = mongoose.models.Company || mongoose.model("Company", Schema);
-export default CompanyModel;
+  // Check if required fields are provided
+  if (!data.vesselImoNo || !data.companyName || !data.gstNo || !data.panNo || !data.accountNo) {
+    return NextResponse.json({ message: 'Missing required fields' }, { status: 400 });
+  }
+
+  try {
+    const newVessel = await Vessel.create(data);
+    return NextResponse.json(newVessel, { status: 201 });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ message: 'Error creating vessel entry' }, { status: 500 });
+  }
+}
+
+// Get all Vessels with pagination and filtering
+export async function GET(req) {
+  await dbConnect();
+
+  const { page = 1, limit = 10, ...filters } = req.nextUrl.searchParams;
+  const skip = (page - 1) * limit;
+  const filterConditions = {};
+
+  // Apply filters based on query parameters
+  if (filters.vesselImoNo) filterConditions.vesselImoNo = { $regex: filters.vesselImoNo, $options: 'i' };
+  if (filters.companyName) filterConditions.companyName = filters.companyName;
+  if (filters.gstNo) filterConditions.gstNo = filters.gstNo;
+  if (filters.panNo) filterConditions.panNo = filters.panNo;
+
+  try {
+    const vessels = await Vessel.find(filterConditions)
+      .skip(skip)
+      .limit(parseInt(limit))
+      .sort({ createdAt: -1 });
+
+    const totalVessels = await Vessel.countDocuments(filterConditions);
+
+    return NextResponse.json({
+      vessels,
+      pagination: {
+        page: parseInt(page),
+        totalPages: Math.ceil(totalVessels / limit),
+        totalItems: totalVessels
+      }
+    });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ message: 'Error fetching vessels' }, { status: 500 });
+  }
+}
+
+// Update an existing Vessel by ID
+export async function PUT(req) {
+  await dbConnect();
+  const { id } = req.query;
+  const data = await req.json();
+
+  // Check if required fields are provided
+  if (!data.vesselImoNo || !data.companyName || !data.gstNo || !data.panNo || !data.accountNo) {
+    return NextResponse.json({ message: 'Missing required fields' }, { status: 400 });
+  }
+
+  try {
+    const updatedVessel = await Vessel.findByIdAndUpdate(id, data, { new: true });
+
+    if (!updatedVessel) {
+      return NextResponse.json({ message: 'Vessel not found' }, { status: 404 });
+    }
+
+    return NextResponse.json(updatedVessel);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ message: 'Error updating vessel entry' }, { status: 500 });
+  }
+}
+
+// Delete an existing Vessel by ID
+export async function DELETE(req) {
+  await dbConnect();
+  const { id } = req.query;
+
+  try {
+    const deletedVessel = await Vessel.findByIdAndDelete(id);
+
+    if (!deletedVessel) {
+      return NextResponse.json({ message: 'Vessel not found' }, { status: 404 });
+    }
+
+    return NextResponse.json({ message: 'Vessel deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ message: 'Error deleting vessel entry' }, { status: 500 });
+  }
+}

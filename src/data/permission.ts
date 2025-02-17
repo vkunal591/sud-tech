@@ -3,7 +3,7 @@ export const userPermissions = [
       module: "Dashboard",
       access: {
         read: true,
-        write: true,
+        create: true,
         delete: true,
       },
     },
@@ -11,7 +11,7 @@ export const userPermissions = [
       module: "Manage Ledger",
       access: {
         read: true,
-        write: true,
+        create: true,
         delete: true,
       },
     },
@@ -19,7 +19,7 @@ export const userPermissions = [
       module: "Manage Ships",
       access: {
         read: true,
-        write: true,
+        create: true,
         delete: true,
       },
     },
@@ -27,7 +27,7 @@ export const userPermissions = [
       module: "Manage Orders",
       access: {
         read: true,
-        write: true,
+        create: true,
         delete: true,
       },
     },

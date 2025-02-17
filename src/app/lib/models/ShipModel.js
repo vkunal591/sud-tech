@@ -2,31 +2,31 @@ import mongoose from "mongoose";
 
 
 const Schema = new mongoose.Schema({
-    vesselImoNo: { type: String, required: true },
-    companyName: { type: String, required: true },
-    yardName: { type: String, required: true },
-    repairedMonth: { type: String, required: true },
-    sudInvoiceToOwners: { type: Number, required: true },
-    invoiceNumber: { type: String, required: true },
-    dueDate: { type: Date, required: true },
-    actualPayment: { type: Number, required: true },
-    bankCharges: { type: Number, required: true },
-    actualPaymentDate: { type: Date, required: true },
-    yardInvoiceToSUD: { type: Number, required: true },
-    yardPaymentDueDate: { type: Date, required: true },
-    yardActualPaymentDate: { type: Date, required: true },
-    vendorInvoiceToSUD: { type: Number, required: true },
-    vendorActualPaymentDate: { type: Date, required: true },
+    vesselImoNo: { type: String, required: false },
+    companyName: { type: String, required: false },
+    yardName: { type: String, required: false },
+    repairedMonth: { type: String, required: false },
+    sudInvoiceToOwners: { type: Number, required: false },
+    invoiceNumber: { type: String, required: false },
+    dueDate: { type: Date, required: false },
+    actualPayment: { type: Number, required: false },
+    bankCharges: { type: Number, required: false },
+    actualPaymentDate: { type: Date, required: false },
+    yardInvoiceToSUD: { type: Number, required: false },
+    yardPaymentDueDate: { type: Date, required: false },
+    yardActualPaymentDate: { type: Date, required: false },
+    vendorInvoiceToSUD: { type: Number, required: false },
+    vendorActualPaymentDate: { type: Date, required: false },
     remarks: { type: String },
     
     // Contact Information
-    contactPerson: { type: String, required: true },
-    email: { type: String, required: true, match: /\S+@\S+\.\S+/ },
-    mobileNo: { type: String, required: true },
+    contactPerson: { type: String, required: false },
+    email: { type: String, required: false, match: /\S+@\S+\.\S+/ },
+    mobileNo: { type: String, required: false },
     
     // Location
-    country: { type: String, required: true },
-    state: { type: String, required: true },
+    country: { type: String, required: false },
+    state: { type: String, required: false },
 
     // GST & PAN Details
     gstNo: { type: String, required: false },
@@ -38,23 +38,23 @@ const Schema = new mongoose.Schema({
 
     // Address Details
     address: {
-        line1: { type: String, required: true },
+        line1: { type: String, required: false },
         street: { type: String },
-        city: { type: String, required: true },
-        state: { type: String, required: true },
-        pinCode: { type: String, required: true, maxLength: 15 },
-        country: { type: String, required: true },
+        city: { type: String, required: false },
+        state: { type: String, required: false },
+        pinCode: { type: String, required: false, maxLength: 15 },
+        country: { type: String, required: false },
         landmark: { type: String }
     },
 
     // Bank Details
     bank: {
         accountNo: { type: String, required: false },
-        bankName: { type: String, required: true },
+        bankName: { type: String, required: false },
         branchAddress: { type: String, required: false },
         ifscCode: { type: String, required: false }
     }
-}, { timestamps: true });
+}, { timestamps: false });
 
 const ShipModel = mongoose.models.ship || mongoose.model("Ship", Schema);
 export default ShipModel;

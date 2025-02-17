@@ -50,8 +50,10 @@ const filterOptions = [
 
 const Users: React.FC = () => {
   const { data, loading, error } = useFetch(endpoints["Ships"].fetchAll);
-  const updatedData = data?.data.result;
-  const paginationData = data?.data?.pagination;
+  const updatedData = [] 
+  // data?.data.result;
+  const paginationData =[]
+  //  data?.data?.pagination;
 
   const { user } = useAuth();
   const operationsAllowed = getAccessPoints(user, "Manage Ships");

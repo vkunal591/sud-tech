@@ -58,8 +58,10 @@ export const getAccessPoints = (
     accessPoints = accessPoints[0]?.access;
   else accessPoints = {};
 
-  if (viewStock) return { ...accessPoints, viewStock: viewStock };
-  else return accessPoints;
+  if (viewStock){
+    return { ...accessPoints, viewStock: viewStock };}
+    else {
+    return accessPoints;}
 };
 
 export const populateFormFields = (
