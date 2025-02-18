@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 
 import localFont from "next/font/local";
 import Navbar from "@/components/Navbar";
-import { Lato } from "next/font/google";
+// import { Lato } from "next/font/google";
 import Sidebar from "@/components/common/Sidebar";
 import { AuthProvider } from "@/context/AuthContext";
 
@@ -27,13 +27,13 @@ export const metadata: Metadata = {
     "SUD Ship Management",
 };
 
-const lato = Lato({
-  subsets: ["latin"], // Specify the subset
-  weight: ["100", "300", "400", "700", "900"], // Only supported weights
-  variable: "--font-lato", // CSS variable for the font
-  style: ["normal", "italic"], // Include both normal and italic styles
-  display: "swap", // Use swap for better performance
-});
+// const lato = Lato({
+//   subsets: ["latin"], // Specify the subset
+//   weight: ["100", "300", "400", "700", "900"], // Only supported weights
+//   variable: "--font-lato", // CSS variable for the font
+//   style: ["normal", "italic"], // Include both normal and italic styles
+//   display: "swap", // Use swap for better performance
+// });
 
 export default function RootLayout({
   children,
@@ -43,7 +43,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${lato.className} relative antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} relative antialiased`}
       >
         <AuthProvider>
           <div className="flex">
