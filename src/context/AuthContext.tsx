@@ -36,6 +36,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     const fetchUser = async (sharedToken: string) => {
       const adminToken = localStorage.getItem("adminToken");
       const userDetails:any = localStorage.getItem("userData");
+      setLoading(false)
 
       try {
         // const endpoint = "api/user/get-current-user";

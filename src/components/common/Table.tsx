@@ -163,7 +163,7 @@ const TableComponent = <T extends { [key: string]: any }>({
     if (fetchEndpoint) {
       try {
         const response: any = await Fetch(
-          fetchEndpoint,
+          `http://localhost:3000/${fetchEndpoint}`,
           params,
           5000,
           true,
