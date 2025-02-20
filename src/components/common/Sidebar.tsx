@@ -48,6 +48,16 @@ const Sidebar: React.FC = () => {
         delete: true,
       },
     },
+    {
+      module: "Manage Billing",
+      access: {
+        read: true,
+        write: true,
+        create: true,
+        update: true,
+        delete: true,
+      },
+    },
   ];
 
   let filteredTabs: any = [];

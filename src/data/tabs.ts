@@ -33,6 +33,15 @@ export const tabs = [
     permission: "Manage Ships",
   },
   {
+    id: 16,
+    tabs: [],
+    icon: MdOutlineContactSupport,
+    label: "Manage Invoice",
+    href: "/dashboard/invoice",
+    pageTitle: "Manage Invoice",
+    permission: "Manage Invoice",
+  },
+  {
     id: 13,
     href: "",
     icon: FaProductHunt,
@@ -59,7 +68,7 @@ export const tabs = [
     ],
   },
   {
-    id: 2,
+    id: 15,
     tabs: [],
     icon: MdOutlineContactSupport,
     label: "Manage Ledger",
