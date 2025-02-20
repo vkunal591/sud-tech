@@ -64,9 +64,9 @@ const BillingForm: React.FC<BillingProps> = (props: any) => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (id:string) => {
       try {
-        const url = "/api/invoice/public/base-fields";
+        const url = `/api/invoice/${id}`;
         const response: any = await Fetch(url, {}, 5000, true, false);
         const mappings = [
           { key: "ledgers", fieldName: "shipTo" },
@@ -92,7 +92,7 @@ const BillingForm: React.FC<BillingProps> = (props: any) => {
         setLoading(false);
       }
     };
-    fetchData();
+    fetchData(data?._id);
     // eslint-disable-next-line
   }, []);
 

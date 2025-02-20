@@ -6,20 +6,20 @@ const Schema = new mongoose.Schema({
     invoiceDate: { type: Date, required: true },
     dueDate: { type: Date, required: true },
     totalAmount: { type: Number, required: true },
-    status: { 
-        type: String, 
-        required: true, 
-        enum: ['Paid', 'Unpaid', 'Pending', 'Overdue'], 
+    status: {
+        type: String,
+        required: true,
+        enum: ['Paid', 'Unpaid', 'Pending', 'Overdue'],
         default: 'Unpaid'
     },
     paymentTerms: { type: String, required: true },
     notes: { type: String },
-    
+
     // Company Reference
-    company: { 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: "Company", 
-        required: true 
+    company: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Company",
+        required: true
     },
 
     // Billing Details
@@ -36,17 +36,17 @@ const Schema = new mongoose.Schema({
     // Payment Details
     paymentDetails: {
         paymentDate: { type: Date },
-        paymentMethod: { 
-            type: String, 
-            enum: ['Cash', 'Bank Transfer', 'Credit Card', 'Debit Card', 'Cheque', 'Online'], 
-            required: true 
+        paymentMethod: {
+            type: String,
+            enum: ['Cash', 'Bank Transfer', 'Credit Card', 'Debit Card', 'Cheque', 'Online'],
+            required: true
         },
         transactionId: { type: String },
         amountPaid: { type: Number, required: true },
-        paymentStatus: { 
-            type: String, 
-            enum: ['Completed', 'Pending', 'Failed'], 
-            default: 'Pending' 
+        paymentStatus: {
+            type: String,
+            enum: ['Completed', 'Pending', 'Failed'],
+            default: 'Pending'
         },
     },
 

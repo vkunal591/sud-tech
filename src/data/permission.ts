@@ -14,7 +14,6 @@ export const userPermissions = [
       read: true,
       create: true,
       update: true,
-
       delete: true,
     },
   },
@@ -24,8 +23,18 @@ export const userPermissions = [
       read: true,
       create: true,
       update: true,
-
       delete: true,
+      view:true,
+    },
+  },
+  {
+    module: "Manage Billing",
+    access: {
+      read: true,
+      create: true,
+      update: true,
+      delete: true,
+      view:true,
     },
   },
   {
