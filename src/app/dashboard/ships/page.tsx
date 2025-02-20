@@ -10,36 +10,77 @@ import { getAccessPoints } from "@/hooks/general";
 import TableComponent from "@/components/common/Table";
 
 const columns = [
-  { key: "_id", label: "Ship ID" },
-  { key: "vesselImoNo", label: "Vessel (IMO NO)" },
+  { key: "_id", label: "Ship ID", sortable: false },
+  { key: "vesselImoNo", label: "Vessel (IMO NO)", sortable: false },
   { key: "companyName", label: "Company Name", sortable: true },
   { key: "yardName", label: "Yard Name", sortable: true },
   { key: "repairedMonth", label: "Repaired Month", sortable: true },
-  { key: "sudInvoiceToOwners", label: "SUD Invoice to Owners (USD) CR", sortable: true },
+  {
+    key: "sudInvoiceToOwners",
+    label: "SUD Invoice to Owners (USD) CR",
+    sortable: true,
+    isCurrency: true,
+  },
   { key: "invoiceNumber", label: "Invoice Number", sortable: true },
-  { key: "dueDate", label: "Due Date", sortable: true, isData: true },
-  { key: "actualPayment", label: "Actual Payment", sortable: true },
-  { key: "bankCharges", label: "Bank Charges", sortable: true },
-  { key: "actualPaymentDate", label: "Actual Payment Date", sortable: true },
-  { key: "yardInvoiceToSUD", label: "Yard Invoice To SUD", sortable: true },
-  { key: "yardPaymentDueDate", label: "Yard Payment Due Date", sortable: true },
-  { key: "yardActualPaymentDate", label: "Yard Actual Payment Date", sortable: true },
-  { key: "vendorInvoiceToSUD", label: "Vendor Invoice To SUD", sortable: true },
-  { key: "vendorActualPaymentDate", label: "Vendor Actual Payment Date", sortable: true, isDate: true },
+  { key: "dueDate", label: "Due Date", sortable: true, isDate: true },
+  {
+    key: "actualPayment",
+    label: "Actual Payment",
+    sortable: true,
+    isCurrency: true,
+  },
+  {
+    key: "bankCharges",
+    label: "Bank Charges",
+    sortable: true,
+    isCurrency: true,
+  },
+  {
+    key: "actualPaymentDate",
+    label: "Actual Payment Date",
+    sortable: true,
+    isDate: true,
+  },
+  {
+    key: "yardInvoiceToSUD",
+    label: "Yard Invoice To SUD",
+    sortable: true,
+    isCurrency: true,
+  },
+  {
+    key: "yardPaymentDueDate",
+    label: "Yard Payment Due Date",
+    sortable: true,
+    isDate: true,
+  },
+  {
+    key: "yardActualPaymentDate",
+    label: "Yard Actual Payment Date",
+    sortable: true,
+    isDate: true,
+  },
+  {
+    key: "vendorInvoiceToSUD",
+    label: "Vendor Invoice To SUD",
+    sortable: true,
+    isCurrency: true,
+  },
+  {
+    key: "vendorActualPaymentDate",
+    label: "Vendor Actual Payment Date",
+    sortable: true,
+    isDate: true,
+  },
   { key: "remarks", label: "Remarks", sortable: true },
   { key: "contactPerson", label: "Primary Contact Person", sortable: true },
   { key: "email", label: "Email Address", sortable: true },
   { key: "mobileNo", label: "Mobile Contact Number", sortable: true },
-  { key: "country", label: "Country of Operation" },
-  { key: "state", label: "State/Province" },
-  // { key: "organizationName", label: "Organization Name", sortable: true },
-  // { key: "assignedToName", label: "Assigned To (Name)" },
-  // { key: "assignedToEmail", label: "Assigned To (Email)" },
+  { key: "country", label: "Country of Operation", sortable: false },
+  { key: "state", label: "State/Province", sortable: false },
   { key: "createdAt", label: "Creation Date", sortable: true, isDate: true },
 ];
-
 const filterOptions = [
-  { label: "Vessel IMO NO", value: "name" },
+  { label: "Vessel IMO NO", value: "no" },
   { label: "Cont. Name", value: "name" },
   { label: "Email ID", value: "email" },
   { label: "Cont. Number", value: "mobileNo" },
@@ -50,10 +91,8 @@ const filterOptions = [
 
 const Users: React.FC = () => {
   const { data, loading, error } = useFetch(endpoints["Ships"].fetchAll);
-  const updatedData = [] 
-  // data?.data.result;
-  const paginationData =[]
-  //  data?.data?.pagination;
+  const updatedData = data?.data?.result;
+  const paginationData = data?.data?.pagination;
 
   const { user } = useAuth();
   const operationsAllowed = getAccessPoints(user, "Manage Ships");

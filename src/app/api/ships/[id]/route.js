@@ -15,7 +15,10 @@ export async function GET(req) {
       if (!ship) {
         return NextResponse.json({ message: "Ship not found" }, { status: 404 });
       }
-      return NextResponse.json({ success: true, data: { result: ship } });
+      return NextResponse.json({
+        success: true,
+        data: { result: ship }
+      });
     } catch (error) {
       return NextResponse.json({ message: "Invalid Ship ID" }, { status: 400 });
     }
@@ -42,6 +45,7 @@ export async function GET(req) {
     const totalShips = await Ship.countDocuments(filterConditions);
 
     return NextResponse.json({
+      success: true,
       data: {
         result: ships,
         pagination: { page, totalPages: Math.ceil(totalShips / limit), totalItems: totalShips }
@@ -68,6 +72,7 @@ export async function POST(req) {
     return NextResponse.json({ message: "Error creating ship entry" }, { status: 500 });
   }
 }
+
 
 // Update a ship by ID
 export async function PUT(req, { params }) {
