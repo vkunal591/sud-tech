@@ -24,7 +24,7 @@ export const userPermissions = [
       create: true,
       update: true,
       delete: true,
-      view:true,
+      invoice:true,
     },
   },
   {

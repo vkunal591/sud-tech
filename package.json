@@ -15,6 +15,7 @@
     "jodit-react": "^5.2.12",
     "jsbarcode": "^3.11.6",
     "jsonwebtoken": "^9.0.2",
+    "jspdf": "^3.0.0",
     "mongoose": "^8.10.1",
     "next": "^15.1.7",
     "node-cron": "^3.0.3",
