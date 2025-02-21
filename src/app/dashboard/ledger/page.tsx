@@ -29,7 +29,7 @@ const filterOptions = [
   { label: "Cont. Number", value: "mobileNo" },
   { label: "Category", value: "ledgerType" },
   { label: "Comp. Name", value: "companyName" },
-  { label: "State", value: "state" },
+  { label: "State", value: "state" },          
 ];
 
 const Users: React.FC = () => {

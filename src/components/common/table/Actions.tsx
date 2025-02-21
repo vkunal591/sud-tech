@@ -3,7 +3,7 @@ import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { endpoints } from "@/data/endpoints";
 import { Delete, Fetch } from "@/hooks/apiUtils";
-import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
+import { FaEye, FaEdit, FaTrash, FaFileInvoiceDollar } from "react-icons/fa";
 import ConfirmationModal from "@/components/crud/ConfirmationModal";
 
 interface RowData {
@@ -14,6 +14,7 @@ interface OperationsAllowed {
   update?: boolean;
   delete?: boolean;
   viewStock?: boolean;
+  invoice?: boolean;
 }
 
 interface ActionsProps {
@@ -91,6 +92,11 @@ const Actions: React.FC<ActionsProps> = ({
     const url = `${pathname}/${id}`;
     return router.push(url);
   };
+  const handleInvoice = async (id?: string) => {
+    if (!id) return;
+    const url = `${"/dashboard/orders/create-invoice"}/${id}`;
+    return router.push(url);
+  };
 
   const handleDeleteModal = () => {
     setShowDeleteModal(false);
@@ -127,6 +133,14 @@ const Actions: React.FC<ActionsProps> = ({
           className="text-green-700 ml-1 text-xl hover:scale-125 hover:p-1 hover:bg-green-100 p-1 rounded transition"
         >
           <FaEye title="View Stock" />
+        </button>
+      )}
+         {operationsAllowed?.invoice && (
+        <button
+          onClick={() => handleInvoice(row._id)}
+          className="text-green-700 ml-1 text-xl hover:scale-125 hover:p-1 hover:bg-green-100 p-1 rounded transition"
+        >
+          <FaFileInvoiceDollar title="View Stock" />
         </button>
       )}
     </>

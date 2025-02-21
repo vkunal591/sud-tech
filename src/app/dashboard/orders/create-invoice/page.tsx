@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import InvoiceForm from "@/components/invoice/InvoiceForm";
 
 const InvoicePage = () => {
+  
   return (
     <AuthGuard>
       <Wrapper>
@@ -21,7 +22,7 @@ const InvoicePage = () => {
           ]}
         />
 
-        <InvoiceForm />
+        <InvoiceForm responseData={null} />
       </Wrapper>
     </AuthGuard>
   );

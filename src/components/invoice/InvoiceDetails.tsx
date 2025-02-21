@@ -23,7 +23,7 @@ const InvoiceDetails: React.FC = () => {
       </div>
       <div className="lg:1/3 text-right m-2">
         <Image
-          src={"/assets/logo/logo.jpg"}
+          src={"/next.svg"}
           alt={"logo"}
           width={85}
           height={75}
