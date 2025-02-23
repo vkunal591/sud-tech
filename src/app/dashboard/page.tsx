@@ -10,7 +10,7 @@ const Dashboard: React.FC = () => {
     <AuthGuard>
       <Wrapper>
         <div>
-          <Home />
+          {/* <Home /> */}
           <Summary />
         </div>
       </Wrapper>
