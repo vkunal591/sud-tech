@@ -54,8 +54,8 @@ const Summary = () => {
   return (
     <>
       {" "}
-      <div className="flex flex-col lg:flex-row gap-5">
-        {/* Closed Deals */}
+      {/* <div className="flex flex-col lg:flex-row gap-5">
+        {/* Closed Deals *
         <div className="w-full lg:w-1/4 h-fit bg-whiteBg p-4 rounded-xl">
           <div className="flex justify-between gap-5 border-b border-infobg pb-4 items-center">
             <h2 className="font-semibold text-iconBlack">Closed Deals</h2>
@@ -92,7 +92,7 @@ const Summary = () => {
           </div>
         </div>
 
-        {/* Website Traffic */}
+        {/* Website Traffic 
         <div className="w-full h-fit lg:w-1/4 bg-whiteBg p-4 rounded-xl">
           <div className="flex justify-between gap-5 border-b border-infobg pb-3 items-center">
             <h2 className="font-semibold text-iconBlack">Website Traffic</h2>
@@ -103,7 +103,7 @@ const Summary = () => {
           <BarChart />{" "}
         </div>
 
-        {/* Recent Activity */}
+        {/* Recent Activity 
         <div className="w-full h-fit lg:w-1/4 bg-whiteBg p-4 rounded-xl">
           <div className="flex justify-between gap-3 border-b border-infobg pb-3 items-center">
             <h2 className="font-semibold text-iconBlack">Recent Activity</h2>
@@ -142,7 +142,7 @@ const Summary = () => {
           </div>
         </div>
 
-        {/* Upcoming Meetings */}
+        {/* Upcoming Meetings 
         <div className="w-full h-fit lg:w-1/4 bg-whiteBg p-4 rounded-xl">
           <div className="flex justify-between gap-5 border-b border-infobg pb-3 items-center">
             <h2 className="font-semibold text-iconBlack">Upcoming Meetings</h2>
@@ -169,7 +169,7 @@ const Summary = () => {
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
       {/* Recent Deals */}
       <section className="px-6 py-4 bg-whiteBg rounded-xl mt-5">
         <div className="flex justify-between items-center">

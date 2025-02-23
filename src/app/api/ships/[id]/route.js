@@ -2,12 +2,11 @@ import { NextResponse } from 'next/server';
 import { dbConnect } from '@/app/lib/config/db';
 import Ship from '@/app/lib/models/ShipModel';
 
-// Fetch single ship or list of ships
-export async function GET(req) {
-  await dbConnect()
+// Fetch a single ship by ID (GET)
+export async function GET(req, { params }) {
+  await dbConnect();
 
-  const url = new URL(req.url);
-  const id = url.pathname.split("/").pop(); // Extracts the last path segment
+  const { id } = params;
 
   if (id.length === 24) { // Check if it's a valid MongoDB ObjectId
     try {
@@ -15,66 +14,16 @@ export async function GET(req) {
       if (!ship) {
         return NextResponse.json({ message: "Ship not found" }, { status: 404 });
       }
-      return NextResponse.json({
-        success: true,
-        data: { result: ship }
-      });
+      return NextResponse.json({ success: true, data: { result: ship } });
     } catch (error) {
       return NextResponse.json({ message: "Invalid Ship ID" }, { status: 400 });
     }
-  }
-
-  // Fetch list of ships with filters
-  const { searchParams } = new URL(req.url);
-  const page = parseInt(searchParams.get("page")) || 1;
-  const limit = parseInt(searchParams.get("limit")) || 10;
-  const search = searchParams.get("search") || "";
-  const skip = (page - 1) * limit;
-
-  const filterConditions = {};
-
-  if (search) {
-    filterConditions.$or = [
-      { shipImoNo: { $regex: search, $options: "i" } },
-      { companyName: { $regex: search, $options: "i" } }
-    ];
-  }
-
-  try {
-    const ships = await Ship.find(filterConditions).skip(skip).limit(limit).sort({ createdAt: -1 });
-    const totalShips = await Ship.countDocuments(filterConditions);
-
-    return NextResponse.json({
-      success: true,
-      data: {
-        result: ships,
-        pagination: { page, totalPages: Math.ceil(totalShips / limit), totalItems: totalShips }
-      }
-    });
-  } catch (error) {
-    return NextResponse.json({ message: "Error fetching ships" }, { status: 500 });
+  } else {
+    return NextResponse.json({ message: "Invalid Ship ID" }, { status: 400 });
   }
 }
 
-// Create a new ship
-export async function POST(req) {
-  await dbConnect();
-  const data = await req.json();
-
-  if (!data.shipImoNo || !data.companyName) {
-    return NextResponse.json({ message: "Missing required fields" }, { status: 400 });
-  }
-
-  try {
-    const newShip = await Ship.create(data);
-    return NextResponse.json(newShip, { status: 201 });
-  } catch (error) {
-    return NextResponse.json({ message: "Error creating ship entry" }, { status: 500 });
-  }
-}
-
-
-// Update a ship by ID
+// Update a ship by ID (PUT)
 export async function PUT(req, { params }) {
   await dbConnect();
   const { id } = params; // ✅ Correct way to get ID
@@ -97,7 +46,7 @@ export async function PUT(req, { params }) {
   }
 }
 
-// Delete a ship by ID
+// Delete a ship by ID (DELETE)
 export async function DELETE(req, { params }) {
   await dbConnect();
   const { id } = params; // ✅ Correct way to get ID
