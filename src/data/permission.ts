@@ -18,13 +18,21 @@ export const userPermissions = [
     },
   },
   {
+    module: "Manage Notifications",
+    access: {
+      read: true,
+      update: true,
+      delete: true,
+    },
+  },
+  {
     module: "Manage Ships",
     access: {
       read: true,
-      create: true,
       update: true,
-      delete: true,
+      create:true,
       invoice:true,
+      delete: true,
     },
   },
   {
@@ -34,7 +42,7 @@ export const userPermissions = [
       create: true,
       update: true,
       delete: true,
-      view:true,
+      view: true,
     },
   },
   {

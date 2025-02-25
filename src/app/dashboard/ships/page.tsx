@@ -11,29 +11,30 @@ import TableComponent from "@/components/common/Table";
 
 const columns = [
   { key: "_id", label: "Ship ID", sortable: false },
+  { key: "vesselName", label: "Vessel Name", sortable: false },
   { key: "vesselImoNo", label: "Vessel (IMO NO)", sortable: false },
   { key: "companyName", label: "Company Name", sortable: true },
   { key: "yardName", label: "Yard Name", sortable: true },
   { key: "repairedMonth", label: "Repaired Month", sortable: true },
+  { key: "invoiceNumber", label: "Invoice Number", sortable: true },
   {
     key: "sudInvoiceToOwners",
     label: "SUD Invoice to Owners (USD) CR",
     sortable: true,
-    isCurrency: true,
+    isCurrency: "$",
   },
-  { key: "invoiceNumber", label: "Invoice Number", sortable: true },
   { key: "dueDate", label: "Due Date", sortable: true, isDate: true },
   {
     key: "actualPayment",
     label: "Actual Payment",
     sortable: true,
-    isCurrency: true,
+    isCurrency: "$",
   },
   {
     key: "bankCharges",
     label: "Bank Charges",
     sortable: true,
-    isCurrency: true,
+    isCurrency: "$",
   },
   {
     key: "actualPaymentDate",
@@ -45,7 +46,7 @@ const columns = [
     key: "yardInvoiceToSUD",
     label: "Yard Invoice To SUD",
     sortable: true,
-    isCurrency: true,
+    isCurrency: "$",
   },
   {
     key: "yardPaymentDueDate",
@@ -63,7 +64,7 @@ const columns = [
     key: "vendorInvoiceToSUD",
     label: "Vendor Invoice To SUD",
     sortable: true,
-    isCurrency: true,
+    isCurrency: "$",
   },
   {
     key: "vendorActualPaymentDate",
@@ -72,11 +73,6 @@ const columns = [
     isDate: true,
   },
   { key: "remarks", label: "Remarks", sortable: true },
-  { key: "contactPerson", label: "Primary Contact Person", sortable: true },
-  { key: "email", label: "Email Address", sortable: true },
-  { key: "mobileNo", label: "Mobile Contact Number", sortable: true },
-  { key: "country", label: "Country of Operation", sortable: false },
-  { key: "state", label: "State/Province", sortable: false },
   { key: "createdAt", label: "Creation Date", sortable: true, isDate: true },
 ];
 const filterOptions = [

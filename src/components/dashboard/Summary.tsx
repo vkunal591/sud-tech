@@ -7,8 +7,12 @@ import { Deal } from "@/hooks/types";
 import BarChart from "../chart/Barchart";
 import { FaFileAlt } from "react-icons/fa";
 import { FaEye, FaArrowDown } from "react-icons/fa";
+import jsPDF from "jspdf";
+import { handleDownloadPDF } from "@/hooks/pdfFormat";
 
 const Summary = () => {
+
+
   const recentDeals: Deal[] = [
     {
       id: "#001234",
@@ -176,8 +180,8 @@ const Summary = () => {
           <h2 className="text-lg text-iconBlack font-semibold">
             Recent Deals Status
           </h2>
-          <button className="text-blue-500 bg-infobg font-semibold text-sm rounded-md whitespace-nowrap px-2 py-1">
-            View Details
+          <button className="text-blue-500 bg-infobg font-semibold text-sm rounded-md whitespace-nowrap px-2 py-1" onClick={handleDownloadPDF}>
+            Download PDF
           </button>
         </div>
         <table className="w-full mt-4 text-sm">
@@ -203,13 +207,12 @@ const Summary = () => {
                 <td className="p-4 border border-infobg">{deal.dealValue}</td>
                 <td className="p-4 border border-infobg">
                   <span
-                    className={`px-2 py-1 text-xs text-white rounded ${
-                      deal.dealStatus === "Closed"
+                    className={`px-2 py-1 text-xs text-white rounded ${deal.dealStatus === "Closed"
                         ? "bg-green-400"
                         : deal.dealStatus === "In Progress"
-                        ? "bg-yellow-400"
-                        : "bg-red-400"
-                    }`}
+                          ? "bg-yellow-400"
+                          : "bg-red-400"
+                      }`}
                   >
                     {deal.dealStatus}
                   </span>

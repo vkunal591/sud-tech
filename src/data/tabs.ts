@@ -1,7 +1,7 @@
 import { SiGoogleadmob } from "react-icons/si";
 import { GiBoxUnpacking } from "react-icons/gi";
 import { BsChatQuoteFill } from "react-icons/bs";
-import { FaHome, FaBarcode } from "react-icons/fa";
+import { FaHome, FaBarcode, FaShip } from "react-icons/fa";
 import { RiAdminFill, RiSecurePaymentFill } from "react-icons/ri";
 import { TbBrandBebo, TbRulerMeasure2, TbTransferIn } from "react-icons/tb";
 import {
@@ -10,7 +10,7 @@ import {
   FaMoneyBillTransfer,
 } from "react-icons/fa6";
 import { BiSolidPurchaseTagAlt, BiSolidCategory } from "react-icons/bi";
-import { MdManageAccounts, MdOutlineContactSupport } from "react-icons/md";
+import { MdCorporateFare, MdManageAccounts, MdNotificationImportant, MdOutlineContactSupport } from "react-icons/md";
 
 // Define tabs
 export const tabs = [
@@ -26,7 +26,7 @@ export const tabs = [
   {
     id: 14,
     tabs: [],
-    icon: FaHome,
+    icon: FaShip,
     label: "Manage Ships",
     href: "/dashboard/ships",
     pageTitle: "Manage Ships",
@@ -70,11 +70,20 @@ export const tabs = [
   {
     id: 15,
     tabs: [],
-    icon: MdOutlineContactSupport,
+    icon: MdCorporateFare ,
     label: "Manage Ledger",
     href: "/dashboard/ledger",
     pageTitle: "Manage Ledger",
     permission: "Manage Ledger",
+  },
+  {
+    id: 18,
+    tabs: [],
+    icon: MdNotificationImportant,
+    label: "Manage Notifications",
+    href: "/dashboard/notifications",
+    pageTitle: "Manage Notifications",
+    permission: "Manage Notifications",
   },
   {
     id: 3,

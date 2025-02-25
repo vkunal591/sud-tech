@@ -1,36 +1,5 @@
 import mongoose from "mongoose";
 
-// const ShipSchema = new mongoose.Schema(
-//     {
-//         vesselImoNo: String,
-//         companyName: String,
-//         yardName: String,
-//         repairedMonth: String,
-//         sudInvoiceToOwners: Number,
-//         invoiceNumber: String,
-//         dueDate: Date,
-//         actualPayment: Number,
-//         bankCharges: Number,
-//         actualPaymentDate: Date,
-//         yardInvoiceToSUD: Number,
-//         yardPaymentDueDate: Date,
-//         yardActualPaymentDate: Date,
-//         vendorInvoiceToSUD: Number,
-//         vendorActualPaymentDate: Date,
-//         remarks: String,
-//         contactPerson: String,
-//         email: String,
-//         mobileNo: String,
-//         country: String,
-//         state: String,
-//         createdAt: { type: Date, default: Date.now },
-//     },
-//     { timestamps: false }
-// );
-
-// const Ship = mongoose.models.Ship || mongoose.model("Ship", ShipSchema);
-// export default Ship;
-
 const addressSchema = new mongoose.Schema({
   line1: { type: String },
   street: { type: String },
@@ -43,6 +12,7 @@ const addressSchema = new mongoose.Schema({
 
 const shipDetailsSchema = new mongoose.Schema(
   {
+    vesselName: { type: String, required: true },
     vesselImoNo: { type: String, required: true },
     companyName: { type: String, required: true },
     gstNo: { type: String },
@@ -68,14 +38,14 @@ const shipDetailsSchema = new mongoose.Schema(
     vendorInvoiceToSUD: { type: String, required: true },
     vendorActualPaymentDate: { type: String, required: true },
     vendorPaymentDueDate: { type: String, required: true },
-    address: addressSchema, // Use addressSchema for validation
-    // line1: { type: String},
-    // street: { type: String },
-    // city: { type: String },
-    // state: { type: String },
-    // pinCode: { type: String },
-    // country: { type: String},
-    // landmark: { type: String },
+    // address: addressSchema,
+    line1: { type: String},
+    street: { type: String },
+    city: { type: String },
+    state: { type: String },
+    pinCode: { type: String },
+    country: { type: String},
+    landmark: { type: String },
     accountNo: { type: String },
     bankName: { type: String},
     branchAddress: { type: String },
