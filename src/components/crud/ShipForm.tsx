@@ -53,7 +53,8 @@ const ShipForm: React.FC<LedgerProps> = (props: any) => {
         setLoading(false);
       }
     };
-    fetchEmployees();
+    // fetchEmployees();
+    setLoading(false)
     // eslint-disable-next-line
   }, []);
 
@@ -64,18 +65,18 @@ const ShipForm: React.FC<LedgerProps> = (props: any) => {
       else url = `${endpoints[formType].create}`;
 
       setSubmitting(true);
-      const nestedObj = nestFields(updatedData, "address", [
-        "city",
-        "line1",
-        "state",
-        "street",
-        "pinCode",
-        "country",
-        "landmark",
-      ]);
+      // const nestedObj = nestFields(updatedData, "address", [
+      //   "city",
+      //   "line1",
+      //   "state",
+      //   "street",
+      //   "pinCode",
+      //   "country",
+      //   "landmark",
+      // ]);
       const response: any = data?._id
-        ? await Put(url, nestedObj)
-        : await Post(`http://localhost:3000/${url}`, nestedObj);
+        ? await Put(url, updatedData)
+        : await Post(`http://localhost:3000/${url}`, updatedData);
 
       if (response.success) {
         const fetchUrl = `${endpoints[formType].fetchAll}`;

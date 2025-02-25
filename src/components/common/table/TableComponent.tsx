@@ -144,14 +144,14 @@ const Table: React.FC<TableProps> = ({
 
   return (
     <div className="overflow-x-scroll no-scrollba">
-      <table className="min-w-full bg-whiteBg">
+      <table className="min-w-full bg-white text-center">
         <thead>
           <tr className="whitespace-nowrap">
             {columns.map((col) => (
               <th
                 key={col.key}
                 style={{ maxWidth: `calc(100% / ${columns.length + 1})` }}
-                className="p-4 text-iconBlack font-bold border border-infobg text-left cursor-pointer"
+                className="p-4 text-iconBlack font-bold border border-info text-left cursor-pointer"
                 onClick={() => col.sortable && handleSort(col.key)}
               >
                 {col.label}
@@ -169,7 +169,7 @@ const Table: React.FC<TableProps> = ({
               </th>
             ))}
             {operationsAllowed?.read && (
-              <th className="p-4 border text-left text-iconBlack border-infobg font-bold">
+              <th className="p-4 border text-left text-iconBlack border-info font-bold">
                 Actions
               </th>
             )}
@@ -180,18 +180,18 @@ const Table: React.FC<TableProps> = ({
             filteredData.map((row: any, index: number) => (
               <tr
                 key={index}
-                className="border text-black border-infobg cursor-pointer"
+                className="border text-black border-info cursor-pointer"
               >
                 {columns.map((col) => (
                   <td
                     key={col.key}
-                    className="text-sm border text-iconBlack whitespace-nowrap border-infobg px-4 py-3"
+                    className="text-sm border text-iconBlack whitespace-nowrap border-info px-4 py-3"
                   >
                     {formatRowValue(row, col)}
                   </td>
                 ))}
                 {operationsAllowed?.read && (
-                  <td className="text-nowrap border border-infobg px-4 py-3">
+                  <td className="text-nowrap border border-info px-4 py-3">
                     <Actions
                       row={row}
                       type={type}

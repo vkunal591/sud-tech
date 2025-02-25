@@ -29,7 +29,8 @@ export async function GET(req) {
       data: {
         result: ships,
         pagination: { page, totalPages: Math.ceil(totalShips / limit), totalItems: totalShips }
-      }
+      },
+      success:true
     });
   } catch (error) {
     return NextResponse.json({ message: "Error fetching ships" }, { status: 500 });
@@ -71,12 +72,12 @@ export async function POST(req) {
   data.vendorPaymentDueDate = parseDate(data.vendorPaymentDueDate);
 
   // Ensure the address object is valid (add more checks as needed)
-  if (data.address) {
-    data.address.pinCode = data.address.pinCode || '';
-    data.address.countrySelect = data.address.countrySelect || '';
-    data.address.line1 = data.address.line1 || ''; // Ensure line1 is valid
-    // Additional address validation as needed
-  }
+  // if (data.address) {
+  //   data.address.pinCode = data.address.pinCode || '';
+  //   data.address.countrySelect = data.address.countrySelect || '';
+  //   data.address.line1 = data.address.line1 || ''; // Ensure line1 is valid
+  //   // Additional address validation as needed
+  // }
 
   try {
     // Log the sanitized data for debugging
@@ -86,7 +87,7 @@ export async function POST(req) {
     const newShip = await Ship.create(data);
     console.log(newShip,data)
     // Return the new ship entry
-    return NextResponse.json(newShip, { status: 201 });
+    return NextResponse.json({newShip,success:true}, { status: 201 });
   } catch (error) {
     console.error("Error creating ship entry:", error);
     return NextResponse.json({ message: "Error creating ship entry" }, { status: 500 });

@@ -33,9 +33,19 @@ const Sidebar: React.FC = () => {
       },
     },
     {
+      module: "Manage Notifications",
+      access: {
+        read: true,
+        write: true,
+        delete: true,
+      },
+    },
+    {
       module: "Manage Ships",
       access: {
         read: true,
+        create:true,
+        invoice:true,
         write: true,
         delete: true,
       },

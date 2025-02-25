@@ -41,6 +41,14 @@ export const endpoints: Record<
     fetchAll: "api/product-category", // to fetch all product-categorys
     operations: operations,
   },
+  Notifications: {
+    create: "api/product-category", // to create a product-category
+    delete: "api/product-category/", // to delete a product-category
+    update: "api/product-category/", // to update a product-category
+    read: "api/product-category/", // to get a product-category
+    fetchAll: "api/product-category", // to fetch all product-categorys
+    operations: operations,
+  },
   Employee: {
     create: "api/user", // to create a user
     delete: "api/user/", // to delete a user
