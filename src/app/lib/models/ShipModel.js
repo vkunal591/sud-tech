@@ -4,9 +4,9 @@ const addressSchema = new mongoose.Schema({
   line1: { type: String },
   street: { type: String },
   city: { type: String },
-  state: { type: String},
-  pinCode: { type: String},
-  country: { type: String},
+  state: { type: String },
+  pinCode: { type: String },
+  country: { type: String },
   landmark: { type: String }
 });
 
@@ -38,16 +38,14 @@ const shipDetailsSchema = new mongoose.Schema(
     vendorInvoiceToSUD: { type: String, required: true },
     vendorActualPaymentDate: { type: String, required: true },
     vendorPaymentDueDate: { type: String, required: true },
-    // address: addressSchema,
-    line1: { type: String},
     street: { type: String },
+    landmark: { type: String },
     city: { type: String },
     state: { type: String },
     pinCode: { type: String },
-    country: { type: String},
-    landmark: { type: String },
+    country: { type: String },
     accountNo: { type: String },
-    bankName: { type: String},
+    bankName: { type: String },
     branchAddress: { type: String },
     ifscCode: { type: String },
     remarks: { type: String }
