@@ -25,33 +25,7 @@ const Sidebar: React.FC = () => {
       },
     },
     {
-      module: "Manage Ledger",
-      access: {
-        read: true,
-        write: true,
-        delete: true,
-      },
-    },
-    {
       module: "Manage Notifications",
-      access: {
-        read: true,
-        write: true,
-        delete: true,
-      },
-    },
-    {
-      module: "Manage Ships",
-      access: {
-        read: true,
-        create:true,
-        invoice:true,
-        write: true,
-        delete: true,
-      },
-    },
-    {
-      module: "Manage Orders",
       access: {
         read: true,
         write: true,
@@ -65,6 +39,16 @@ const Sidebar: React.FC = () => {
         write: true,
         create: true,
         update: true,
+        delete: true,
+      },
+    },
+    {
+      module: "Manage Ships",
+      access: {
+        read: true,
+        create: true,
+        invoice: true,
+        write: true,
         delete: true,
       },
     },
@@ -109,10 +93,9 @@ const Sidebar: React.FC = () => {
                   if (tab?.tabs && tab?.tabs.length > 0)
                     showList({ tab: tab?.permission, list: tab?.tabs });
                 }}
-                className={`py-3 pl-5 mr-auto w-[95%] pr-2 text-sm cursor-pointer hover:bg-secondary transition rounded-r-full text-info flex justify-between gap-2 items-center border-primary hover:text-white ${
-                  pathname === tab?.href &&
+                className={`py-3 pl-5 mr-auto w-[95%] pr-2 text-sm cursor-pointer hover:bg-secondary transition rounded-r-full text-info flex justify-between gap-2 items-center border-primary hover:text-white ${pathname === tab?.href &&
                   "bg-secondary rounded-r-full text-white font-semibold"
-                }`}
+                  }`}
               >
                 <span className="flex gap-2 items-center">
                   <Icon size={18} /> {tab?.label}

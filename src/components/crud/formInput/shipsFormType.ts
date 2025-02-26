@@ -14,8 +14,7 @@ export const ShipType: FormField[] = [
   },
   {
     name: "vesselImoNo",
-    type: "number",
-    min: 3,
+    type: "text",
     required: true,
     label: "Vessel (IMO NO)",
     placeholder: "Enter Vessel IMO No",
@@ -56,7 +55,6 @@ export const ShipType: FormField[] = [
   {
     name: "contactPerson",
     type: "text",
-    required: true,
     label: "Primary Contact Person",
     placeholder: "Enter contact person's name",
   },
@@ -70,8 +68,6 @@ export const ShipType: FormField[] = [
   {
     name: "mobileNo",
     type: "number",
-    min: 10,
-    max: 10,
     required: true,
     label: "Mobile Contact Number",
     placeholder: "Enter mobile number",
@@ -98,7 +94,6 @@ export const ShipType: FormField[] = [
   {
     name: "invoiceNumber",
     type: "text",
-    min: 3,
     required: true,
     label: "Invoice Number",
     placeholder: "Enter invoice number",
@@ -208,17 +203,16 @@ export const ShipType: FormField[] = [
   },
   { type: "br", name: "address", label: "Address Details", widthFull: true },
   {
-    name: "line1",
-    type: "text",
-    required: true,
-    label: "Address 1",
-    placeholder: "Enter Line 1",
-  },
-  {
     name: "street",
     type: "text",
     label: "Street Address",
     placeholder: "Enter street address",
+  },
+  {
+    name: "landmark",
+    type: "text",
+    label: "Landmark",
+    placeholder: "Enter landmark",
   },
   {
     name: "city",
@@ -250,12 +244,6 @@ export const ShipType: FormField[] = [
     placeholder: "Select Country",
     options: getSelectFormattedData(countries),
   },
-  {
-    name: "landmark",
-    type: "text",
-    label: "Landmark",
-    placeholder: "Enter landmark",
-  },
   { type: "br", name: "bank", label: "Bank Details", widthFull: true },
   {
     name: "accountNo",
@@ -272,21 +260,23 @@ export const ShipType: FormField[] = [
     // options: getSelectFormattedData(bankNames),
   },
   {
-    name: "branchAddress",
-    type: "text",
-    label: "Branch Address",
-    placeholder: "Enter branch address",
-  },
-  {
     name: "ifscCode",
     type: "text",
     label: "IFSC Code",
     placeholder: "Enter IFSC Code",
   },
   {
+    name: "branchAddress",
+    type: "text",
+    label: "Branch Address",
+    placeholder: "Enter branch address",
+    widthFull: true
+  },
+  {
     name: "remarks",
     type: "text",
     label: "Remarks",
     placeholder: "Enter remarks",
+    widthFull: true
   },
 ];

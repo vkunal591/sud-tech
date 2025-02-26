@@ -77,15 +77,6 @@ export const tabs = [
     permission: "Manage Ledger",
   },
   {
-    id: 18,
-    tabs: [],
-    icon: MdNotificationImportant,
-    label: "Manage Notifications",
-    href: "/dashboard/notifications",
-    pageTitle: "Manage Notifications",
-    permission: "Manage Notifications",
-  },
-  {
     id: 3,
     tabs: [],
     icon: MdManageAccounts,
@@ -225,5 +216,14 @@ export const tabs = [
     pageTitle: "All Payment",
     href: "/dashboard/payment",
     permission: "Manage Payment",
+  },
+  {
+    id: 18,
+    tabs: [],
+    icon: MdNotificationImportant,
+    label: "Manage Notifications",
+    href: "/dashboard/notifications",
+    pageTitle: "Manage Notifications",
+    permission: "Manage Notifications",
   },
 ];
