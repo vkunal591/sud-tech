@@ -15,6 +15,7 @@ import CategoryForm from "../crud/product/CategoryForm";
 import ConfirmationModal from "../crud/ConfirmationModal";
 import StockTransferForm from "../crud/StockTransferForm";
 import ShipForm from "../crud/ShipForm";
+import ViewInvoiceForm from "../crud/ViewInvoiceForm";
 
 interface FormRendererProps {
   data: any;
@@ -29,7 +30,7 @@ const FormRenderer: React.FC<FormRendererProps> = (props: any) => {
     case "Employee":
       return <UserForm {...props} />;
     case "Billing":
-      return <BillingForm {...props} />;
+      return <ViewInvoiceForm {...props} />;
     case "Packing":
       return <Packingform {...props} />;
     case "Product":

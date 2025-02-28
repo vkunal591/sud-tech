@@ -11,24 +11,28 @@ const InvoicePage = () => {
   const pathname = usePathname();
   const [data, setData] = useState<any>();
   const [loading, setLoading] = useState(true);
-  const match = pathname.match(/\/create-invoice\/([a-f0-9]{24})/);
-  const id = match ? match[1] : null; // Extract the ID, or return null if not found
-
+  const match = pathname.split("/")    //match(/\/create-invoice\/([a-f0-9]{24})/);
+  const id = match ? match[4] : null; // Extract the ID, or return null if not found
+console.log(id)
   useEffect(() => {
     const fetchData = async () => {
       if (id) {
         try {
           // Fetch the data using the id from the URL
           const response = await fetch(`/api/ships/${id}`);
-          
+
           if (!response.ok) {
             throw new Error('Failed to fetch data');
           }
 
           const res = await response.json(); // Parse the response as JSON
+          const { _id, ...rest } = res?.data?.result;; // Exclude _id
 
           // Update the state with the fetched data
-          setData(res?.data?.result);
+          setData((prevData: any) => ({
+            ...prevData,
+            ...rest,
+          }));
         } catch (error) {
           // Handle any errors
           console.error("Error fetching post data:", error);

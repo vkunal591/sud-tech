@@ -3,11 +3,15 @@ import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { endpoints } from "@/data/endpoints";
 import { Delete, Fetch } from "@/hooks/apiUtils";
-import { FaEye, FaEdit, FaTrash, FaFileInvoiceDollar } from "react-icons/fa";
+import { FaEye, FaEdit, FaTrash, FaFileInvoiceDollar, FaRegFilePdf } from "react-icons/fa";
 import ConfirmationModal from "@/components/crud/ConfirmationModal";
+import UpdateInvoiceForm from "@/components/crud/UpdateInvoiceForm";
+import { GrUpdate } from "react-icons/gr";
+import { handleDownloadPDF } from "@/hooks/pdfFormat";
 
 interface RowData {
   _id: string;
+  status?: string
 }
 
 interface OperationsAllowed {
@@ -15,6 +19,8 @@ interface OperationsAllowed {
   delete?: boolean;
   viewStock?: boolean;
   invoice?: boolean;
+  updateStatus?: boolean;
+  print?: boolean;
 }
 
 interface ActionsProps {
@@ -40,7 +46,10 @@ const Actions: React.FC<ActionsProps> = ({
   const pathname = usePathname();
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [selectIdForDeletion, setSelectIdForDeletion] = useState<string>("");
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
+
+  console.log(row)
   const handleEdit = async (id?: string) => {
     if (!id) return;
 
@@ -102,6 +111,8 @@ const Actions: React.FC<ActionsProps> = ({
     setShowDeleteModal(false);
   };
 
+
+
   return (
     <>
       <Modal isVisible={showDeleteModal} onClose={handleDeleteModal}>
@@ -135,7 +146,7 @@ const Actions: React.FC<ActionsProps> = ({
           <FaEye title="View Stock" />
         </button>
       )}
-         {operationsAllowed?.invoice && (
+      {operationsAllowed?.invoice && (
         <button
           onClick={() => handleInvoice(row._id)}
           className="text-green-700 ml-1 text-xl hover:scale-125 hover:p-1 hover:bg-green-100 p-1 rounded transition"
@@ -143,6 +154,26 @@ const Actions: React.FC<ActionsProps> = ({
           <FaFileInvoiceDollar title="View Stock" />
         </button>
       )}
+
+      {operationsAllowed?.updateStatus && (
+        <button
+          onClick={() => setIsOpen(true)}
+          className="text-green-700 ml-1 text-xl hover:scale-125 hover:p-1 hover:bg-green-100 p-1 rounded transition"
+        >
+          <GrUpdate title="Update Status" />
+        </button>
+      )}
+
+
+      {operationsAllowed?.print && (
+        <button
+          onClick={() => handleDownloadPDF(row)}
+          className="text-green-700 ml-1 text-xl hover:scale-125 hover:p-1 hover:bg-green-100 p-1 rounded transition"
+        >
+          <FaRegFilePdf title="Download PDF" />
+        </button>
+      )}
+      <UpdateInvoiceForm isOpen={isOpen} onClose={() => setIsOpen(false)} invoiceId={row?._id} currentStatus={row?.status} />
     </>
   );
 };

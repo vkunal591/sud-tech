@@ -8,21 +8,24 @@ import { useEffect, useState } from "react";
 import jsPDF from "jspdf";
 import { handleDownloadPDF } from "@/hooks/pdfFormat";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import dayjs from "dayjs";
 
-const InvoiceForm = ({ responseData }: { responseData: any }) => {
-  console.log(responseData);
+const InvoiceForm = ({ responseData }: any) => {
+  const route = useRouter()
   const [submitting, setSubmitting] = useState(false)
-
+  const [data, setData] = useState<any>()
   const [formData, setFormData] = useState({
-    _id: "",
     invoiceNumber: responseData?.invoiceNumber || "",
     invoiceDate: "",
     paymentNumber: "",
     to: "",
     issuedDate: "",
+    vesselImoNo: responseData?.vesselImoNo || "",
+    vesselName: responseData?.vesselName || "",
     vesselNumber: responseData?.vesselImoNo || "",
     co: responseData?.companyName || "",
-    dueDate: responseData?.dueDate || "",
+    dueDate: (dayjs(responseData?.dueDate).format("YYYY-MM-DD")) || "",
     totalAmount: responseData?.sudInvoiceToOwners || "",
     totalAmountInWords: "",
     mailMessage: "",
@@ -35,7 +38,7 @@ const InvoiceForm = ({ responseData }: { responseData: any }) => {
       billingToLandmark: responseData?.landmark || "",
       billingToCity: responseData?.city || "",
       billingToCountry: responseData?.country || "",
-      billingToPincode: responseData?.pincode || "",
+      billingToPincode: responseData?.pinCode || "",
       billingToEmail: responseData?.email || "",
       billingToPhoneNumber: responseData?.mobileNo || "",
     },
@@ -45,7 +48,7 @@ const InvoiceForm = ({ responseData }: { responseData: any }) => {
       billingFromLandmark: responseData?.landmark || "",
       billingFromCity: responseData?.city || "",
       billingFromCountry: responseData?.country || "",
-      billingFromPincode: responseData?.pincode || "",
+      billingFromPincode: responseData?.pinCode || "",
       billingFromEmail: responseData?.email || "",
       billingFromPhoneNumber: responseData?.mobileNo || "",
     },
@@ -114,39 +117,32 @@ const InvoiceForm = ({ responseData }: { responseData: any }) => {
     });
   };
 
+  console.log(formData?.dueDate, "MKMMML", responseData?.dueDate, "LLLLL", (dayjs(responseData?.dueDate).format("DD/MM/YYYY")))
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
     try {
-      let url = "";
-      if (!formData?._id) url = `/api/invoice/${formData?._id}`;
-      else url = `/api/invoice`;
+      const url = `/api/invoice`;
 
       setSubmitting(true);
-
-      const response = !formData?._id
-        ? await fetch(url, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        })
-        : await fetch(url, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        });
+      const response: any = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
       const responseData = await response.json();
 
       if (response.ok) {
+        toast.success("Invoice Created");
         const fetchUrl = `/api/invoice?page=1&limit=10`;
         const resp = await fetch(fetchUrl);
         const data = await resp.json();
-
+        route.push("/dashboard/billing")
         // if (data?.invoices) props?.setFilteredData(data.invoices);
         // if (data?.total) props?.setPaginate({ total: data.total, page: data.page, limit: data.limit });
       } else {
-        return toast.error("Something went wrong!");
+        return toast.error("Something went wrong! Please check invoice no");
       }
     } catch (error) {
       console.error("Error: ", error);
@@ -227,7 +223,7 @@ const InvoiceForm = ({ responseData }: { responseData: any }) => {
               </div>
               <div className="flex mb-2">
                 <label className="inline-block w-1/4 mb-1 text-sm">
-                  Vessel No:
+                  Vessel IMO No:
                 </label>
                 <input
                   required
@@ -235,8 +231,23 @@ const InvoiceForm = ({ responseData }: { responseData: any }) => {
                   placeholder="Enter your vessel no"
                   className="w-3/4 text-primary outline text-sm outline-gray-100 px-4 py-1 placeholder:text-gray-400 bg-white rounded"
                   type="text"
-                  name="vesselNumber"
-                  value={formData.vesselNumber}
+                  name="vesselImoNo"
+                  value={formData.vesselImoNo}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="flex mb-2">
+                <label className="inline-block w-1/4 mb-1 text-sm">
+                  Vessel Name:
+                </label>
+                <input
+                  required
+                  autoComplete="off"
+                  placeholder="Enter your vessel name"
+                  className="w-3/4 text-primary outline text-sm outline-gray-100 px-4 py-1 placeholder:text-gray-400 bg-white rounded"
+                  type="text"
+                  name="vesselName"
+                  value={formData.vesselName}
                   onChange={handleChange}
                 />
               </div>
@@ -405,14 +416,14 @@ const InvoiceForm = ({ responseData }: { responseData: any }) => {
               </label>
               <input
                 required
-                autoComplete="off"
                 placeholder="Due date"
                 className="lg:w-2/4 text-primary outline text-sm outline-gray-100 px-4 py-2 placeholder:text-gray-400 bg-white rounded"
                 type="date"
                 name="dueDate"
-                value={formData.dueDate}
+                value={formData?.dueDate ? dayjs(formData.dueDate, "DD/MM/YYYY").format("YYYY-MM-DD") : ""}
                 onChange={handleChange}
               />
+
             </div>
             <div className="mb-2">
               <label className="inline-block lg:w-2/4 mb-1 text-md font-semibold">
@@ -423,7 +434,7 @@ const InvoiceForm = ({ responseData }: { responseData: any }) => {
                 autoComplete="off"
                 placeholder="Total Amount"
                 className="lg:w-2/4 text-primary outline text-sm outline-gray-100 px-4 py-2 placeholder:text-gray-400 bg-white rounded"
-                type="text"
+                type="number"
                 name="totalAmount"
                 value={formData?.totalAmount}
                 onChange={handleChange}

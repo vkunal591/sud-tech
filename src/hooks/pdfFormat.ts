@@ -1,20 +1,70 @@
+import dayjs from "dayjs";
 import { jsPDF } from "jspdf";
 import Image from "next/image";
 
+interface BillingDetails {
+  billingToCompanyName: string;
+  billingToStreetAddress: string;
+  billingToLandmark: string;
+  billingToCity: string;
+  billingToCountry: string;
+  billingToPincode: string;
+  billingToEmail: string;
+  billingToPhoneNumber: string;
+}
+
+interface BillingFrom {
+  billingFromCompanyName: string;
+  billingFromStreetAddress: string;
+  billingFromLandmark: string;
+  billingFromCity: string;
+  billingFromCountry: string;
+  billingFromPincode: string;
+  billingFromEmail: string;
+  billingFromPhoneNumber: string;
+}
+
+interface BankDetails {
+  accountName: string;
+  accountNumber: string;
+  accountHolderName: string;
+  swiftAddress: string;
+  bankAddress: string;
+}
+
+interface PaymentDetails {
+  paymentStatus: string;
+}
+
+interface Invoice {
+  billingTo: BillingDetails;
+  billingFrom: BillingFrom;
+  bankDetails: BankDetails;
+  paymentDetails: PaymentDetails;
+  _id: string;
+  invoiceNumber: string;
+  invoiceDate: string;
+  vesselName: string;
+  vesselImoNo: string;
+  co: string;
+  to: string;
+  dueDate: string;
+  totalAmount: number;
+  totalAmountInWords: string;
+  status: string;
+  paymentTerms: string;
+  remarks: string;
+  mailMessage: string;
+  currency: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+
+
 export const handleDownloadPDF = async (formData: any) => {
   const doc = new jsPDF();
-
-  // Load the Logo Dynamically
-  // const loadLogo = async () => {
-  //   const imgPath = `/assets/logo/logo.png`; // Your logo path
-  //   const response = await fetch(imgPath);
-  //   const blob = await response.blob();
-  //   return new Promise((resolve) => {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => resolve(reader.result);
-  //     reader.readAsDataURL(blob);
-  //   });
-  // };
 
   const loadLogo = async () => {
     const imgPath = `/assets/logo/logo.png`; // Ensure correct path
@@ -81,7 +131,8 @@ export const handleDownloadPDF = async (formData: any) => {
   doc.setFontSize(10);
   doc.text(`Add`, 20, 58);
   doc.setFont(`helvetica`, `thin`);
-  doc.text(`: ${formData?.address || "ANTONIOU AMPATIELOU 1018536, PIRAEUS, GREECE"}`, 40, 58)
+  doc.text(`: ${formData?.billingTo?.billingToCompanyName + ", " + formData?.billingTo?.billingToLandmark + ", " + formData?.billingTo?.billingToStreetAddress +
+    ", " + formData?.billingTo?.billingToCity + ", " + formData?.billingTo?.billingToCountry || "ANTONIOU AMPATIELOU 1018536, PIRAEUS, GREECE"}`, 40, 58)
 
 
   doc.setFont(`helvetica`, `bold`); // Set font to Helvetica Bold
@@ -93,10 +144,10 @@ export const handleDownloadPDF = async (formData: any) => {
 
   doc.setFont(`helvetica`, `semibold`); // Set font to Helvetica Bold
   doc.setFontSize(10);
-  doc.text(`INV DATE: ${formData?.invoiceData || "12TH MARCH,24"}`, 150, 75);
+  doc.text(`INV DATE: ${dayjs(formData?.invoiceDate).format("DD-MM-YYYY") || "12TH MARCH,24"}`, 150, 75);
 
   doc.text(`DEAR SIR, `, 20, 85);
-  doc.text(`CAPTIONED SHIP DRY DOCKING REPAIR IS IN PROGRESS IN PAX OCEAN ENGINEERING ZHOUSHAN CO.`, 20, 90);
+  doc.text(`${formData?.mailMessage || "CAPTIONED SHIP DRY DOCKING REPAIR IS IN PROGRESS IN PAX OCEAN ENGINEERING ZHOUSHAN CO."}`, 20, 90);
   doc.text(`LTD.THROUGH SUD GROUP H.K.CO., LTD.`, 20, 95);
   doc.text(`VESEL ARRIVED SHIPYARD ON 9TH FEB, 2024 AND ALL REPAIRING WORKS IN PROGRESS UPTO`, 20, 105);
   doc.text(`SATISFACTION OF SHIPOWNER’S REPRESENTATIVE, SHIP’S CREW, AND CLASS.`, 20, 110);
@@ -117,7 +168,7 @@ export const handleDownloadPDF = async (formData: any) => {
   doc.text(`PAYMENT TERMS IS AS FOLLOWS.`, 20, 160);
   doc.setLineWidth(0.2);
   doc.line(20, 161, 80, 161);
-  doc.text(`FIRST PAYMENT: USD 230,000(USD TWO HUNDRED THIRTY THOUSAND ONLY) PAY BEFORE SHIP DEPARTURE.`, 20, 165);
+  doc.text(`FIRST PAYMENT: USD ${formData?.totalAmount + " " + `(${formData?.totalAmountInWords})` + "230,000(USD TWO HUNDRED THIRTY THOUSAND ONLY)"}+" PAY BEFORE SHIP DEPARTURE".`, 20, 165);
   doc.text(`SUD GROUP BANK ACCOUNT.`, 20, 175);
   doc.text(`PLEASE MAKE REMITTANCE TO OUR BELOW ACCOUNT.`, 20, 180);
 
@@ -126,17 +177,17 @@ export const handleDownloadPDF = async (formData: any) => {
   doc.line(20, 182, 190, 182);
   doc.line(20, 182, 20, 210);
   doc.setFont(`helvetica`, `bold`); // Set font to Helvetica Bold
-  doc.text(`Account Name: ${formData?.accountName || "SUD Group Hong Kong Company Limited."}`, 22, 187)
-  doc.text(`Account number: ${formData?.accountNo || "582 - 634960 - 838"}`, 22, 192)
-  doc.text(`Beneficiary Bank name: ${formData?.accountHolderName || "HSBC(Hong Kong)"}`, 22, 197)
-  doc.text(`Beneficiary Bank Address: ${formData?.bankAddress || "1 Queen's Road Central, Hong Kong"}`, 22, 202)
-  doc.text(`Swift Address:${formData?.swiftAddress || "HSBCHKHHHKH"}`, 22, 207)
+  doc.text(`Account Name : ${formData?.bankDetails.accountName || "SUD Group Hong Kong Company Limited."}`, 22, 187)
+  doc.text(`Account number : ${formData?.bankDetails?.accountNumber || "582 - 634960 - 838"}`, 22, 192)
+  doc.text(`Beneficiary Bank name : ${formData?.accountHolderName?.accountHolderName || "HSBC(Hong Kong)"}`, 22, 197)
+  doc.text(`Beneficiary Bank Address : ${formData?.bankDetails?.bankAddress || "1 Queen's Road Central, Hong Kong"}`, 22, 202)
+  doc.text(`Swift Address : ${formData?.bankDetails?.swiftAddress || "HSBCHKHHHKH"}`, 22, 207)
   doc.setLineWidth(0.2);
   doc.line(20, 210, 190, 210);
   doc.line(190, 182, 190, 210);
 
   doc.setFontSize(9)
-  doc.text(`(Remark : When you finish remittance please send copy of bank slip to us by e-mail <biz1@sudgroup.cn>)`, 20, 213);
+  doc.text(`(Remark : ${formData?.remarks || "When you finish remittance please send copy of bank slip to us by e-mail <biz1@sudgroup.cn>)"}`, 20, 215);
 
   doc.text(`For and on behalf of`, 20, 245)
   doc.setFont(`helvetica`, `bold`); // Set font to Helvetica Bold

@@ -39,10 +39,11 @@ export const userPermissions = [
     module: "Manage Billing",
     access: {
       read: true,
-      create: true,
       update: true,
       delete: true,
       view: true,
+      updateStatus:true,
+      print:true,
     },
   },
   {
