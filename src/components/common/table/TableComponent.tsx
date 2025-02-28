@@ -13,6 +13,7 @@ interface Column {
   isDate?: boolean;
   sortable?: boolean;
   isCurrency?: string;
+  status?: boolean;
 }
 
 interface OperationsAllowed {
@@ -132,6 +133,7 @@ const Table: React.FC<TableProps> = ({
     if (col.isCurrency && value) return `${col.isCurrency} ${value}`;
     if (col.isPercent) return `${value} ${col.isPercent}`;
 
+
     if (typeof value === "number") return value;
     if (typeof value === "boolean") return value.toString();
 
@@ -187,7 +189,19 @@ const Table: React.FC<TableProps> = ({
                     key={col.key}
                     className="text-sm border text-iconBlack whitespace-nowrap border-info px-4 py-3"
                   >
-                    {formatRowValue(row, col)}
+                    {col.status ? (
+                      <span
+                        className={`flex justify-center items-center rounded-md ${formatRowValue(row, col) === "true"
+                            ? "bg-green-50 text-green-600"
+                            : "bg-red-50 text-info-600"
+                          } px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-gray-500/10 ring-inset`}
+                      >
+                        {formatRowValue(row, col)}
+                      </span>
+                    ) : (
+                      formatRowValue(row, col)
+                    )}
+
                   </td>
                 ))}
                 {operationsAllowed?.read && (

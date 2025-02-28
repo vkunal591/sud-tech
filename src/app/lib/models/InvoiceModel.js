@@ -1,10 +1,12 @@
 import mongoose from "mongoose";
 
 const Schema = new mongoose.Schema({
-    _id: false,
-    // Invoice Details
     invoiceNumber: { type: String, required: true, unique: true },
     invoiceDate: { type: Date, required: true },
+    vesselName: { type: String, required: true },
+    vesselImoNo: { type: String, required: true },
+    co: { type: String, required: true },
+    to: { type: String, required: true },
     dueDate: { type: Date, required: true },
     totalAmount: { type: Number, required: true },
     totalAmountInWords: { type: String },
@@ -14,6 +16,7 @@ const Schema = new mongoose.Schema({
         enum: ['Paid', 'Unpaid', 'Pending', 'Overdue'],
         default: 'Unpaid'
     },
+    paymentNumber: { type: String },
     paymentTerms: { type: String, required: true },
     remarks: { type: String },
     mailMessage: { type: String },
