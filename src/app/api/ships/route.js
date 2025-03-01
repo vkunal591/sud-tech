@@ -28,9 +28,9 @@ export async function GET(req) {
     return NextResponse.json({
       data: {
         result: ships,
-        pagination: { page, totalPages: Math.ceil(totalShips / limit), totalItems: totalShips }
+        pagination: { currentPage: page, totalPages: Math.ceil(totalShips / limit),itemsPerPage:limit, totalItems: totalShips }
       },
-      success:true
+      success: true
     });
   } catch (error) {
     return NextResponse.json({ message: "Error fetching ships" }, { status: 500 });
@@ -85,9 +85,9 @@ export async function POST(req) {
 
     // Create a new ship entry with the sanitized data
     const newShip = await Ship.create(data);
-    console.log(newShip,data)
+    console.log(newShip, data)
     // Return the new ship entry
-    return NextResponse.json({newShip,success:true}, { status: 201 });
+    return NextResponse.json({ newShip, success: true }, { status: 201 });
   } catch (error) {
     console.error("Error creating ship entry:", error);
     return NextResponse.json({ message: "Error creating ship entry" }, { status: 500 });

@@ -129,6 +129,16 @@ const TableComponent = <T extends { [key: string]: any }>({
       limit: data.limit,
     };
 
+    const currentData = new Date();
+    const notificationRange = `?dueDateFrom=${dayjs(currentData).subtract(3, 'day').format("YYYY-MM-DD")}&dueDateTo=${dayjs(currentData).format("YYYY-MM-DD")}`
+    
+    const notificationParams: Record<string, any> = {
+      page: data.current,
+      limit: data.limit,
+      dueDateFrom:dayjs(currentData).subtract(3, 'day').format("YYYY-MM-DD"),
+      dueDateTo:dayjs(currentData).format("YYYY-MM-DD")
+    };
+
     // Add status if applicable
     if (activeStatus !== "all" && data.status !== "all") {
       params.status = data.status;
@@ -164,7 +174,7 @@ const TableComponent = <T extends { [key: string]: any }>({
       try {
         const response: any = await Fetch(
           `http://localhost:3000/${fetchEndpoint}`,
-          params,
+          operationsAllowed?.custome?notificationParams:params,
           5000,
           true,
           false

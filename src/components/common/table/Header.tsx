@@ -38,9 +38,9 @@ const Header: React.FC<HeaderProps> = ({
         <button
           type="button"
           onClick={debounce(handleReset, 1000)}
-          className="bg-secondary text-white flex gap-2 justify-center items-center outline-none px-4 text-lg py-2 rounded-xl"
+          className="bg-secondary text-white flex gap-2 justify-center items-center outline-none px-4 text-lg py-2 rounded-xl active:bg-gray-500"
         >
-          Clear filters <FaFilter className="text-sm" />
+         Reload <FaFilter className="text-sm" />
         </button>
 
         {/* Add Button */}

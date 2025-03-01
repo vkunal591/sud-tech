@@ -137,9 +137,11 @@ export async function GET(req) {
     return NextResponse.json({
       data: {
         result: invoices,
-        pagination: { total, page, limit },
-        success: true,
+        // pagination: { totalItems:total, page, limit },
+        // pagination: { currentPage:page, totalPages: Math.ceil(total / limit), totalItems: total },
+        pagination: { currentPage: page, totalPages: Math.ceil(total / limit),itemsPerPage:limit, totalItems: total }
       },
+      success: true,  
     });
   } catch (error) {
     console.error("Error fetching invoices:", error);

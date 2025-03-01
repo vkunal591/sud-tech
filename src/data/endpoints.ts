@@ -33,15 +33,15 @@ export const endpoints: Record<
     fetchAll: "api/invoice/", // to fetch all products
     operations: operations,
   },
-  Category: {
-    create: "api/product-category", // to create a product-category
-    delete: "api/product-category/", // to delete a product-category
-    update: "api/product-category/", // to update a product-category
-    read: "api/product-category/", // to get a product-category
-    fetchAll: "api/product-category", // to fetch all product-categorys
+  Notifications: {
+    create: "api/invoice", // to create a product
+    read: "api/invoice/", // to get a product
+    update: `api/invoice/`, // to update a product
+    delete: "api/invoice/", // to delete a product
+    fetchAll: "api/invoice", // to fetch all products
     operations: operations,
   },
-  Notifications: {
+  Category: {
     create: "api/product-category", // to create a product-category
     delete: "api/product-category/", // to delete a product-category
     update: "api/product-category/", // to update a product-category

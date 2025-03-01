@@ -125,15 +125,20 @@ export const handleDownloadPDF = async (formData: any) => {
   doc.setFontSize(10);
   doc.text(`C/O`, 20, 54);
   doc.setFont(`helvetica`, `thin`);
-  doc.text(`:${formData?.co || " EMPIRE CHEMICAL TANKER HOLDINGS INC."}`, 40, 54)
+  doc.text(`: ${formData?.co || " EMPIRE CHEMICAL TANKER HOLDINGS INC."}`, 40, 54)
 
   doc.setFont(`helvetica`, `bold`); // Set font to Helvetica Bold
   doc.setFontSize(10);
   doc.text(`Add`, 20, 58);
   doc.setFont(`helvetica`, `thin`);
-  doc.text(`: ${formData?.billingTo?.billingToCompanyName + ", " + formData?.billingTo?.billingToLandmark + ", " + formData?.billingTo?.billingToStreetAddress +
-    ", " + formData?.billingTo?.billingToCity + ", " + formData?.billingTo?.billingToCountry || "ANTONIOU AMPATIELOU 1018536, PIRAEUS, GREECE"}`, 40, 58)
+  // doc.text(`: ${formData?.billingTo?.billingToCompanyName + ", " + formData?.billingTo?.billingToLandmark + ", " + formData?.billingTo?.billingToStreetAddress +
+  //   ", " + formData?.billingTo?.billingToCity + ", " + formData?.billingTo?.billingToCountry || "ANTONIOU AMPATIELOU 1018536, PIRAEUS, GREECE"}`, 40, 58)
+  const address = `: ${formData?.billingTo?.billingToCompanyName + ", " + formData?.billingTo?.billingToLandmark + ", " + formData?.billingTo?.billingToStreetAddress +  ", " + formData?.billingTo?.billingToCity + ", " + formData?.billingTo?.billingToCountry || "ANTONIOU AMPATIELOU 1018536, PIRAEUS, GREECE"}`;
 
+  const maxWidth = 170; // Set max width for wrapping
+  const addressText = doc.splitTextToSize(address, maxWidth);
+
+  doc.text(addressText, 40, 58);
 
   doc.setFont(`helvetica`, `bold`); // Set font to Helvetica Bold
   doc.setFontSize(10);
@@ -147,18 +152,28 @@ export const handleDownloadPDF = async (formData: any) => {
   doc.text(`INV DATE: ${dayjs(formData?.invoiceDate).format("DD-MM-YYYY") || "12TH MARCH,24"}`, 150, 75);
 
   doc.text(`DEAR SIR, `, 20, 85);
-  doc.text(`${formData?.mailMessage || "CAPTIONED SHIP DRY DOCKING REPAIR IS IN PROGRESS IN PAX OCEAN ENGINEERING ZHOUSHAN CO."}`, 20, 90);
-  doc.text(`LTD.THROUGH SUD GROUP H.K.CO., LTD.`, 20, 95);
-  doc.text(`VESEL ARRIVED SHIPYARD ON 9TH FEB, 2024 AND ALL REPAIRING WORKS IN PROGRESS UPTO`, 20, 105);
-  doc.text(`SATISFACTION OF SHIPOWNER’S REPRESENTATIVE, SHIP’S CREW, AND CLASS.`, 20, 110);
-  doc.text(`AS PER INITIAL AGREEMRNT WE REQUEST FOR PART PAYMENT OF ABOVE MENTIONED DRY DOCKING`, 20, 115);
-  doc.text(`REPAIR.`, 20, 120);
-  doc.text(`FINAL YARD BILL WILL BE ON BASIS OF DISCUSSION AND AGREEMENT BY OWNER’S REPRESENTATIVE`, 20, 130);
-  doc.text(`ON BASIS OF FINAL WORK DONE LIST.`, 20, 135);
+  const message = `${formData?.mailMessage}`.toUpperCase();
+  const messageText = doc.splitTextToSize(message, maxWidth);
+
+  doc.text(messageText, 20, 90);
+  // doc.text(`${formData?.mailMessage || "CAPTIONED SHIP DRY DOCKING REPAIR IS IN PROGRESS IN PAX OCEAN ENGINEERING ZHOUSHAN CO."}`, 20, 90);
+  // doc.text(`LTD.THROUGH SUD GROUP H.K.CO., LTD.`, 20, 95);
+  // doc.text(`VESEL ARRIVED SHIPYARD ON 9TH FEB, 2024 AND ALL REPAIRING WORKS IN PROGRESS UPTO`, 20, 105);
+  // doc.text(`SATISFACTION OF SHIPOWNER’S REPRESENTATIVE, SHIP’S CREW, AND CLASS.`, 20, 110);
+  // doc.text(`AS PER INITIAL AGREEMRNT WE REQUEST FOR PART PAYMENT OF ABOVE MENTIONED DRY DOCKING`, 20, 115);
+  // doc.text(`REPAIR.`, 20, 120);
+  // doc.text(`FINAL YARD BILL WILL BE ON BASIS OF DISCUSSION AND AGREEMENT BY OWNER’S REPRESENTATIVE`, 20, 130);
+  // doc.text(`ON BASIS OF FINAL WORK DONE LIST.`, 20, 135);
 
   doc.setFont(`helvetica`, `bold`); // Set font to Helvetica Bold
   doc.text(`PART REMITTANCE AMOUNT IN FIGURE: USD ${formData?.totalAmount || "230,000"}/ -`, 20, 145);
-  doc.text(`PART REMITTANCE AMOUNT IN WORDS: ${formData?.totalAmountInWords || "US DOLLAR TWO HUNDRED THIRTY THOUSAND ONLY."}`, 20, 150);
+  const payment = `${formData?.totalAmountInWords}`.toUpperCase();
+  const paymentText = doc.splitTextToSize(payment, maxWidth);
+  doc.text(paymentText, 20, 150);
+
+
+
+  // doc.text(`PART REMITTANCE AMOUNT IN WORDS: ${formData?.totalAmountInWords || "US DOLLAR TWO HUNDRED THIRTY THOUSAND ONLY."}`, 20, 150);
   doc.setLineWidth(0.2);
   doc.line(20, 146, 190, 146);
   doc.setLineWidth(0.2);
@@ -168,7 +183,13 @@ export const handleDownloadPDF = async (formData: any) => {
   doc.text(`PAYMENT TERMS IS AS FOLLOWS.`, 20, 160);
   doc.setLineWidth(0.2);
   doc.line(20, 161, 80, 161);
-  doc.text(`FIRST PAYMENT: USD ${formData?.totalAmount + " " + `(${formData?.totalAmountInWords})` + "230,000(USD TWO HUNDRED THIRTY THOUSAND ONLY)"}+" PAY BEFORE SHIP DEPARTURE".`, 20, 165);
+  const paymentInWord = `FIRST PAYMENT: USD ${formData?.totalAmount + " " + formData?.totalAmountInWords}`.toUpperCase();
+
+
+  const paymentInWordText = doc.splitTextToSize(paymentInWord, maxWidth);
+
+  doc.text(paymentInWordText, 20, 165);
+
   doc.text(`SUD GROUP BANK ACCOUNT.`, 20, 175);
   doc.text(`PLEASE MAKE REMITTANCE TO OUR BELOW ACCOUNT.`, 20, 180);
 
