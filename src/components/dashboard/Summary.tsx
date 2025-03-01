@@ -5,14 +5,23 @@ import {
 } from "@/data/dashboard";
 import { Deal } from "@/hooks/types";
 import BarChart from "../chart/Barchart";
-import { FaFileAlt } from "react-icons/fa";
+import { FaFileAlt, FaFilePdf } from "react-icons/fa";
 import { FaEye, FaArrowDown } from "react-icons/fa";
 import jsPDF from "jspdf";
 import { handleDownloadPDF } from "@/hooks/pdfFormat";
+import { useState } from "react";
+import { endpoints } from "@/data/endpoints";
+import useFetch from "@/hooks/useFetch";
+import dayjs from "dayjs";
+import Link from "next/link";
 
 const Summary = () => {
-
-
+const currentData = new Date();
+const notificationRange = `?dueDateFrom=${dayjs(currentData).subtract(3, 'day').format("YYYY-MM-DD")}&dueDateTo=${dayjs(currentData).format("YYYY-MM-DD")}`
+  const [notificationData, setNotificationData] = useState<any>()
+  const { data, loading, error } = useFetch(`${endpoints["Notifications"].fetchAll}${notificationRange}`);
+  const updatedData = data?.data.result;
+  const paginationData = data?.data?.pagination;
   const recentDeals: Deal[] = [
     {
       id: "#001234",
@@ -178,53 +187,59 @@ const Summary = () => {
       <section className="px-6 py-4 bg-whiteBg rounded-xl mt-5">
         <div className="flex justify-between items-center">
           <h2 className="text-lg text-iconBlack font-semibold">
-            Recent Deals Status
+            Recent Notification
           </h2>
-          <button className="text-blue-500 bg-infobg font-semibold text-sm rounded-md whitespace-nowrap px-2 py-1" onClick={handleDownloadPDF}>
-            Download PDF
-          </button>
+          <Link href={'/dashboard/notification'} className="text-blue-500 bg-infobg font-semibold text-sm rounded-md whitespace-nowrap px-2 py-1" >
+            View All
+          </Link>
         </div>
         <table className="w-full mt-4 text-sm">
           <thead className="text-base text-iconBlack text-left">
             <tr>
-              <th className="p-4 border border-infobg">Deal ID</th>
-              <th className="p-4 border border-infobg">Client</th>
-              <th className="p-4 border border-infobg">Deal Value</th>
-              <th className="p-4 border border-infobg">Deal Status</th>
-              <th className="p-4 border border-infobg">Closing Date</th>
-              <th className="p-4 border border-infobg">Salesperson</th>
+              <th className="p-4 border border-infobg">ID</th>
+              <th className="p-4 border border-infobg">Invoice Number</th>
+              <th className="p-4 border border-infobg">Vessel IMO Number</th>
+              <th className="p-4 border border-infobg">Invoice Name</th>
+              <th className="p-4 border border-infobg">Invoice Date</th>
+              <th className="p-4 border border-infobg">Due Date</th>
+              <th className="p-4 border border-infobg">Total Amount</th>
+              <th className="p-4 border border-infobg">Status</th>
+              <th className="p-4 border border-infobg">Created At</th>
+              <th className="p-4 border border-infobg">Updated At</th>
               <th className="p-4 border border-infobg">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {recentDeals.map((deal) => (
+            {updatedData && updatedData.map((deal:any) => (
               <tr
-                key={deal.id}
+                key={deal._id}
                 className="border-b border-infobg text-iconBlack hover:bg-infobg cursor-pointer"
               >
-                <td className="p-4 border border-infobg">{deal.id}</td>
-                <td className="p-4 border border-infobg">{deal.client}</td>
-                <td className="p-4 border border-infobg">{deal.dealValue}</td>
+                <td className="p-4 border border-infobg">{deal._id.slice(8)}</td>
+                <td className="p-4 border border-infobg">{deal.invoiceNumber}</td>
+                <td className="p-4 border border-infobg">{deal.vesselImoNo}</td>
+                <td className="p-4 border border-infobg">{deal.vesselName}</td>
+                <td className="p-4 border border-infobg">{dayjs(deal.invoiceDate).format("dd-MM-YYYY")}</td>
+
+                <td className="p-4 border border-infobg">{dayjs(deal.dueDate).format("dd-MM-YYYY")}</td>
+                <td className="p-4 border border-infobg">{deal.totalAmount}</td>
                 <td className="p-4 border border-infobg">
                   <span
-                    className={`px-2 py-1 text-xs text-white rounded ${deal.dealStatus === "Closed"
-                        ? "bg-green-400"
-                        : deal.dealStatus === "In Progress"
-                          ? "bg-yellow-400"
-                          : "bg-red-400"
+                    className={`px-2 py-1 text-xs text-white rounded ${deal.dealStatus === "Unpaid"
+                      ? "bg-green-400"
+                      : deal.status === "Paid"
+                        ? "bg-yellow-400"
+                        : "bg-red-400"
                       }`}
                   >
-                    {deal.dealStatus}
+                    {deal.status}
                   </span>
                 </td>
-                <td className="p-4 border border-infobg">{deal.closingDate}</td>
-                <td className="p-4 border border-infobg">{deal.salesperson}</td>
+                <td className="p-4 border border-infobg">{deal.createdAt}</td>
+                <td className="p-4 border border-infobg">{deal.updatedAt}</td>
                 <td className="p-4 border border-infobg">
-                  <button className="bg-blue-400 text-white rounded text-lg p-1 hover:text-indigo-800 mr-2">
-                    <FaEye />
-                  </button>
-                  <button className="bg-gray-400 text-white rounded text-lg p-1 hover:text-green-800">
-                    <FaArrowDown />
+                  <button onClick={()=>handleDownloadPDF(deal)} className="bg-green-400 text-white rounded text-lg p-1 hover:text-green-800">
+                    <FaFilePdf />
                   </button>
                 </td>
               </tr>

@@ -8,19 +8,20 @@ import { useAuth } from "@/context/AuthContext";
 import Wrapper from "@/components/common/Wrapper";
 import { getAccessPoints } from "@/hooks/general";
 import TableComponent from "@/components/common/Table";
+import dayjs from "dayjs";
+
 
 const columns = [
-  { key: "_id", label: "Ledger ID" },
-  { key: "ledgerType", label: "Ledger Category", sortable: true },
-  { key: "contactPerson", label: "Primary Contact Person", sortable: true },
-  { key: "email", label: "Email Address", sortable: true },
-  { key: "mobileNo", label: "Mobile Contact Number", sortable: true },
-  { key: "country", label: "Country of Operation" },
-  { key: "state", label: "State/Province" },
-  { key: "companyName", label: "Organization Name", sortable: true },
-  { key: "groupUnderName", label: "Assigned To (Name)" },
-  { key: "groupedUnderEmail", label: "Assigned To (Email)" },
-  { key: "createdAt", label: "Creation Date", sortable: true, isDate: true },
+  { key: "_id", label: "Invoice ID", sortable: false },
+  { key: "invoiceNumber", label: "Invoice Number", sortable: true },
+  { key: "vesselImoNo", label: "Vessel IMO Number", sortable: true },
+  { key: "vesselName", label: "Invoice Name", sortable: true },
+  { key: "invoiceDate", label: "Invoice Date", sortable: true,isDate:true },
+  { key: "dueDate", label: "Due Date", sortable: true ,isDate:true},
+  { key: "totalAmount", label: "Total Amount", sortable: true, isCurrency:"$" },
+  { key: "status", label: "Status", sortable: true,status:true },
+  { key: "createdAt", label: "Created At", sortable: true,isDate:true },
+  { key: "updatedAt", label: "Updated At", sortable: true,isDate:true },
 ];
 
 const filterOptions = [
@@ -32,8 +33,11 @@ const filterOptions = [
   { label: "State", value: "state" },
 ];
 
+const currentData = new Date();
+const notificationRange = `?dueDateFrom=${dayjs(currentData).subtract(3, 'day').format("YYYY-MM-DD")}&dueDateTo=${dayjs(currentData).format("YYYY-MM-DD")}`
+
 const Users: React.FC = () => {
-  const { data, loading, error } = useFetch(endpoints["Notifications"].fetchAll);
+  const { data, loading, error } = useFetch(`${endpoints["Notifications"].fetchAll}${notificationRange}`);
   const updatedData = data?.data.result;
   const paginationData = data?.data?.pagination;
 

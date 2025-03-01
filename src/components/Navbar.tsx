@@ -35,7 +35,7 @@ const Navbar: React.FC = () => {
                 size={25}
                 className="text-iconBlack font-black"
               />
-              <div className="flex w-full items-center">
+              {/* <div className="flex w-full items-center">
                 <input
                   type="text"
                   value={searchTerm ?? ""}
@@ -50,11 +50,11 @@ const Navbar: React.FC = () => {
                 >
                   <IoSearch />
                 </button>
-              </div>
+              </div> */}
             </div>
             <div className="flex w-1/3 text-iconBlack justify-end items-center gap-2">
               <DarkLightToggle />
-              <Notification />
+              {/* <Notification /> */}
               <FullScreenButton />
               <Profile />
             </div>

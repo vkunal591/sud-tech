@@ -21,8 +21,9 @@ export const userPermissions = [
     module: "Manage Notifications",
     access: {
       read: true,
-      update: true,
       delete: true,
+      custome:true,
+      print:true
     },
   },
   {
