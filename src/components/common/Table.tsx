@@ -130,13 +130,14 @@ const TableComponent = <T extends { [key: string]: any }>({
     };
 
     const currentData = new Date();
-    const notificationRange = `?dueDateFrom=${dayjs(currentData).subtract(3, 'day').format("YYYY-MM-DD")}&dueDateTo=${dayjs(currentData).format("YYYY-MM-DD")}`
+    const notificationRange = `?dueDateFrom=${dayjs(currentData).subtract(3, 'day').format("YYYY-MM-DD")}&dueDateTo=${dayjs(currentData).format("YYYY-MM-DD")}&status=Unpaid`
     
     const notificationParams: Record<string, any> = {
       page: data.current,
       limit: data.limit,
       dueDateFrom:dayjs(currentData).subtract(3, 'day').format("YYYY-MM-DD"),
-      dueDateTo:dayjs(currentData).format("YYYY-MM-DD")
+      dueDateTo:dayjs(currentData).format("YYYY-MM-DD"),
+      status:"Unpaid"
     };
 
     // Add status if applicable

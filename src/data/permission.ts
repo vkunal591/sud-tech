@@ -22,8 +22,9 @@ export const userPermissions = [
     access: {
       read: true,
       delete: true,
-      custome:true,
-      print:true
+      custome: true,
+      print: true,
+      updateStatus: true,
     },
   },
   {
@@ -31,8 +32,8 @@ export const userPermissions = [
     access: {
       read: true,
       update: true,
-      create:true,
-      invoice:true,
+      create: true,
+      invoice: true,
       delete: true,
     },
   },
@@ -43,8 +44,8 @@ export const userPermissions = [
       update: true,
       delete: true,
       view: true,
-      updateStatus:true,
-      print:true,
+      updateStatus: true,
+      print: true,
     },
   },
   {
