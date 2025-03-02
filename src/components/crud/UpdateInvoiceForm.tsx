@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-export default function UpdateInvoiceForm({ isOpen, onClose, invoiceId, currentStatus }: any) {
+export default function UpdateInvoiceForm({ isOpen, onClose, invoiceId, currentStatus,fetchData }: any) {
     const [status, setStatus] = useState(currentStatus);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
@@ -20,6 +20,7 @@ export default function UpdateInvoiceForm({ isOpen, onClose, invoiceId, currentS
             const data = await res.json();
             if (res.ok) {
                 toast.success("Invoice Updated Successfully")
+                fetchData()
                 onClose(true); // Close modal & trigger refresh if needed
             }
             if (!res.ok) throw new Error(data.error || "Failed to update status");

@@ -23,7 +23,7 @@ const Notification = () => {
               </div>
             </div>
             <div>
-              <p className="font-bold text-sm">Rishabh Gupta</p>
+              <p className="font-bold text-sm">Kunal Verma</p>
               <h4 className="text-xs text-gray-500">Profit</h4>
               <h3 className="text-xs text-gray-400">7 min ago</h3>
             </div>
@@ -35,7 +35,7 @@ const Notification = () => {
               </div>
             </div>
             <div>
-              <p className="font-bold text-sm">Rishabh Gupta</p>
+              <p className="font-bold text-sm">Kunal Verma</p>
               <h4 className="text-xs text-gray-500">Profit</h4>
               <h3 className="text-xs text-gray-400">7 min ago</h3>
             </div>

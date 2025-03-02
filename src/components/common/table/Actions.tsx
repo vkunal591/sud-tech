@@ -8,6 +8,7 @@ import ConfirmationModal from "@/components/crud/ConfirmationModal";
 import UpdateInvoiceForm from "@/components/crud/UpdateInvoiceForm";
 import { GrUpdate } from "react-icons/gr";
 import { handleDownloadPDF } from "@/hooks/pdfFormat";
+import dayjs from "dayjs";
 
 interface RowData {
   _id: string;
@@ -49,7 +50,6 @@ const Actions: React.FC<ActionsProps> = ({
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
 
-  console.log(row)
   const handleEdit = async (id?: string) => {
     if (!id) return;
 
@@ -71,6 +71,17 @@ const Actions: React.FC<ActionsProps> = ({
     }
   };
 
+  const currentData = new Date();
+  // const notificationParams: Record<string, any> = {
+  //   // page: data.current,
+  //   // limit: data.limit,
+  //   dueDateFrom: dayjs(currentData).subtract(3, 'day').format("YYYY-MM-DD"),
+  //   dueDateTo: dayjs(currentData).format("YYYY-MM-DD"),
+  //   status: "Unpaid"
+  // };
+  const notificationRange = type === "Notifications" ? `?dueDateFrom=${dayjs(currentData).subtract(3, 'day').format("YYYY-MM-DD")}&dueDateTo=${dayjs(currentData).format("YYYY-MM-DD")}&status=Unpaid` : "";
+
+
   const handleDelete = async (id: string) => {
     if (!id) return;
 
@@ -79,7 +90,7 @@ const Actions: React.FC<ActionsProps> = ({
       if (!showDeleteModal) return setShowDeleteModal(true);
 
       const deleteEndpoint = endpoints[type]?.delete;
-      const fetchEndpoint = endpoints[type]?.fetchAll;
+      const fetchEndpoint = `${endpoints[type]?.fetchAll}${notificationRange}`;
 
       if (deleteEndpoint && fetchEndpoint) {
         await Delete(`${deleteEndpoint}${id}`);
@@ -111,8 +122,18 @@ const Actions: React.FC<ActionsProps> = ({
     setShowDeleteModal(false);
   };
 
+  const fetchUpdatedDataForStatusUpdateCustom = async () => {
+    const fetchEndpoint = `${endpoints[type]?.fetchAll}${notificationRange}`;
+    if (fetchEndpoint) {
+      const response: any = await Fetch(fetchEndpoint, {}, 5000, true, false);
 
-
+      if (response?.success) {
+        setShowDeleteModal(false);
+        setFilteredData(response?.data?.result);
+        setPaginate(response?.data?.pagination);
+      } else window.location.reload();
+    }
+  }
   return (
     <>
       <Modal isVisible={showDeleteModal} onClose={handleDeleteModal}>
@@ -173,7 +194,7 @@ const Actions: React.FC<ActionsProps> = ({
           <FaRegFilePdf title="Download PDF" />
         </button>
       )}
-      <UpdateInvoiceForm isOpen={isOpen} onClose={() => setIsOpen(false)} invoiceId={row?._id} currentStatus={row?.status} />
+      <UpdateInvoiceForm isOpen={isOpen} fetchData={fetchUpdatedDataForStatusUpdateCustom} onClose={() => setIsOpen(false)} invoiceId={row?._id} currentStatus={row?.status} />
     </>
   );
 };
