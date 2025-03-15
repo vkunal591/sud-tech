@@ -4,6 +4,7 @@ import Loader from "./common/Loader";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { usePathname, useRouter } from "next/navigation";
+import { dbConnect } from "@/app/lib/config/db";
 
 const AuthGuard: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { token } = useAuth();
@@ -12,6 +13,7 @@ const AuthGuard: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [stateReady, setStateReady] = useState(false);
 
   useEffect(() => {
+    dbConnect()
     setStateReady(true);
     if (stateReady && token === null) router.push("/auth/login");
     else if (token && pathname === "/") return router.push("/dashboard");

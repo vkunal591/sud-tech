@@ -24,11 +24,6 @@ const columns = [
 const filterOptions = [
   { label: "Vessel IMO NO", value: "no" },
   { label: "Cont. Name", value: "name" },
-  { label: "Email ID", value: "email" },
-  { label: "Cont. Number", value: "mobileNo" },
-  { label: "Category", value: "ledgerType" },
-  { label: "Comp. Name", value: "companyName" },
-  { label: "State", value: "state" },
 ];
 
 const Users: React.FC = () => {

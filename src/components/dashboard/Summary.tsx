@@ -17,7 +17,7 @@ import Link from "next/link";
 
 const Summary = () => {
 const currentData = new Date();
-const notificationRange = `?dueDateFrom=${dayjs(currentData).subtract(3, 'day').format("YYYY-MM-DD")}&dueDateTo=${dayjs(currentData).format("YYYY-MM-DD")}&status=Unpaid`
+const notificationRange = `?dueDateFrom=${dayjs(currentData).format("YYYY-MM-DD")}&dueDateTo=${dayjs(currentData).add(3, 'day').format("YYYY-MM-DD")}&status=Unpaid`
   const [notificationData, setNotificationData] = useState<any>()
   const { data, loading, error } = useFetch(`${endpoints["Notifications"].fetchAll}${notificationRange}`);
   const updatedData = data?.data.result;
@@ -189,7 +189,7 @@ const notificationRange = `?dueDateFrom=${dayjs(currentData).subtract(3, 'day').
           <h2 className="text-lg text-iconBlack font-semibold">
             Recent Notification
           </h2>
-          <Link href={'/dashboard/notification'} className="text-blue-500 bg-infobg font-semibold text-sm rounded-md whitespace-nowrap px-2 py-1" >
+          <Link href={'/dashboard/notifications'} className="text-blue-500 bg-infobg font-semibold text-sm rounded-md whitespace-nowrap px-2 py-1" >
             View All
           </Link>
         </div>

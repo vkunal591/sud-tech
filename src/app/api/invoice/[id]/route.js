@@ -24,9 +24,9 @@ export async function PUT(req, { params }) {
   
   const { status } = await req.json(); // Extract only the 'status' field
   
-  if (!status) {
-    return NextResponse.json({ error: "Status is required" }, { status: 400 });
-  }
+  // if (!status) {
+  //   return NextResponse.json({ error: "Status is required" }, { status: 400 });
+  // }
 
   const updatedInvoice = await InvoiceModel.findByIdAndUpdate(
     params.id,

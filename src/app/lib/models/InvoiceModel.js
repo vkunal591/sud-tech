@@ -1,23 +1,23 @@
 import mongoose from "mongoose";
 
 const Schema = new mongoose.Schema({
-    invoiceNumber: { type: String, required: true, unique: true },
-    invoiceDate: { type: Date, required: true },
-    vesselName: { type: String, required: true },
-    vesselImoNo: { type: String, required: true },
-    co: { type: String, required: true },
-    to: { type: String, required: true },
-    dueDate: { type: Date, required: true },
-    totalAmount: { type: Number, required: true },
+    invoiceNumber: { type: String,  unique: true },
+    invoiceDate: { type: Date,  },
+    vesselName: { type: String,  },
+    vesselImoNo: { type: String,  },
+    co: { type: String,  },
+    to: { type: String,  },
+    dueDate: { type: Date,  },
+    totalAmount: { type: Number,  },
     totalAmountInWords: { type: String },
     status: {
         type: String,
-        required: true,
+        
         enum: ['Paid', 'Unpaid', 'Pending', 'Overdue'],
         default: 'Unpaid'
     },
     paymentNumber: { type: String },
-    paymentTerms: { type: String, required: true },
+    paymentTerms: { type: String,  },
     remarks: { type: String },
     mailMessage: { type: String },
     currency: { type: String },
@@ -30,22 +30,22 @@ const Schema = new mongoose.Schema({
 
     // Billing Details
     billingTo: {
-        billingToCompanyName: { type: String, required: true },
+        billingToCompanyName: { type: String,  },
         billingToStreetAddress: { type: String },
         billingToLandmark: { type: String },
-        billingToCity: { type: String, required: true },
-        billingToCountry: { type: String, required: true },
+        billingToCity: { type: String,  },
+        billingToCountry: { type: String,  },
         billingToPincode: { type: String },
         billingToEmail: { type: String },
         billingToPhoneNumber: { type: String },
     },
 
     billingFrom: {
-        billingFromCompanyName: { type: String, required: true },
+        billingFromCompanyName: { type: String,  },
         billingFromStreetAddress: { type: String },
         billingFromLandmark: { type: String },
-        billingFromCity: { type: String, required: true },
-        billingFromCountry: { type: String, required: true },
+        billingFromCity: { type: String,  },
+        billingFromCountry: { type: String,  },
         billingFromPincode: { type: String },
         billingFromEmail: { type: String },
         billingFromPhoneNumber: { type: String },

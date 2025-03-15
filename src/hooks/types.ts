@@ -58,7 +58,8 @@ export interface FormField {
     | "choose"
     | "stringNumeric"
     | "stringNumeric"
-    | "productForm";
+    | "productForm"
+    | "array";
   value?: any;
   rows?: number;
   min?: number;

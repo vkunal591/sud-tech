@@ -12,6 +12,7 @@ import Pagination from "./table/Pagination";
 import { endpoints } from "@/data/endpoints";
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import { usePathname } from "next/navigation";
 
 interface TableColumn {
   key: string;
@@ -71,6 +72,7 @@ const TableComponent = <T extends { [key: string]: any }>({
   const [formConfig, setFormConfig] = useState<any>("");
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [filteredData, setFilteredData] = useState<Array<T>>(data ?? []);
+  const path = usePathname()
 
   const handleCloseModal = () => {
     setFormConfig("");
@@ -130,13 +132,13 @@ const TableComponent = <T extends { [key: string]: any }>({
     };
 
     const currentData = new Date();
-    const notificationRange = `?dueDateFrom=${dayjs(currentData).subtract(3, 'day').format("YYYY-MM-DD")}&dueDateTo=${dayjs(currentData).format("YYYY-MM-DD")}&status=Unpaid`
+    const notificationRange = `?dueDateFrom=${dayjs(currentData).format("YYYY-MM-DD")}&dueDateTo=${dayjs(currentData).add(3, 'day').format("YYYY-MM-DD")}&status=Unpaid`
     
     const notificationParams: Record<string, any> = {
       page: data.current,
       limit: data.limit,
-      dueDateFrom:dayjs(currentData).subtract(3, 'day').format("YYYY-MM-DD"),
-      dueDateTo:dayjs(currentData).format("YYYY-MM-DD"),
+      dueDateFrom:dayjs(currentData).format("YYYY-MM-DD"),
+      dueDateTo:dayjs(currentData).add(3, 'day').format("YYYY-MM-DD"),
       status:"Unpaid"
     };
 
@@ -190,6 +192,11 @@ const TableComponent = <T extends { [key: string]: any }>({
     }
   };
 
+  useEffect(() => {
+    fetchFilteredData()
+        
+  }, [path])
+  
   useEffect(() => {
     if (isModalVisible) {
       document.body.style.overflow = "hidden"; // prevent overflow

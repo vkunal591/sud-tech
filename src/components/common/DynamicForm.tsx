@@ -42,11 +42,11 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
   submitting,
   customFunc,
   setFormData,
-  makeApiCall,
+  makeApiCall
   // onQuotationDataChange
 }) => {
   const [errors, setErrors] = useState<{ [key: string]: string | null }>({});
-
+  
   const handleInputChange = (e: any) => {
     const { name, type, value, checked, options, multiple, files } = e.target;
     if (multiple) {
@@ -59,15 +59,18 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
         const newFiles = Array.from(files);
         setFormData((prev: any) => ({
           ...prev,
-          [name]: prev[name] ? [...prev[name], ...newFiles] : newFiles, // Append new files to existing files
+          [name]: prev[name] ? [...prev[name], ...newFiles] : newFiles // Append new files to existing files
         }));
       }
     } else
       setFormData((prev: any) => ({
         ...prev,
-        [name]: type === "checkbox" ? checked : value,
+        [name]: type === "checkbox" ? checked : value
       }));
   };
+
+
+
   const validateForm = () => {
     let valid = true;
     const newErrors: { [key: string]: string | null } = {};

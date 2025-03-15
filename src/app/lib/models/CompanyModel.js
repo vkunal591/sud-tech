@@ -2,47 +2,47 @@ import mongoose from "mongoose";
 
 const Schema = new mongoose.Schema({
     // Company Details
-    companyName: { type: String, required: true },
-    companyType: { type: String, required: true, enum: ['Private', 'Public', 'Government', 'Others'] },
-    registrationNo: { type: String, required: true },
-    registrationDate: { type: Date, required: true },
+    companyName: { type: String,  },
+    companyType: { type: String,  enum: ['Private', 'Public', 'Government', 'Others'] },
+    registrationNo: { type: String,  },
+    registrationDate: { type: Date,  },
     vatNo: { type: String },
     gstNo: { type: String },
     panNo: { type: String },
-    contactPerson: { type: String, required: true },
-    email: { type: String, required: true, match: /\S+@\S+\.\S+/ },
-    phone: { type: String, required: true },
+    contactPerson: { type: String,  },
+    email: { type: String,  match: /\S+@\S+\.\S+/ },
+    phone: { type: String,  },
     website: { type: String },
     
     // Address Details
     address: {
-        line1: { type: String, required: true },
+        line1: { type: String,  },
         line2: { type: String },
-        city: { type: String, required: true },
-        state: { type: String, required: true },
-        pinCode: { type: String, required: true, maxLength: 15 },
-        country: { type: String, required: true },
+        city: { type: String,  },
+        state: { type: String,  },
+        pinCode: { type: String,  maxLength: 15 },
+        country: { type: String,  },
         landmark: { type: String },
     },
 
     // Company Financial Information
-    revenue: { type: Number, required: true },
-    netIncome: { type: Number, required: true },
-    annualTurnover: { type: Number, required: true },
+    revenue: { type: Number,  },
+    netIncome: { type: Number,  },
+    annualTurnover: { type: Number,  },
     
     // Bank Details
     bank: {
         accountNo: { type: String, required: false },
-        bankName: { type: String, required: true },
+        bankName: { type: String,  },
         branchAddress: { type: String, required: false },
         ifscCode: { type: String, required: false }
     },
     
     // Additional Details
-    industry: { type: String, required: true },
-    sector: { type: String, required: true },
-    establishedYear: { type: Number, required: true },
-    numberOfEmployees: { type: Number, required: true },
+    industry: { type: String,  },
+    sector: { type: String,  },
+    establishedYear: { type: Number,  },
+    numberOfEmployees: { type: Number,  },
 
     // Miscellaneous
     logoUrl: { type: String }, // Link to company logo

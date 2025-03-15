@@ -25,7 +25,7 @@ const InvoiceForm = ({ responseData }: any) => {
     vesselName: responseData?.vesselName || "",
     vesselNumber: responseData?.vesselImoNo || "",
     co: responseData?.companyName || "",
-    dueDate: (dayjs(responseData?.dueDate).format("YYYY-MM-DD")) || "",
+    dueDate: (dayjs(responseData?.dueDate).format("YYYY/MM/DD")) || "",
     totalAmount: responseData?.sudInvoiceToOwners || "",
     totalAmountInWords: "",
     mailMessage: "",
@@ -117,9 +117,9 @@ const InvoiceForm = ({ responseData }: any) => {
     });
   };
 
-  console.log(formData?.dueDate, "MKMMML", responseData?.dueDate, "LLLLL", (dayjs(responseData?.dueDate).format("DD/MM/YYYY")))
+  console.log(formData?.dueDate, "MKMMML", responseData?.dueDate, "LLLLL", ( dayjs(responseData?.dueDate, 'DD/MM/YYYY').format("DD-MM-YYYY")))
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: any) => { 
     e.preventDefault()
     try {
       const url = `/api/invoice`;
@@ -153,7 +153,7 @@ const InvoiceForm = ({ responseData }: any) => {
     }
   };
 
-
+console.log((dayjs(responseData?.dueDate).format("YYYY/MM/DD")))
 
   return (
     <div className="lg:flex lg:gap-4 p-2 px-2">
@@ -442,7 +442,7 @@ const InvoiceForm = ({ responseData }: any) => {
             </div>
             <div className="mb-2">
               <label className="inline-block lg:w-2/4 mb-1 text-md font-semibold">
-                Total Amount In Word
+                {"Total Amount In Word (USD)"}
               </label>
               <input
                 required
@@ -598,6 +598,7 @@ const InvoiceForm = ({ responseData }: any) => {
               <button
                 className="bg-primary flex  text-white px-4 py-2 rounded-md hover:bg-blue-600"
                 onClick={() => handleDownloadPDF(formData)}
+                type="button"
               >
                 Save As PDF{" "}
                 <IoDocument width={15} height={15} className="m-auto ml-2" />

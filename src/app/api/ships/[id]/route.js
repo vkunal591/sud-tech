@@ -39,7 +39,7 @@ export async function PUT(req, { params }) {
     if (!updatedShip) {
       return NextResponse.json({ message: "Ship not found" }, { status: 404 });
     }
-    return NextResponse.json(updatedShip);
+    return NextResponse.json({data:updatedShip,message:"Update Successfully",success:true});
   } catch (error) {
     console.error("Error updating ship:", error);
     return NextResponse.json({ message: "Error updating ship entry" }, { status: 500 });
@@ -60,7 +60,7 @@ export async function DELETE(req, { params }) {
     if (!deletedShip) {
       return NextResponse.json({ message: "Ship not found" }, { status: 404 });
     }
-    return NextResponse.json({ message: "Ship deleted successfully" });
+    return NextResponse.json({ message: "Ship deleted successfully" ,success:true});
   } catch (error) {
     console.error("Error deleting ship:", error);
     return NextResponse.json({ message: "Error deleting ship entry" }, { status: 500 });

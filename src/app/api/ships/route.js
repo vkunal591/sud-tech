@@ -43,10 +43,10 @@ export async function POST(req) {
   // Parse request body
   const data = await req.json();
 
-  // Validate required fields (add more validation as necessary)
-  if (!data.vesselImoNo || !data.companyName || !data.contactPerson || !data.email || !data.mobileNo) {
-    return NextResponse.json({ message: "Missing required fields" }, { status: 400 });
-  }
+// // Validate required fields (add more validation as necessary)
+// if (!data.vesselImoNo || !data.companyName || !data.contactPerson || !data.email || !data.mobileNo) {
+//   return NextResponse.json({ message: "Missing required fields" }, { status: 400 });
+// }
 
   // Helper function to parse dates
   const parseDate = (dateStr) => {
