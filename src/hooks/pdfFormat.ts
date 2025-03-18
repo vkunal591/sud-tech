@@ -113,19 +113,19 @@ export const handleDownloadPDF = async (formData: any) => {
   doc.setFontSize(10);
   doc.text(`VESSEL`, 20, 46);
   doc.setFont(`helvetica`, `thin`);
-  doc.text(`: ${formData?.vesselName + " " + formData?.vesselImoNo || "MT MADEIRO (IMO9418913)"}`, 40, 46)
+  doc.text(`: ${formData?.vesselName + " " + formData?.vesselImoNo || ""}`, 40, 46)
 
   doc.setFont(`helvetica`, `bold`); // Set font to Helvetica Bold
   doc.setFontSize(10);
   doc.text(`To`, 20, 50);
   doc.setFont(`helvetica`, `thin`);
-  doc.text(`: ${formData?.to || "MASTER & OWNERS OF MT MADEIRO"}`, 40, 50)
+  doc.text(`: ${formData?.to || ""}`, 40, 50)
 
   doc.setFont(`helvetica`, `bold`); // Set font to Helvetica Bold
   doc.setFontSize(10);
   doc.text(`C/O`, 20, 54);
   doc.setFont(`helvetica`, `thin`);
-  doc.text(`: ${formData?.co || " EMPIRE CHEMICAL TANKER HOLDINGS INC."}`, 40, 54)
+  doc.text(`: ${formData?.co || ""}`, 40, 54)
 
   doc.setFont(`helvetica`, `bold`); // Set font to Helvetica Bold
   doc.setFontSize(10);
@@ -156,15 +156,6 @@ export const handleDownloadPDF = async (formData: any) => {
   const messageText = doc.splitTextToSize(message, maxWidth);
 
   doc.text(messageText, 20, 90);
-  // doc.text(`${formData?.mailMessage || "CAPTIONED SHIP DRY DOCKING REPAIR IS IN PROGRESS IN PAX OCEAN ENGINEERING ZHOUSHAN CO."}`, 20, 90);
-  // doc.text(`LTD.THROUGH SUD GROUP H.K.CO., LTD.`, 20, 95);
-  // doc.text(`VESEL ARRIVED SHIPYARD ON 9TH FEB, 2024 AND ALL REPAIRING WORKS IN PROGRESS UPTO`, 20, 105);
-  // doc.text(`SATISFACTION OF SHIPOWNER’S REPRESENTATIVE, SHIP’S CREW, AND CLASS.`, 20, 110);
-  // doc.text(`AS PER INITIAL AGREEMRNT WE REQUEST FOR PART PAYMENT OF ABOVE MENTIONED DRY DOCKING`, 20, 115);
-  // doc.text(`REPAIR.`, 20, 120);
-  // doc.text(`FINAL YARD BILL WILL BE ON BASIS OF DISCUSSION AND AGREEMENT BY OWNER’S REPRESENTATIVE`, 20, 130);
-  // doc.text(`ON BASIS OF FINAL WORK DONE LIST.`, 20, 135);
-
   doc.setFont(`helvetica`, `bold`); // Set font to Helvetica Bold
   doc.text(`PART REMITTANCE AMOUNT IN FIGURE: USD ${formData?.totalAmount || "230,000"}/ -`, 20, 145);
   const payment = `${formData?.totalAmountInWords}`.toUpperCase();
@@ -198,17 +189,22 @@ export const handleDownloadPDF = async (formData: any) => {
   doc.line(20, 182, 190, 182);
   doc.line(20, 182, 20, 210);
   doc.setFont(`helvetica`, `bold`); // Set font to Helvetica Bold
-  doc.text(`Account Name : ${formData?.bankDetails.accountName || "SUD Group Hong Kong Company Limited."}`, 22, 187)
-  doc.text(`Account number : ${formData?.bankDetails?.accountNumber || "582 - 634960 - 838"}`, 22, 192)
-  doc.text(`Beneficiary Bank name : ${formData?.accountHolderName?.accountHolderName || "HSBC(Hong Kong)"}`, 22, 197)
-  doc.text(`Beneficiary Bank Address : ${formData?.bankDetails?.bankAddress || "1 Queen's Road Central, Hong Kong"}`, 22, 202)
-  doc.text(`Swift Address : ${formData?.bankDetails?.swiftAddress || "HSBCHKHHHKH"}`, 22, 207)
+  doc.text(`Account Name : ${formData?.bankDetails.accountName || ""}`, 22, 187)
+  doc.text(`Account number : ${formData?.bankDetails?.accountNumber || ""}`, 22, 192)
+  doc.text(`Beneficiary Bank name : ${formData?.accountHolderName?.accountHolderName || ""}`, 22, 197)
+  const bankAddress = doc.splitTextToSize(`${formData?.bankDetails?.bankAddress || ""}`, maxWidth);
+
+  doc.text(bankAddress, 22, 202);
+  doc.text(`Swift Address : ${formData?.bankDetails?.swiftAddress || ""}`, 22, 207)
   doc.setLineWidth(0.2);
   doc.line(20, 210, 190, 210);
   doc.line(190, 182, 190, 210);
 
   doc.setFontSize(9)
-  doc.text(`(Remark : ${formData?.remarks || "When you finish remittance please send copy of bank slip to us by e-mail <biz1@sudgroup.cn>)"}`, 20, 215);
+  const remarksText = doc.splitTextToSize(`(Remark : ${formData?.remarks || ""})`, maxWidth);
+
+  
+  doc.text(remarksText, 20, 215);
 
   doc.text(`For and on behalf of`, 20, 245)
   doc.setFont(`helvetica`, `bold`); // Set font to Helvetica Bold
@@ -216,64 +212,6 @@ export const handleDownloadPDF = async (formData: any) => {
   doc.text(`SUD GROUP HONG KONG CO., LTD.`, 20, 250)
 
 
-
-
-  // // Invoice Data
-  // let y = 40; // Starting Y position
-  // const lineHeight = 10;
-
-  // const invoiceData = [
-  //   { label: `Vessel:`, value: `MT MADEIRO (IMO9418913)` },
-  //   { label: `To:`, value: `MASTER & OWNERS OF MT MADEIRO` },
-  //   { label: `Company:`, value: `EMPIRE CHEMICAL TANKER HOLDINGS INC.` },
-  //   { label: `Address:`, value: `ANTONIOU AMPATIELOU 1018536, PIRAEUS, GREECE` },
-  //   { label: `Invoice No:`, value: `SUD(HK)/09A/03-24` },
-  //   { label: `Invoice Date:`, value: `12th March, 2024` },
-  //   { label: `Shipyard:`, value: `Pax Ocean Engineering Zhoushan Co., Ltd.` },
-  //   { label: `Ship Arrival Date:`, value: `9th Feb, 2024` },
-  //   { label: `Total Amount:`, value: `USD 230,000` },
-  //   { label: `Payment Terms:`, value: `USD 230,000 before ship departure` },
-  // ];
-
-  // invoiceData.forEach((item) => {
-  //   doc.setFont(`helvetica`, `bold`);
-  //   doc.text(item.label, 20, y);
-  //   doc.setFont(`helvetica`, `normal`);
-  //   doc.text(item.value, 80, y);
-  //   y += lineHeight;
-  // });
-
-  // Draw Horizontal Line before Bank Details
-  // doc.line(10, y + 5, 200, y + 5);
-  // y += 15;
-
-  // // Bank Details
-  // doc.setFont(`helvetica`, `bold`);
-  // doc.text(`Bank Details:`, 20, y);
-  // doc.setFont(`helvetica`, `normal`);
-  // y += lineHeight;
-
-  // const bankDetails = [
-  //   { label: `Account Name:`, value: `SUD Group Hong Kong Company Limited` },
-  //   { label: `Account Number:`, value: `582-634960-838` },
-  //   { label: `Bank Name:`, value: `HSBC (Hong Kong)` },
-  //   { label: `Bank Address:`, value: `1 Queen's Road Central, Hong Kong` },
-  //   { label: `SWIFT Code:`, value: `HSBCHKHHHKH` },
-  // ];
-
-  // bankDetails.forEach((item) => {
-  //   doc.setFont(`helvetica`, `bold`);
-  //   doc.text(item.label, 20, y);
-  //   doc.setFont(`helvetica`, `normal`);
-  //   doc.text(item.value, 80, y);
-  //   y += lineHeight;
-  // });
-
-  // Draw Final Horizontal Line
-  // doc.line(10, y + 5, 200, y + 5);
-
-  // Save the generated PDF
-  // doc.save(`invoice-form.pdf`);
   window.open(doc.output(`bloburl`), `_blank`);
 
 };

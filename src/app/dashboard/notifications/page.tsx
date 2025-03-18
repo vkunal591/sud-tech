@@ -34,7 +34,7 @@ const filterOptions = [
 ];
 
 const currentData = new Date();
-const notificationRange = `?dueDateFrom=${dayjs(currentData).subtract(3, 'day').format("YYYY-MM-DD")}&dueDateTo=${dayjs(currentData).format("YYYY-MM-DD")}&status=Unpaid`
+const notificationRange = `?dueDateFrom=${dayjs(currentData).format("YYYY-MM-DD")}&dueDateTo=${dayjs(currentData).add(3, 'day').format("YYYY-MM-DD")}&status=Unpaid`
 
 const Users: React.FC = () => {
   const { data, loading, error } = useFetch(`${endpoints["Notifications"].fetchAll}${notificationRange}`);

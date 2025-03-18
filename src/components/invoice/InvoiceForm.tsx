@@ -117,9 +117,9 @@ const InvoiceForm = ({ responseData }: any) => {
     });
   };
 
-  console.log(formData?.dueDate, "MKMMML", responseData?.dueDate, "LLLLL", ( dayjs(responseData?.dueDate, 'DD/MM/YYYY').format("DD-MM-YYYY")))
+  console.log(formData?.dueDate, "MKMMML", responseData?.dueDate, "LLLLL", (dayjs(responseData?.dueDate, 'DD/MM/YYYY').format("DD-MM-YYYY")))
 
-  const handleSubmit = async (e: any) => { 
+  const handleSubmit = async (e: any) => {
     e.preventDefault()
     try {
       const url = `/api/invoice`;
@@ -153,7 +153,7 @@ const InvoiceForm = ({ responseData }: any) => {
     }
   };
 
-console.log((dayjs(responseData?.dueDate).format("YYYY/MM/DD")))
+  console.log((dayjs(responseData?.dueDate).format("YYYY/MM/DD")))
 
   return (
     <div className="lg:flex lg:gap-4 p-2 px-2">
@@ -166,7 +166,7 @@ console.log((dayjs(responseData?.dueDate).format("YYYY/MM/DD")))
                   Invoice No:
                 </label>
                 <input
-                  required
+                  
                   autoComplete="off"
                   placeholder="Enter your invoice number"
                   className="w-3/4 text-primary outline text-sm outline-gray-100 px-4 py-1 placeholder:text-gray-400 bg-white rounded"
@@ -181,7 +181,7 @@ console.log((dayjs(responseData?.dueDate).format("YYYY/MM/DD")))
                   Payment No:
                 </label>
                 <input
-                  required
+                  
                   autoComplete="off"
                   placeholder="Enter your invoice number"
                   className="w-3/4 text-primary outline text-sm outline-gray-100 px-4 py-1 placeholder:text-gray-400 bg-white rounded"
@@ -194,7 +194,7 @@ console.log((dayjs(responseData?.dueDate).format("YYYY/MM/DD")))
               <div className="flex mb-2">
                 <label className="inline-block w-1/4 mb-1 text-sm">To:</label>
                 <input
-                  required
+                  
                   autoComplete="off"
                   placeholder="Enter your Invoice no"
                   className="w-3/4 text-primary outline text-sm outline-gray-100 px-4 py-1 placeholder:text-gray-400 bg-white rounded"
@@ -211,7 +211,7 @@ console.log((dayjs(responseData?.dueDate).format("YYYY/MM/DD")))
                   Issued Date:
                 </label>
                 <input
-                  required
+                  
                   autoComplete="off"
                   placeholder="Enter your Invoice Date"
                   className="w-3/4 text-primary outline text-sm outline-gray-100 px-4 py-1 placeholder:text-gray-400 bg-white rounded"
@@ -226,7 +226,7 @@ console.log((dayjs(responseData?.dueDate).format("YYYY/MM/DD")))
                   Vessel IMO No:
                 </label>
                 <input
-                  required
+                  
                   autoComplete="off"
                   placeholder="Enter your vessel no"
                   className="w-3/4 text-primary outline text-sm outline-gray-100 px-4 py-1 placeholder:text-gray-400 bg-white rounded"
@@ -241,7 +241,7 @@ console.log((dayjs(responseData?.dueDate).format("YYYY/MM/DD")))
                   Vessel Name:
                 </label>
                 <input
-                  required
+                  
                   autoComplete="off"
                   placeholder="Enter your vessel name"
                   className="w-3/4 text-primary outline text-sm outline-gray-100 px-4 py-1 placeholder:text-gray-400 bg-white rounded"
@@ -254,7 +254,7 @@ console.log((dayjs(responseData?.dueDate).format("YYYY/MM/DD")))
               <div className="flex mb-2">
                 <label className="inline-block w-1/4 mb-1 text-sm">C/O:</label>
                 <input
-                  required
+                  
                   autoComplete="off"
                   placeholder="Enter your Invoice Date"
                   className="w-3/4 text-primary outline text-sm outline-gray-100 px-4 py-1 placeholder:text-gray-400 bg-white rounded"
@@ -415,7 +415,7 @@ console.log((dayjs(responseData?.dueDate).format("YYYY/MM/DD")))
                 Due Date :
               </label>
               <input
-                required
+                
                 placeholder="Due date"
                 className="lg:w-2/4 text-primary outline text-sm outline-gray-100 px-4 py-2 placeholder:text-gray-400 bg-white rounded"
                 type="date"
@@ -430,7 +430,7 @@ console.log((dayjs(responseData?.dueDate).format("YYYY/MM/DD")))
                 Total Amount ($)
               </label>
               <input
-                required
+                
                 autoComplete="off"
                 placeholder="Total Amount"
                 className="lg:w-2/4 text-primary outline text-sm outline-gray-100 px-4 py-2 placeholder:text-gray-400 bg-white rounded"
@@ -445,7 +445,7 @@ console.log((dayjs(responseData?.dueDate).format("YYYY/MM/DD")))
                 {"Total Amount In Word (USD)"}
               </label>
               <input
-                required
+                
                 autoComplete="off"
                 placeholder="Total Amount"
                 className="lg:w-2/4 text-primary outline text-sm outline-gray-100 px-4 py-2 placeholder:text-gray-400 bg-white rounded"
@@ -507,13 +507,13 @@ console.log((dayjs(responseData?.dueDate).format("YYYY/MM/DD")))
           </div> */}
 
             <div className="border mx-3 border-gray-200 rounded-md px-3 py-4">
-              <form className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-4">
                 <div className="mb-2 text-left items-center">
-                  <label className="inline-block w-full text-left text-gray-500 font-semibold required mx-2 mb-1 text-xs">
+                  <label className="inline-block w-full text-left text-gray-500 font-semibold  mx-2 mb-1 text-xs">
                     Account Name
                   </label>
                   <input
-                    required
+                    
                     autoComplete="off"
                     placeholder="Enter account holder name"
                     name="bankDetails.accountName"
@@ -524,11 +524,11 @@ console.log((dayjs(responseData?.dueDate).format("YYYY/MM/DD")))
                   />
                 </div>
                 <div className="mb-2 text-left items-center">
-                  <label className="inline-block w-full text-left text-gray-500 font-semibold required mx-2 mb-1 text-xs">
+                  <label className="inline-block w-full text-left text-gray-500 font-semibold  mx-2 mb-1 text-xs">
                     A/C number
                   </label>
                   <input
-                    required
+                    
                     autoComplete="off"
                     placeholder="Enter a/c number"
                     name="bankDetails.accountNumber"
@@ -539,11 +539,11 @@ console.log((dayjs(responseData?.dueDate).format("YYYY/MM/DD")))
                   />
                 </div>
                 <div className="mb-2 text-left items-center">
-                  <label className="inline-block w-full text-left text-gray-500 font-semibold required mx-2 mb-1 text-xs">
+                  <label className="inline-block w-full text-left text-gray-500 font-semibold  mx-2 mb-1 text-xs">
                     A/C Holder Name
                   </label>
                   <input
-                    required
+                    
                     autoComplete="off"
                     placeholder="Enter a/c holder name"
                     name="bankDetails.accountHolderName"
@@ -554,11 +554,11 @@ console.log((dayjs(responseData?.dueDate).format("YYYY/MM/DD")))
                   />
                 </div>
                 <div className="mb-1 text-left items-center">
-                  <label className="inline-block w-full text-left text-gray-500 font-semibold required mx-2 mb-1 text-xs">
+                  <label className="inline-block w-full text-left text-gray-500 font-semibold  mx-2 mb-1 text-xs">
                     Swift Address:
                   </label>
                   <input
-                    required
+                    
                     autoComplete="off"
                     placeholder="Enter swift address"
                     name="bankDetails.swiftAddress"
@@ -569,11 +569,11 @@ console.log((dayjs(responseData?.dueDate).format("YYYY/MM/DD")))
                   />
                 </div>
                 <div className="mb-1 col-span-2 text-left items-center">
-                  <label className="inline-block w-full text-left text-gray-500 font-semibold required mx-2 mb-1 text-xs">
+                  <label className="inline-block w-full text-left text-gray-500 font-semibold  mx-2 mb-1 text-xs">
                     Beneficiary Bank Address:
                   </label>
                   <input
-                    required
+                    
                     autoComplete="off"
                     placeholder="Enter bank address"
                     name="bankDetails.bankAddress"
@@ -583,7 +583,7 @@ console.log((dayjs(responseData?.dueDate).format("YYYY/MM/DD")))
                     type="text"
                   />
                 </div>
-              </form>
+              </div>
               {/* 
             <div className="mb-1 text-center items-center">
               <p className="bg-green-100 rounded my-2 text-green-700 text-xs font-semibold py-3 px-4 text-left">

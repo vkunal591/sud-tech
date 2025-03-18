@@ -12,7 +12,8 @@ import dayjs from "dayjs";
 
 interface RowData {
   _id: string;
-  status?: string
+  status?: string;
+  dueDate?: string;
 }
 
 interface OperationsAllowed {
@@ -48,6 +49,7 @@ const Actions: React.FC<ActionsProps> = ({
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [selectIdForDeletion, setSelectIdForDeletion] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [dueDate, setDueDate] = useState<any>("")
 
 
   const handleEdit = async (id?: string) => {
@@ -79,7 +81,7 @@ const Actions: React.FC<ActionsProps> = ({
   //   dueDateTo: dayjs(currentData).format("YYYY-MM-DD"),
   //   status: "Unpaid"
   // };
-  const notificationRange = type === "Notifications" ? `?dueDateFrom=${dayjs(currentData).subtract(3, 'day').format("YYYY-MM-DD")}&dueDateTo=${dayjs(currentData).format("YYYY-MM-DD")}&status=Unpaid` : "";
+  const notificationRange = type === "Notifications" ? `?dueDateFrom=${dayjs(currentData).format("YYYY-MM-DD")}&dueDateTo=${dayjs(currentData).add(3, 'day').format("YYYY-MM-DD")}&status=Unpaid` : "";
 
 
   const handleDelete = async (id: string) => {
@@ -172,13 +174,13 @@ const Actions: React.FC<ActionsProps> = ({
           onClick={() => handleInvoice(row._id)}
           className="text-green-700 ml-1 text-xl hover:scale-125 hover:p-1 hover:bg-green-100 p-1 rounded transition"
         >
-          <FaFileInvoiceDollar title="View Stock" />
+          <FaFileInvoiceDollar title="Generate Invoice" />
         </button>
       )}
 
       {operationsAllowed?.updateStatus && (
         <button
-          onClick={() => setIsOpen(true)}
+          onClick={() => { setDueDate(row?.dueDate); setIsOpen(true) }}
           className="text-green-700 ml-1 text-xl hover:scale-125 hover:p-1 hover:bg-green-100 p-1 rounded transition"
         >
           <GrUpdate title="Update Status" />
@@ -194,7 +196,7 @@ const Actions: React.FC<ActionsProps> = ({
           <FaRegFilePdf title="Download PDF" />
         </button>
       )}
-      <UpdateInvoiceForm isOpen={isOpen} fetchData={fetchUpdatedDataForStatusUpdateCustom} onClose={() => setIsOpen(false)} invoiceId={row?._id} currentStatus={row?.status} />
+      <UpdateInvoiceForm isOpen={isOpen} fetchData={fetchUpdatedDataForStatusUpdateCustom} onClose={() => setIsOpen(false)} invoiceId={row?._id} currentStatus={row?.status} currentDueDate={dueDate} />
     </>
   );
 };

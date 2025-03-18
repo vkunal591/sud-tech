@@ -59,6 +59,7 @@ export interface FormField {
     | "stringNumeric"
     | "stringNumeric"
     | "productForm"
+    | "group"
     | "array";
   value?: any;
   rows?: number;
@@ -80,4 +81,5 @@ export interface FormField {
   confirmPlaceholder?: string;
   validation?: (value: any) => string | null;
   isDisabled?: boolean;
+  fields?:any[]
 }

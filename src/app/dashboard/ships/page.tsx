@@ -60,28 +60,10 @@ const columns = [
     sortable: true,
     isDate: true,
   },
-  {
-    key: "vendorInvoiceToSUD",
-    label: "Vendor Invoice To SUD",
-    sortable: true,
-    isCurrency: "$",
-  },
-  {
-    key: "vendorActualPaymentDate",
-    label: "Vendor Actual Payment Date",
-    sortable: true,
-    isDate: true,
-  },
   { key: "remarks", label: "Remarks", sortable: true },
   { key: "createdAt", label: "Creation Date", sortable: true, isDate: true },
 ];
 const filterOptions = [
-  { label: "Vessel IMO NO", value: "no" },
-  { label: "Cont. Name", value: "name" },
-  { label: "Email ID", value: "email" },
-  { label: "Cont. Number", value: "mobileNo" },
-  { label: "Category", value: "ledgerType" },
-  { label: "Comp. Name", value: "companyName" },
   { label: "State", value: "state" },
 ];
 

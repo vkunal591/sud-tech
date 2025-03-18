@@ -1,12 +1,22 @@
-import { useState } from "react";
+import dayjs from "dayjs";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-export default function UpdateInvoiceForm({ isOpen, onClose, invoiceId, currentStatus,fetchData }: any) {
+export default function UpdateInvoiceForm({ isOpen, onClose, invoiceId, currentStatus, fetchData, currentDueDate }: any) {
     const [status, setStatus] = useState(currentStatus);
     const [loading, setLoading] = useState(false);
+    const [dueDate, setDueDate] = useState(currentDueDate)
     const [error, setError] = useState("");
+    useEffect(() => {
+        if (currentDueDate) {
+            setDueDate(dayjs(currentDueDate).format("YYYY-MM-DD"));
+        }
+    }, [currentDueDate]);
 
+    console.log(currentDueDate)
     const handleUpdate = async () => {
+        console.log(currentDueDate)
+
         setLoading(true);
         setError("");
 
@@ -14,12 +24,14 @@ export default function UpdateInvoiceForm({ isOpen, onClose, invoiceId, currentS
             const res = await fetch(`/api/invoice/${invoiceId}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ status }),
+                body: JSON.stringify({ status, dueDate }),
             });
 
             const data = await res.json();
             if (res.ok) {
                 toast.success("Invoice Updated Successfully")
+                setDueDate("")
+                setStatus("")
                 fetchData()
                 onClose(true); // Close modal & trigger refresh if needed
             }
@@ -53,6 +65,8 @@ export default function UpdateInvoiceForm({ isOpen, onClose, invoiceId, currentS
                     <option value="Overdue">Overdue</option>
 
                 </select>
+                <label className="block text-sm text-left font-medium text-gray-700">Due Date</label>
+                <input type="date" name="dueDate" value={dueDate} onChange={(e) => setDueDate(e.target.value)} className="" placeholder="Due Date" />
 
                 <div className="flex justify-end gap-2 mt-4">
                     <button onClick={() => onClose(false)} className="px-4 py-2 bg-gray-300 rounded">

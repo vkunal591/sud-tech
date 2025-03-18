@@ -22,7 +22,7 @@ export async function GET(req, { params }) {
 export async function PUT(req, { params }) {
   await dbConnect();
   
-  const { status } = await req.json(); // Extract only the 'status' field
+  const { status ,dueDate} = await req.json(); // Extract only the 'status' field
   
   // if (!status) {
   //   return NextResponse.json({ error: "Status is required" }, { status: 400 });
@@ -30,7 +30,7 @@ export async function PUT(req, { params }) {
 
   const updatedInvoice = await InvoiceModel.findByIdAndUpdate(
     params.id,
-    { status }, // Update only the status field
+    { status,dueDate }, // Update only the status field
     { new: true, runValidators: true } // Ensure updated document is returned & validation runs
   );
 

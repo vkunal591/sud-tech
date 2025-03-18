@@ -1,42 +1,39 @@
 import { FormField } from "@/hooks/types";
-import { includes } from "@/hooks/polyfills";
-import { bankNames, countries } from "@/data/data";
-import { getSelectFormattedData } from "@/hooks/general";
 
 export const ShipType: FormField[] = [
   { type: "br", name: "shipDetails", label: "Ship Details", widthFull: true },
   {
     name: "vesselName",
     type: "text",
-    required: true,
+
     label: "Vessel Name",
     placeholder: "Enter Vessel Name",
   },
   {
     name: "vesselImoNo",
     type: "text",
-    required: true,
+
     label: "Vessel (IMO NO)",
     placeholder: "Enter Vessel IMO No",
   },
   {
     name: "companyName",
     type: "text",
-    required: true,
+
     label: "Company Name",
     placeholder: "Enter company name",
   },
   {
     name: "yardName",
     type: "text",
-    required: true,
+
     label: "Yard Name",
     placeholder: "Enter yard name",
   },
   {
     name: "repairedMonth",
     type: "text",
-    required: true,
+
     label: "Repaired Month",
     placeholder: "Enter repaired month",
   },
@@ -49,7 +46,7 @@ export const ShipType: FormField[] = [
   {
     name: "invoiceNumber",
     type: "text",
-    required: true,
+
     label: "Invoice Number",
     placeholder: "Enter invoice number",
   },
@@ -57,35 +54,35 @@ export const ShipType: FormField[] = [
   {
     name: "sudInvoiceToOwners",
     type: "text",
-    required: true,
+
     label: "SUD Invoice to Owners (USD) CR",
     placeholder: "Enter SUD Invoice Amount",
   },
   {
     name: "actualPaymentDate",
     type: "text",
-    required: true,
+
     label: "Actual Payment Date",
     placeholder: "Select actual payment date",
   },
   {
     name: "actualPayment",
     type: "text",
-    required: true,
+
     label: "Actual Payment",
     placeholder: "Enter actual payment",
   },
   {
     name: "bankCharges",
     type: "text",
-    required: true,
+
     label: "Bank Charges",
     placeholder: "Enter bank charges",
   },
   {
     name: "dueDate",
     type: "date",
-    required: true,
+
     label: "Due Date",
     placeholder: "Select due date",
   },
@@ -98,21 +95,21 @@ export const ShipType: FormField[] = [
   {
     name: "yardInvoiceToSUD",
     type: "text",
-    required: true,
+
     label: "Yard Invoice To SUD",
     placeholder: "Enter yard invoice to SUD",
   },
   {
     name: "yardActualPaymentDate",
     type: "text",
-    required: true,
+
     label: "Yard Actual Payment Date",
     placeholder: "Select yard actual payment date",
   },
   {
     name: "yardPaymentDueDate",
     type: "text",
-    required: true,
+
     label: "Yard Payment Due Date",
     placeholder: "Select yard payment due date",
   },
@@ -123,102 +120,40 @@ export const ShipType: FormField[] = [
     widthFull: true,
   },
   {
-    name: "vendorInvoiceToSUD",
-    type: "text",
-    required: true,
-    label: "Vendor Invoice To SUD Amount",
-    placeholder: "Enter vendor invoice to SUD",
-  },
-  {
-    name: "vendorActualPaymentDate",
-    type: "text",
-    required: true,
-    label: "Vendor Actual Payment Date",
-    placeholder: "Select vendor actual payment date",
-  },
-  {
-    name: "vendorPaymentDueDate",
-    type: "text",
-    required: true,
-    label: "Vendor Payment Due Date",
-    placeholder: "Select vendor payment due date",
-  },
-  { type: "br", name: "address", label: "Address Details", widthFull: true },
-  {
-    name: "street",
-    type: "text",
-    label: "Street Address",
-    placeholder: "Enter street address",
-  },
-  {
-    name: "landmark",
-    type: "text",
-    label: "Landmark",
-    placeholder: "Enter landmark",
-  },
-  {
-    name: "city",
-    type: "text",
-    required: true,
-    label: "City",
-    placeholder: "Enter city",
-  },
-  {
-    name: "state",
-    type: "text",
-    required: true,
-    label: "State",
-    placeholder: "Enter state",
-  },
-  {
-    name: "pinCode",
-    type: "text",
-    required: true,
-    maxLength: 15,
-    label: "Pin Code",
-    placeholder: "Enter pin code",
-  },
-  {
-    name: "country",
-    type: "select",
-    required: true,
-    label: "Country",
-    placeholder: "Select Country",
-    options: getSelectFormattedData(countries),
-  },
-  { type: "br", name: "bank", label: "Bank Details", widthFull: true },
-  {
-    name: "accountNo",
-    type: "text",
-    label: "Account Number",
-    placeholder: "Enter account number",
-  },
-  {
-    name: "bankName",
-    type: "text",
-    required: true,
-    label: "Bank Name",
-    placeholder: "Enter bank name",
-    // options: getSelectFormattedData(bankNames),
-  },
-  {
-    name: "ifscCode",
-    type: "text",
-    label: "IFSC Code",
-    placeholder: "Enter IFSC Code",
-  },
-  {
-    name: "branchAddress",
-    type: "text",
-    label: "Branch Address",
-    placeholder: "Enter branch address",
-    widthFull: true
-  },
-  {
     name: "remarks",
     type: "text",
     label: "Remarks",
     placeholder: "Enter remarks",
     widthFull: true
+  },
+  {
+    name: "vendorDetails",
+    type: "group",
+    label: "Vendor Details",
+    placeholder: "Enter Vendor Details",
+    widthFull: true,
+    fields: [
+      {
+        name: "vendorInvoiceToSUD",
+        type: "text",
+
+        label: "Vendor Invoice To SUD Amount",
+        placeholder: "Enter vendor invoice to SUD",
+      },
+      {
+        name: "vendorActualPaymentDate",
+        type: "text",
+
+        label: "Vendor Actual Payment Date",
+        placeholder: "Select vendor actual payment date",
+      },
+      {
+        name: "vendorPaymentDueDate",
+        type: "text",
+
+        label: "Vendor Payment Due Date",
+        placeholder: "Select vendor payment due date",
+      },
+    ]
   },
 ];
