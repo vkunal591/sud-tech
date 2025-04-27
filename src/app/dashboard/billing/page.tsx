@@ -10,7 +10,7 @@ import { getAccessPoints } from "@/hooks/general";
 import TableComponent from "@/components/common/Table";
 
 const columns = [
-  { key: "_id", label: "Invoice ID", sortable: false },
+  // { key: "_id", label: "Invoice ID", sortable: false },
   { key: "invoiceNumber", label: "Invoice Number", sortable: true },
   { key: "vesselImoNo", label: "Vessel IMO Number", sortable: true },
   { key: "vesselName", label: "Invoice Name", sortable: true },

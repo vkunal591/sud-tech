@@ -108,7 +108,7 @@ export const ShipType: FormField[] = [
   },
   {
     name: "yardPaymentDueDate",
-    type: "text",
+    type: "date",
 
     label: "Yard Payment Due Date",
     placeholder: "Select yard payment due date",
@@ -119,13 +119,7 @@ export const ShipType: FormField[] = [
     label: "Vendor To SUD Payment (Invoice) Details",
     widthFull: true,
   },
-  {
-    name: "remarks",
-    type: "text",
-    label: "Remarks",
-    placeholder: "Enter remarks",
-    widthFull: true
-  },
+
   {
     name: "vendorDetails",
     type: "group",
@@ -154,6 +148,13 @@ export const ShipType: FormField[] = [
         label: "Vendor Payment Due Date",
         placeholder: "Select vendor payment due date",
       },
-    ]
+    ],
+  },
+  {
+    name: "remarks",
+    type: "text",
+    label: "Remarks",
+    placeholder: "Enter remarks",
+    widthFull: true,
   },
 ];

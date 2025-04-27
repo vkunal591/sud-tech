@@ -12,12 +12,12 @@ import dayjs from "dayjs";
 
 
 const columns = [
-  // { key: "_id", label: "Invoice ID", sortable: false },
+  // { key: "_id", label: "Invoice ID", sortable: false }, 
   { key: "invoiceNumber", label: "Invoice Number", sortable: true },
   { key: "vesselImoNo", label: "Vessel IMO Number", sortable: true },
   { key: "vesselName", label: "Invoice Name", sortable: true },
   { key: "invoiceDate", label: "Invoice Date", sortable: true,isDate:true },
-  { key: "dueDate", label: "Due Date", sortable: true ,isDate:true},
+  { key: "yardPaymentDueDate", label: "Yard Payment Due Date", sortable: true ,isDate:true},
   { key: "totalAmount", label: "Total Amount", sortable: true, isCurrency:"$" },
   { key: "status", label: "Status", sortable: true,status:true },
   { key: "createdAt", label: "Created At", sortable: true,isDate:true },
@@ -34,13 +34,13 @@ const filterOptions = [
 ];
 
 const currentData = new Date();
-const notificationRange = `?dueDateFrom=${dayjs(currentData).format("YYYY-MM-DD")}&dueDateTo=${dayjs(currentData).add(3, 'day').format("YYYY-MM-DD")}&status=Unpaid`
+const notificationRange = `?yardPaymentDueDateFrom=${dayjs(currentData).format("YYYY-MM-DD")}&yardPaymentDueDateTo=${dayjs(currentData).add(3, 'day').format("YYYY-MM-DD")}&status=Unpaid`
 
 const Users: React.FC = () => {
   const { data, loading, error } = useFetch(`${endpoints["Notifications"].fetchAll}${notificationRange}`);
   const updatedData = data?.data.result;
   const paginationData = data?.data?.pagination;
-
+console.log(data)
   const { user } = useAuth();
   const operationsAllowed = getAccessPoints(user, "Manage Notifications");
 

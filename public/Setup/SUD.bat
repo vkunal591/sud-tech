@@ -1,8 +1,8 @@
-@echo off
+[@echo off
 SETLOCAL
 
 :: Set the Next.js project path
-SET PROJECT_PATH=D:\Development\base-api-server
+SET PROJECT_PATH=D:\Kunal-WorkSpace\ReadDev\base-api-server
 
 :: Navigate to project directory
 cd /d "%PROJECT_PATH%" || (

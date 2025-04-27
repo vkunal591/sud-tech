@@ -226,4 +226,13 @@ export const tabs = [
     pageTitle: "Manage Notifications",
     permission: "Manage Notifications",
   },
+  {
+    id: 19,
+    tabs: [],
+    icon: MdNotificationImportant,
+    label: "Yard Notifications",
+    href: "/dashboard/yard-notifications",
+    pageTitle: "Manage Yard Notifications",
+    permission: "Manage Notifications",
+  },
 ];

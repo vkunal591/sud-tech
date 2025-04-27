@@ -1,7 +1,7 @@
 "use client";
 
 import { Fetch } from "@/hooks/apiUtils";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Loader from "@/components/common/Loader";
 import React, {
   createContext,
@@ -23,6 +23,7 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
+  const pathname = usePathname();
   const navigate = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
   const [user, setUser] = useState<object | null>(null);
@@ -35,8 +36,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   useEffect(() => {
     const fetchUser = async (sharedToken: string) => {
       const adminToken = localStorage.getItem("adminToken");
-      const userDetails:any = localStorage.getItem("userData");
-      setLoading(false)
+      const userDetails: any = localStorage.getItem("userData");
+      setLoading(false);
 
       try {
         // const endpoint = "api/user/get-current-user";
@@ -47,10 +48,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
           console.log(parsedUserDetails);
           setToken(adminToken);
           setUser(parsedUserDetails);
-          return navigate.replace("/dashboard");
+          return navigate.replace(pathname);
         }
-        const response: { success: boolean; data: any; message: string } = { success: true, data: JSON.parse(userDetails), message: "User found" };
-
+        const response: { success: boolean; data: any; message: string } = {
+          success: true,
+          data: JSON.parse(userDetails),
+          message: "User found",
+        };
 
         if (response?.success && response?.data) {
           setLoading(false);

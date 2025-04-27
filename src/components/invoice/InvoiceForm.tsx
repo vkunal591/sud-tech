@@ -12,9 +12,9 @@ import { useRouter } from "next/navigation";
 import dayjs from "dayjs";
 
 const InvoiceForm = ({ responseData }: any) => {
-  const route = useRouter()
-  const [submitting, setSubmitting] = useState(false)
-  const [data, setData] = useState<any>()
+  const route = useRouter();
+  const [submitting, setSubmitting] = useState(false);
+  const [data, setData] = useState<any>();
   const [formData, setFormData] = useState({
     invoiceNumber: responseData?.invoiceNumber || "",
     invoiceDate: "",
@@ -25,7 +25,8 @@ const InvoiceForm = ({ responseData }: any) => {
     vesselName: responseData?.vesselName || "",
     vesselNumber: responseData?.vesselImoNo || "",
     co: responseData?.companyName || "",
-    dueDate: (dayjs(responseData?.dueDate).format("YYYY/MM/DD")) || "",
+    dueDate: dayjs(responseData?.dueDate).format("YYYY/MM/DD") || "",
+    yardPaymentDueDate: dayjs(responseData?.yardPaymentDueDate).format("YYYY/MM/DD") || "",
     totalAmount: responseData?.sudInvoiceToOwners || "",
     totalAmountInWords: "",
     mailMessage: "",
@@ -60,7 +61,6 @@ const InvoiceForm = ({ responseData }: any) => {
       bankAddress: "",
     },
   });
-
 
   useEffect(() => {
     if (responseData) {
@@ -117,10 +117,16 @@ const InvoiceForm = ({ responseData }: any) => {
     });
   };
 
-  console.log(formData?.dueDate, "MKMMML", responseData?.dueDate, "LLLLL", (dayjs(responseData?.dueDate, 'DD/MM/YYYY').format("DD-MM-YYYY")))
+  console.log(
+    formData?.dueDate,
+    "MKMMML",
+    responseData?.dueDate,
+    "LLLLL",
+    dayjs(responseData?.dueDate, "DD/MM/YYYY").format("DD-MM-YYYY")
+  );
 
   const handleSubmit = async (e: any) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
       const url = `/api/invoice`;
 
@@ -138,7 +144,7 @@ const InvoiceForm = ({ responseData }: any) => {
         const fetchUrl = `/api/invoice?page=1&limit=10`;
         const resp = await fetch(fetchUrl);
         const data = await resp.json();
-        route.push("/dashboard/billing")
+        route.push("/dashboard/billing");
         // if (data?.invoices) props?.setFilteredData(data.invoices);
         // if (data?.total) props?.setPaginate({ total: data.total, page: data.page, limit: data.limit });
       } else {
@@ -153,7 +159,7 @@ const InvoiceForm = ({ responseData }: any) => {
     }
   };
 
-  console.log((dayjs(responseData?.dueDate).format("YYYY/MM/DD")))
+  console.log(dayjs(responseData?.dueDate).format("YYYY/MM/DD"));
 
   return (
     <div className="lg:flex lg:gap-4 p-2 px-2">
@@ -166,7 +172,6 @@ const InvoiceForm = ({ responseData }: any) => {
                   Invoice No:
                 </label>
                 <input
-                  
                   autoComplete="off"
                   placeholder="Enter your invoice number"
                   className="w-3/4 text-primary outline text-sm outline-gray-100 px-4 py-1 placeholder:text-gray-400 bg-white rounded"
@@ -181,9 +186,8 @@ const InvoiceForm = ({ responseData }: any) => {
                   Payment No:
                 </label>
                 <input
-                  
                   autoComplete="off"
-                  placeholder="Enter your invoice number"
+                  placeholder=""
                   className="w-3/4 text-primary outline text-sm outline-gray-100 px-4 py-1 placeholder:text-gray-400 bg-white rounded"
                   type="text"
                   name="paymentNumber"
@@ -194,9 +198,8 @@ const InvoiceForm = ({ responseData }: any) => {
               <div className="flex mb-2">
                 <label className="inline-block w-1/4 mb-1 text-sm">To:</label>
                 <input
-                  
                   autoComplete="off"
-                  placeholder="Enter your Invoice no"
+                  placeholder=""
                   className="w-3/4 text-primary outline text-sm outline-gray-100 px-4 py-1 placeholder:text-gray-400 bg-white rounded"
                   type="text"
                   name="to"
@@ -211,7 +214,6 @@ const InvoiceForm = ({ responseData }: any) => {
                   Issued Date:
                 </label>
                 <input
-                  
                   autoComplete="off"
                   placeholder="Enter your Invoice Date"
                   className="w-3/4 text-primary outline text-sm outline-gray-100 px-4 py-1 placeholder:text-gray-400 bg-white rounded"
@@ -226,7 +228,6 @@ const InvoiceForm = ({ responseData }: any) => {
                   Vessel IMO No:
                 </label>
                 <input
-                  
                   autoComplete="off"
                   placeholder="Enter your vessel no"
                   className="w-3/4 text-primary outline text-sm outline-gray-100 px-4 py-1 placeholder:text-gray-400 bg-white rounded"
@@ -241,7 +242,6 @@ const InvoiceForm = ({ responseData }: any) => {
                   Vessel Name:
                 </label>
                 <input
-                  
                   autoComplete="off"
                   placeholder="Enter your vessel name"
                   className="w-3/4 text-primary outline text-sm outline-gray-100 px-4 py-1 placeholder:text-gray-400 bg-white rounded"
@@ -254,9 +254,8 @@ const InvoiceForm = ({ responseData }: any) => {
               <div className="flex mb-2">
                 <label className="inline-block w-1/4 mb-1 text-sm">C/O:</label>
                 <input
-                  
                   autoComplete="off"
-                  placeholder="Enter your Invoice Date"
+                  placeholder=""
                   className="w-3/4 text-primary outline text-sm outline-gray-100 px-4 py-1 placeholder:text-gray-400 bg-white rounded"
                   type="text"
                   name="co"
@@ -269,8 +268,6 @@ const InvoiceForm = ({ responseData }: any) => {
           <Image src="/next.svg" alt="logo" width={85} height={75} className="inline" />
         </div> */}
           </div>
-
-
 
           <div className="grid grid-cols-2 gap-4 mt-4">
             <div>
@@ -415,22 +412,23 @@ const InvoiceForm = ({ responseData }: any) => {
                 Due Date :
               </label>
               <input
-                
                 placeholder="Due date"
                 className="lg:w-2/4 text-primary outline text-sm outline-gray-100 px-4 py-2 placeholder:text-gray-400 bg-white rounded"
                 type="date"
                 name="dueDate"
-                value={formData?.dueDate ? dayjs(formData.dueDate, "DD/MM/YYYY").format("YYYY-MM-DD") : ""}
+                value={
+                  formData?.dueDate
+                    ? dayjs(formData.dueDate, "DD/MM/YYYY").format("YYYY-MM-DD")
+                    : ""
+                }
                 onChange={handleChange}
               />
-
             </div>
             <div className="mb-2">
               <label className="inline-block lg:w-2/4 mb-1 text-md font-semibold">
                 Total Amount ($)
               </label>
               <input
-                
                 autoComplete="off"
                 placeholder="Total Amount"
                 className="lg:w-2/4 text-primary outline text-sm outline-gray-100 px-4 py-2 placeholder:text-gray-400 bg-white rounded"
@@ -445,9 +443,8 @@ const InvoiceForm = ({ responseData }: any) => {
                 {"Total Amount In Word (USD)"}
               </label>
               <input
-                
                 autoComplete="off"
-                placeholder="Total Amount"
+                placeholder="Total Amount In Word(USD)"
                 className="lg:w-2/4 text-primary outline text-sm outline-gray-100 px-4 py-2 placeholder:text-gray-400 bg-white rounded"
                 type="text"
                 name="totalAmountInWords"
@@ -513,7 +510,6 @@ const InvoiceForm = ({ responseData }: any) => {
                     Account Name
                   </label>
                   <input
-                    
                     autoComplete="off"
                     placeholder="Enter account holder name"
                     name="bankDetails.accountName"
@@ -528,7 +524,6 @@ const InvoiceForm = ({ responseData }: any) => {
                     A/C number
                   </label>
                   <input
-                    
                     autoComplete="off"
                     placeholder="Enter a/c number"
                     name="bankDetails.accountNumber"
@@ -540,15 +535,17 @@ const InvoiceForm = ({ responseData }: any) => {
                 </div>
                 <div className="mb-2 text-left items-center">
                   <label className="inline-block w-full text-left text-gray-500 font-semibold  mx-2 mb-1 text-xs">
-                    A/C Holder Name
+                    Benificiary Bank Name
                   </label>
                   <input
-                    
                     autoComplete="off"
                     placeholder="Enter a/c holder name"
                     name="bankDetails.accountHolderName"
                     value={formData?.bankDetails?.accountHolderName}
-                    onChange={(e) => { handleChange(e); console.log(e.target.value) }}
+                    onChange={(e) => {
+                      handleChange(e);
+                      console.log(e.target.value);
+                    }}
                     className={`w-full text-primary outline text-sm  outline-gray-200 px-4 py-2 placeholder:text-gray-400 bg-white rounded`}
                     type="text"
                   />
@@ -558,7 +555,6 @@ const InvoiceForm = ({ responseData }: any) => {
                     Swift Address:
                   </label>
                   <input
-                    
                     autoComplete="off"
                     placeholder="Enter swift address"
                     name="bankDetails.swiftAddress"
@@ -573,7 +569,6 @@ const InvoiceForm = ({ responseData }: any) => {
                     Beneficiary Bank Address:
                   </label>
                   <input
-                    
                     autoComplete="off"
                     placeholder="Enter bank address"
                     name="bankDetails.bankAddress"
@@ -614,7 +609,10 @@ const InvoiceForm = ({ responseData }: any) => {
               {/* <button className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">
               Preview
             </button> */}
-              <button className="p-2 bg-primary flex text-white rounded" type="submit" >
+              <button
+                className="p-2 bg-primary flex text-white rounded"
+                type="submit"
+              >
                 Save Invoice{" "}
                 <IoSend width={15} height={15} className="m-auto ml-2" />
               </button>

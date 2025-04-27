@@ -8,6 +8,7 @@ const Schema = new mongoose.Schema({
     co: { type: String,  },
     to: { type: String,  },
     dueDate: { type: Date,  },
+    yardPaymentDueDate: { type: Date,  },
     totalAmount: { type: Number,  },
     totalAmountInWords: { type: String },
     status: {

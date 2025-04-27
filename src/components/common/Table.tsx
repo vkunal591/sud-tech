@@ -72,7 +72,7 @@ const TableComponent = <T extends { [key: string]: any }>({
   const [formConfig, setFormConfig] = useState<any>("");
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [filteredData, setFilteredData] = useState<Array<T>>(data ?? []);
-  const path = usePathname()
+  const path = usePathname();
 
   const handleCloseModal = () => {
     setFormConfig("");
@@ -132,14 +132,28 @@ const TableComponent = <T extends { [key: string]: any }>({
     };
 
     const currentData = new Date();
-    const notificationRange = `?dueDateFrom=${dayjs(currentData).format("YYYY-MM-DD")}&dueDateTo=${dayjs(currentData).add(3, 'day').format("YYYY-MM-DD")}&status=Unpaid`
-    
+    const notificationRange = `?dueDateFrom=${dayjs(currentData).format(
+      "YYYY-MM-DD"
+    )}&dueDateTo=${dayjs(currentData)
+      .add(4, "day")
+      .format("YYYY-MM-DD")}&status=Unpaid`;
+
     const notificationParams: Record<string, any> = {
       page: data.current,
       limit: data.limit,
-      dueDateFrom:dayjs(currentData).format("YYYY-MM-DD"),
-      dueDateTo:dayjs(currentData).add(3, 'day').format("YYYY-MM-DD"),
-      status:"Unpaid"
+      dueDateFrom: dayjs(currentData).format("YYYY-MM-DD"),
+      dueDateTo: dayjs(currentData).add(4, "day").format("YYYY-MM-DD"),
+      status: "Unpaid",
+    };
+
+    const yardNotificationParams: Record<string, any> = {
+      page: data.current,
+      limit: data.limit,
+      yardPaymentDueDateFrom: dayjs(currentData).format("YYYY-MM-DD"),
+      yardPaymentDueDateTo: dayjs(currentData)
+        .add(5, "day")
+        .format("YYYY-MM-DD"),
+      status: "Unpaid",
     };
 
     // Add status if applicable
@@ -177,7 +191,11 @@ const TableComponent = <T extends { [key: string]: any }>({
       try {
         const response: any = await Fetch(
           `http://localhost:3000/${fetchEndpoint}`,
-          operationsAllowed?.custome?notificationParams:params,
+          operationsAllowed?.custome
+            ? path === "/dashboard/notifications"
+              ? notificationParams
+              : yardNotificationParams
+            : params,
           5000,
           true,
           false
@@ -193,10 +211,9 @@ const TableComponent = <T extends { [key: string]: any }>({
   };
 
   useEffect(() => {
-    fetchFilteredData()
-        
-  }, [path])
-  
+    fetchFilteredData();
+  }, [path]);
+
   useEffect(() => {
     if (isModalVisible) {
       document.body.style.overflow = "hidden"; // prevent overflow

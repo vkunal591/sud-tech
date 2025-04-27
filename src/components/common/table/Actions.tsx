@@ -3,7 +3,13 @@ import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { endpoints } from "@/data/endpoints";
 import { Delete, Fetch } from "@/hooks/apiUtils";
-import { FaEye, FaEdit, FaTrash, FaFileInvoiceDollar, FaRegFilePdf } from "react-icons/fa";
+import {
+  FaEye,
+  FaEdit,
+  FaTrash,
+  FaFileInvoiceDollar,
+  FaRegFilePdf,
+} from "react-icons/fa";
 import ConfirmationModal from "@/components/crud/ConfirmationModal";
 import UpdateInvoiceForm from "@/components/crud/UpdateInvoiceForm";
 import { GrUpdate } from "react-icons/gr";
@@ -14,6 +20,7 @@ interface RowData {
   _id: string;
   status?: string;
   dueDate?: string;
+  yardPaymentDueDate?: string;
 }
 
 interface OperationsAllowed {
@@ -49,8 +56,8 @@ const Actions: React.FC<ActionsProps> = ({
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [selectIdForDeletion, setSelectIdForDeletion] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [dueDate, setDueDate] = useState<any>("")
-
+  const [dueDate, setDueDate] = useState<any>("");
+  const [yardPaymentDueDate, setYardPaymentDueDate] = useState<any>("");
 
   const handleEdit = async (id?: string) => {
     if (!id) return;
@@ -81,8 +88,22 @@ const Actions: React.FC<ActionsProps> = ({
   //   dueDateTo: dayjs(currentData).format("YYYY-MM-DD"),
   //   status: "Unpaid"
   // };
-  const notificationRange = type === "Notifications" ? `?dueDateFrom=${dayjs(currentData).format("YYYY-MM-DD")}&dueDateTo=${dayjs(currentData).add(3, 'day').format("YYYY-MM-DD")}&status=Unpaid` : "";
-
+  const notificationRange =
+    type === "Notifications"
+      ? `?dueDateFrom=${dayjs(currentData).format(
+          "YYYY-MM-DD"
+        )}&dueDateTo=${dayjs(currentData)
+          .add(4, "day")
+          .format("YYYY-MM-DD")}&status=Unpaid`
+      : "";
+  const yardNotificationRange =
+    type === "Notifications"
+      ? `?yardPaymentDueDateFrom=${dayjs(currentData).format(
+          "YYYY-MM-DD"
+        )}&yardPaymentDueDateTo=${dayjs(currentData)
+          .add(5, "day")
+          .format("YYYY-MM-DD")}&status=Unpaid`
+      : "";
 
   const handleDelete = async (id: string) => {
     if (!id) return;
@@ -92,7 +113,11 @@ const Actions: React.FC<ActionsProps> = ({
       if (!showDeleteModal) return setShowDeleteModal(true);
 
       const deleteEndpoint = endpoints[type]?.delete;
-      const fetchEndpoint = `${endpoints[type]?.fetchAll}${notificationRange}`;
+      const fetchEndpoint = `${endpoints[type]?.fetchAll}${
+        pathname === "/dashboard/notifications"
+          ? notificationRange
+          : yardNotificationRange
+      }`;
 
       if (deleteEndpoint && fetchEndpoint) {
         await Delete(`${deleteEndpoint}${id}`);
@@ -135,7 +160,7 @@ const Actions: React.FC<ActionsProps> = ({
         setPaginate(response?.data?.pagination);
       } else window.location.reload();
     }
-  }
+  };
   return (
     <>
       <Modal isVisible={showDeleteModal} onClose={handleDeleteModal}>
@@ -180,13 +205,16 @@ const Actions: React.FC<ActionsProps> = ({
 
       {operationsAllowed?.updateStatus && (
         <button
-          onClick={() => { setDueDate(row?.dueDate); setIsOpen(true) }}
+          onClick={() => {
+            setDueDate(row?.dueDate);
+            setYardPaymentDueDate(row?.yardPaymentDueDate);
+            setIsOpen(true);
+          }}
           className="text-green-700 ml-1 text-xl hover:scale-125 hover:p-1 hover:bg-green-100 p-1 rounded transition"
         >
           <GrUpdate title="Update Status" />
         </button>
       )}
-
 
       {operationsAllowed?.print && (
         <button
@@ -196,7 +224,15 @@ const Actions: React.FC<ActionsProps> = ({
           <FaRegFilePdf title="Download PDF" />
         </button>
       )}
-      <UpdateInvoiceForm isOpen={isOpen} fetchData={fetchUpdatedDataForStatusUpdateCustom} onClose={() => setIsOpen(false)} invoiceId={row?._id} currentStatus={row?.status} currentDueDate={dueDate} />
+      <UpdateInvoiceForm
+        isOpen={isOpen}
+        fetchData={fetchUpdatedDataForStatusUpdateCustom}
+        onClose={() => setIsOpen(false)}
+        invoiceId={row?._id}
+        currentStatus={row?.status}
+        currentDueDate={dueDate}
+        currentYardPaymentDueDate={yardPaymentDueDate}
+      />
     </>
   );
 };

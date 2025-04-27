@@ -174,7 +174,7 @@ export const handleDownloadPDF = async (formData: any) => {
   doc.text(`PAYMENT TERMS IS AS FOLLOWS.`, 20, 160);
   doc.setLineWidth(0.2);
   doc.line(20, 161, 80, 161);
-  const paymentInWord = `FIRST PAYMENT: USD ${formData?.totalAmount + " " + formData?.totalAmountInWords}`.toUpperCase();
+  const paymentInWord = `${formData?.paymentNumber} PAYMENT: USD ${formData?.totalAmount + " " + formData?.totalAmountInWords}`.toUpperCase();
 
 
   const paymentInWordText = doc.splitTextToSize(paymentInWord, maxWidth);

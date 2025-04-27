@@ -127,12 +127,11 @@ const Table: React.FC<TableProps> = ({
         </>
       );
     }
-
-    if (col.key === "_id") return value?.slice(-8);
+    if (col.key === "_id") return null;
+    // if (col.key === "_id") return value?.slice(-8);
     if (col.isDate && value) return dayjs(value).format("YYYY-MM-DD");
     if (col.isCurrency && value) return `${col.isCurrency} ${value}`;
     if (col.isPercent) return `${value} ${col.isPercent}`;
-
 
     if (typeof value === "number") return value;
     if (typeof value === "boolean") return value.toString();
@@ -149,6 +148,9 @@ const Table: React.FC<TableProps> = ({
       <table className="min-w-full bg-white text-center">
         <thead>
           <tr className="whitespace-nowrap">
+            <th className="p-4 border text-left text-iconBlack border-info font-bold">
+              Sr. No.
+            </th>
             {columns.map((col) => (
               <th
                 key={col.key}
@@ -184,6 +186,9 @@ const Table: React.FC<TableProps> = ({
                 key={index}
                 className="border text-black border-info cursor-pointer"
               >
+                <th className="p-4 border text-left text-iconBlack border-info font-bold">
+                  {index + 1}
+                </th>
                 {columns.map((col) => (
                   <td
                     key={col.key}
@@ -191,17 +196,17 @@ const Table: React.FC<TableProps> = ({
                   >
                     {col.status ? (
                       <span
-                        className={`flex justify-center items-center rounded-md ${formatRowValue(row, col) === "true"
+                        className={`flex justify-center items-center rounded-md ${
+                          formatRowValue(row, col) === "true"
                             ? "bg-green-50 text-green-600"
                             : "bg-red-50 text-info-600"
-                          } px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-gray-500/10 ring-inset`}
+                        } px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-gray-500/10 ring-inset`}
                       >
                         {formatRowValue(row, col)}
                       </span>
                     ) : (
                       formatRowValue(row, col)
                     )}
-
                   </td>
                 ))}
                 {operationsAllowed?.read && (
