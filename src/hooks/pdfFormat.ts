@@ -62,7 +62,7 @@ interface Invoice {
   __v: number;
 }
 
-export const handleDownloadPDF = async (formData: Invoice) => {
+export const handleDownloadPDF = async (formData: any) => {
   const doc = new jsPDF();
   const maxWidth = 170;
 
