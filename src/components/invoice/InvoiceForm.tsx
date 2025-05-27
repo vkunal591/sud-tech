@@ -19,12 +19,12 @@ const InvoiceForm = ({ responseData }: any) => {
     invoiceNumber: responseData?.invoiceNumber || "",
     invoiceDate: "",
     paymentNumber: "",
-    to: "",
+    to: responseData?.companyName || "",
     issuedDate: "",
     vesselImoNo: responseData?.vesselImoNo || "",
     vesselName: responseData?.vesselName || "",
     vesselNumber: responseData?.vesselImoNo || "",
-    co: responseData?.companyName || "",
+    co: "",
     dueDate: dayjs(responseData?.dueDate).format("YYYY/MM/DD") || "",
     yardPaymentDueDate: dayjs(responseData?.yardPaymentDueDate).format("YYYY/MM/DD") || "",
     totalAmount: responseData?.sudInvoiceToOwners || "",
@@ -44,14 +44,14 @@ const InvoiceForm = ({ responseData }: any) => {
       billingToPhoneNumber: responseData?.mobileNo || "",
     },
     billingFrom: {
-      billingFromCompanyName: responseData?.companyName || "",
-      billingFromStreetAddress: responseData?.street || "",
-      billingFromLandmark: responseData?.landmark || "",
-      billingFromCity: responseData?.city || "",
-      billingFromCountry: responseData?.country || "",
-      billingFromPincode: responseData?.pinCode || "",
-      billingFromEmail: responseData?.email || "",
-      billingFromPhoneNumber: responseData?.mobileNo || "",
+      billingFromCompanyName: "",
+      billingFromStreetAddress: "",
+      billingFromLandmark: "",
+      billingFromCity: "",
+      billingFromCountry: "",
+      billingFromPincode: "",
+      billingFromEmail: "",
+      billingFromPhoneNumber: "",
     },
     bankDetails: {
       accountName: "",
@@ -108,7 +108,7 @@ const InvoiceForm = ({ responseData }: any) => {
           },
         };
       }
-
+console.log(formData,name,value)
       // Handle top-level fields
       return {
         ...prevData,
@@ -185,15 +185,20 @@ const InvoiceForm = ({ responseData }: any) => {
                 <label className="inline-block w-1/4 mb-1 text-sm">
                   Payment No:
                 </label>
-                <input
+                <select
                   autoComplete="off"
-                  placeholder=""
                   className="w-3/4 text-primary outline text-sm outline-gray-100 px-4 py-1 placeholder:text-gray-400 bg-white rounded"
-                  type="text"
                   name="paymentNumber"
                   value={formData.paymentNumber}
                   onChange={handleChange}
-                />
+                >
+                  <option value="">Select Payment No</option>
+                  <option value="1st">1st</option>
+                  <option value="2nd">2nd</option>
+                  <option value="3st">3rd</option>
+                  <option value="4th">4th</option>
+                  <option value="Final">Final</option>
+                </select>
               </div>
               <div className="flex mb-2">
                 <label className="inline-block w-1/4 mb-1 text-sm">To:</label>
@@ -328,20 +333,20 @@ const InvoiceForm = ({ responseData }: any) => {
                 onChange={handleChange}
                 className="w-full p-2 mt-2 border border-gray-300 rounded"
               />
-              <input
+              {/* <input
                 type="number"
                 placeholder="Phone Number"
                 name="billingTo.billingToPhoneNumber"
                 value={formData?.billingTo?.billingToPhoneNumber}
                 onChange={handleChange}
                 className="w-full p-2 mt-2 border border-gray-300 rounded"
-              />
+              /> */}
             </div>
             <div>
-              <h3 className="font-bold mb-2">Billing From :</h3>
+              <h3 className="font-bold mb-2">Invoice Details :</h3>
               <input
                 type="text"
-                placeholder="Company Name"
+                placeholder="Yard name"
                 name="billingFrom.billingFromCompanyName"
                 value={formData?.billingFrom?.billingFromCompanyName}
                 onChange={handleChange}
@@ -349,7 +354,7 @@ const InvoiceForm = ({ responseData }: any) => {
               />
               <input
                 type="text"
-                placeholder="Street Address"
+                placeholder="Vesel Arrived From"
                 name="billingFrom.billingFromStreetAddress"
                 value={formData?.billingFrom?.billingFromStreetAddress}
                 onChange={handleChange}
@@ -357,7 +362,7 @@ const InvoiceForm = ({ responseData }: any) => {
               />
               <input
                 type="text"
-                placeholder="Landmark"
+                placeholder="Vesel Arrived To"
                 name="billingFrom.billingFromLandmark"
                 value={formData?.billingFrom?.billingFromLandmark}
                 onChange={handleChange}
@@ -365,7 +370,7 @@ const InvoiceForm = ({ responseData }: any) => {
               />
               <input
                 type="text"
-                placeholder="Company Name"
+                placeholder="1st Payment Terms"
                 name="billingFrom.billingFromCity"
                 value={formData?.billingFrom?.billingFromCity}
                 onChange={handleChange}
@@ -373,36 +378,36 @@ const InvoiceForm = ({ responseData }: any) => {
               />
               <input
                 type="text"
-                placeholder="Landmark"
+                placeholder="2nd Payment Terms"
                 name="billingFrom.billingFromCountry"
                 value={formData?.billingFrom?.billingFromCountry}
                 onChange={handleChange}
                 className="w-full p-2 mb-2 border border-gray-300 rounded"
               />
               <input
-                type="number"
-                placeholder="BillingPincode"
+                type="text"
+                placeholder="3rd Payment Terms"
                 name="billingFrom.billingFromPincode"
                 value={formData?.billingFrom?.billingFromPincode}
                 onChange={handleChange}
                 className="w-full p-2 mb-2 border border-gray-300 rounded"
               />
               <input
-                type="email"
-                placeholder="Company Email"
+                type="text"
+                placeholder="4th Payment Terms"
                 name="billingFrom.billingFromEmail"
                 value={formData?.billingFrom?.billingFromEmail}
                 onChange={handleChange}
                 className="w-full p-2 mt-2 border border-gray-300 rounded"
               />
-              <input
-                type="number"
+              {/* <input
+                type="text"
                 placeholder="Phone Number"
                 name="billingFrom.billingFromPhoneNumber"
                 value={formData?.billingFrom?.billingFromPhoneNumber}
                 onChange={handleChange}
                 className="w-full p-2 mt-2 border border-gray-300 rounded"
-              />
+              /> */}
             </div>
           </div>
 
@@ -456,7 +461,7 @@ const InvoiceForm = ({ responseData }: any) => {
 
           {/* <ProductRow /> */}
           {/* Mode of Payment */}
-          <div className="bg-white rounded-md p-4">
+          {/* <div className="bg-white rounded-md p-4">
             <h3 className="text-sm font-bold mb-2">Mail Message:</h3>
             <textarea
               name="mailMessage"
@@ -488,20 +493,20 @@ const InvoiceForm = ({ responseData }: any) => {
               onChange={handleChange}
               className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
             ></textarea>
-          </div>
+          </div> */}
 
-          <div className=" mt-4 lg:mt-0 h-fit bg-white shadow rounded-lg py-3">
+          {/* <div className=" mt-4 lg:mt-0 h-fit bg-white shadow rounded-lg py-3">
             <h1 className="text-lg font-semibold text-left px-3 py-2 border-b-2 border-gray-100 text-gray-800">
               Mode Of Payment
             </h1>
-            {/* <div className="px-4 py-3">
+            <div className="px-4 py-3">
             <button className="px-3 py-1 m-1 bg-purple-50 text-primary rounded-md text-sm font-bold">
               Bank Details{" "}
             </button>
             <button className="px-3 py-1 m-1 bg-gray-100 text-gray-700 rounded-md text-sm font-bold">
               UPI Payment
             </button>
-          </div> */}
+          </div>
 
             <div className="border mx-3 border-gray-200 rounded-md px-3 py-4">
               <div className="grid grid-cols-2 gap-4">
@@ -579,14 +584,14 @@ const InvoiceForm = ({ responseData }: any) => {
                   />
                 </div>
               </div>
-              {/* 
+              
             <div className="mb-1 text-center items-center">
               <p className="bg-green-100 rounded my-2 text-green-700 text-xs font-semibold py-3 px-4 text-left">
                 Please Make sure to pay the invoice bill within 120 days.
               </p>
-            </div> */}
             </div>
-          </div>
+            </div>
+          </div> */}
 
           <div className="lg:flex lg:justify-between">
             <div className="flex space-x-4 mt-4">
