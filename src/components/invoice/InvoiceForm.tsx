@@ -26,7 +26,8 @@ const InvoiceForm = ({ responseData }: any) => {
     vesselNumber: responseData?.vesselImoNo || "",
     co: "",
     dueDate: dayjs(responseData?.dueDate).format("YYYY/MM/DD") || "",
-    yardPaymentDueDate: dayjs(responseData?.yardPaymentDueDate).format("YYYY/MM/DD") || "",
+    yardPaymentDueDate:
+      dayjs(responseData?.yardPaymentDueDate).format("YYYY/MM/DD") || "",
     totalAmount: responseData?.sudInvoiceToOwners || "",
     totalAmountInWords: "",
     mailMessage: "",
@@ -108,7 +109,7 @@ const InvoiceForm = ({ responseData }: any) => {
           },
         };
       }
-console.log(formData,name,value)
+      console.log(formData, name, value);
       // Handle top-level fields
       return {
         ...prevData,
@@ -159,11 +160,95 @@ console.log(formData,name,value)
     }
   };
 
+  const paymentStages = [
+    {
+      key: "1ST",
+      placeholder: "1ST PAYMENT TERMS",
+      name: "billingFrom.billingFromCity",
+      type: "text",
+      value: formData?.billingFrom?.billingFromCity,
+    },
+    {
+      key: "2ND",
+      placeholder: "2ND PAYMENT TERMS",
+      name: "billingFrom.billingFromCountry",
+      type: "text",
+      value: formData?.billingFrom?.billingFromCountry,
+    },
+    {
+      key: "3RD",
+      placeholder: "3RD PAYMENT TERMS",
+      name: "billingFrom.billingFromPincode",
+      type: "text",
+      value: formData?.billingFrom?.billingFromPincode,
+    },
+    {
+      key: "4TH",
+      placeholder: "4TH PAYMENT TERMS",
+      name: "billingFrom.billingFromEmail",
+      type: "text",
+      value: formData?.billingFrom?.billingFromEmail,
+    },
+    {
+      key: "5TH",
+      placeholder: "5TH PAYMENT TERMS",
+      name: "billingFrom.billingFromPhoneNumber",
+      type: "text",
+      value: formData?.billingFrom?.billingFromPhoneNumber,
+    },
+    {
+      key: "6TH",
+      placeholder: "6TH PAYMENT TERMS",
+      name: "billingTo.billingToLandmark",
+      type: "text",
+      value: formData?.billingTo?.billingToLandmark,
+    },
+    {
+      key: "7TH",
+      placeholder: "7TH PAYMENT TERMS",
+      name: "billingTo.billingToCity",
+      type: "text",
+      value: formData?.billingTo?.billingToCity,
+    },
+    {
+      key: "8TH",
+      placeholder: "8TH PAYMENT TERMS",
+      name: "billingTo.billingToCountry",
+      type: "text",
+      value: formData?.billingTo?.billingToCountry,
+    },
+    {
+      key: "9TH",
+      placeholder: "9TH PAYMENT TERMS",
+      name: "billingTo.billingToPincode",
+      type: "text",
+      value: formData?.billingTo?.billingToPincode,
+    },
+    {
+      key: "10TH",
+      placeholder: "10TH PAYMENT TERMS",
+      name: "billingTo.billingToEmail",
+      type: "text",
+      value: formData?.billingTo?.billingToEmail,
+    },
+    {
+      key: "FINAL",
+      placeholder: "FINAL PAYMENT TERMS",
+      name: "bankDetails.accountName",
+      type: "text",
+      value: formData?.bankDetails?.accountName,
+    },
+  ];
+
+  const selectedIndex = paymentStages.findIndex(
+    (stage) => stage.key === formData.paymentNumber
+  );
+
   console.log(dayjs(responseData?.dueDate).format("YYYY/MM/DD"));
 
   return (
     <div className="lg:flex lg:gap-4 p-2 px-2">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="w-full">
         <div className="bg-white shadow rounded-lg p-6">
           <div className="lg:flex justify-between items-center gap-4">
             <div className="lg:w-2/3">
@@ -193,11 +278,17 @@ console.log(formData,name,value)
                   onChange={handleChange}
                 >
                   <option value="">Select Payment No</option>
-                  <option value="1st">1st</option>
-                  <option value="2nd">2nd</option>
-                  <option value="3st">3rd</option>
-                  <option value="4th">4th</option>
-                  <option value="Final">Final</option>
+                  <option value="1ST">1ST</option>
+                  <option value="2ND">2ND</option>
+                  <option value="3RD">3RD</option>
+                  <option value="4TH">4TH</option>
+                  <option value="5TH">5TH</option>
+                  <option value="6TH">6TH</option>
+                  <option value="7TH">7TH</option>
+                  <option value="8TH">8TH</option>
+                  <option value="9TH">9TH</option>
+                  <option value="10TH">10TH</option>
+                  <option value="FINAL">FINAL</option>
                 </select>
               </div>
               <div className="flex mb-2">
@@ -273,75 +364,20 @@ console.log(formData,name,value)
           <Image src="/next.svg" alt="logo" width={85} height={75} className="inline" />
         </div> */}
           </div>
+          <div>
+            <h3 className="font-bold mb-2">Address :</h3>
 
-          <div className="grid grid-cols-2 gap-4 mt-4">
-            <div>
-              <h3 className="font-bold mb-2">Billing To :</h3>
-              <input
-                type="text"
-                placeholder="Company Name"
-                name="billingTo.billingToCompanyName"
-                value={formData?.billingTo?.billingToCompanyName}
-                onChange={handleChange}
-                className="w-full p-2 mb-2 border border-gray-300 rounded"
-              />
-              <input
-                type="text"
-                placeholder="Street Address"
-                name="billingTo.billingToStreetAddress"
-                value={formData?.billingTo?.billingToStreetAddress}
-                onChange={handleChange}
-                className="w-full p-2 mb-2 border border-gray-300 rounded"
-              />
-              <input
-                type="text"
-                placeholder="Landmark"
-                name="billingTo.billingToLandmark"
-                value={formData?.billingTo?.billingToLandmark}
-                onChange={handleChange}
-                className="w-full p-2 mb-2 border border-gray-300 rounded"
-              />
-              <input
-                type="text"
-                placeholder="Company Name"
-                name="billingTo.billingToCity"
-                value={formData?.billingTo?.billingToCity}
-                onChange={handleChange}
-                className="w-full p-2 mb-2 border border-gray-300 rounded"
-              />
-              <input
-                type="text"
-                placeholder="Landmark"
-                name="billingTo.billingToCountry"
-                value={formData?.billingTo?.billingToCountry}
-                onChange={handleChange}
-                className="w-full p-2 mb-2 border border-gray-300 rounded"
-              />
-              <input
-                type="number"
-                placeholder="BillingPincode"
-                name="billingTo.billingToPincode"
-                value={formData?.billingTo?.billingToPincode}
-                onChange={handleChange}
-                className="w-full p-2 mb-2 border border-gray-300 rounded"
-              />
-              <input
-                type="email"
-                placeholder="Company Email"
-                name="billingTo.billingToEmail"
-                value={formData?.billingTo?.billingToEmail}
-                onChange={handleChange}
-                className="w-full p-2 mt-2 border border-gray-300 rounded"
-              />
-              {/* <input
-                type="number"
-                placeholder="Phone Number"
-                name="billingTo.billingToPhoneNumber"
-                value={formData?.billingTo?.billingToPhoneNumber}
-                onChange={handleChange}
-                className="w-full p-2 mt-2 border border-gray-300 rounded"
-              /> */}
-            </div>
+            <input
+              type="text"
+              placeholder="Full Address"
+              name="billingTo.billingToStreetAddress"
+              value={formData?.billingTo?.billingToStreetAddress}
+              onChange={handleChange}
+              className="w-full p-2 mb-2 border border-gray-300 rounded"
+            />
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 mt-4">
             <div>
               <h3 className="font-bold mb-2">Invoice Details :</h3>
               <input
@@ -354,61 +390,154 @@ console.log(formData,name,value)
               />
               <input
                 type="text"
-                placeholder="Vesel Arrived From"
+                placeholder="Arrival Date"
                 name="billingFrom.billingFromStreetAddress"
                 value={formData?.billingFrom?.billingFromStreetAddress}
                 onChange={handleChange}
                 className="w-full p-2 mb-2 border border-gray-300 rounded"
               />
+              {formData?.paymentNumber === "FINAL" && (
+                <input
+                  type="text"
+                  placeholder="Departure Date"
+                  name="billingFrom.billingFromLandmark"
+                  value={formData?.billingFrom?.billingFromLandmark}
+                  onChange={handleChange}
+                  className="w-full p-2 mb-2 border border-gray-300 rounded"
+                />
+              )}
+            </div>
+          </div>
+          <div>
+            <h3 className="font-bold mb-2">PAYMENT DETAILS:</h3>
+
+            {formData.paymentNumber === "1ST" && (
               <input
                 type="text"
-                placeholder="Vesel Arrived To"
-                name="billingFrom.billingFromLandmark"
-                value={formData?.billingFrom?.billingFromLandmark}
-                onChange={handleChange}
-                className="w-full p-2 mb-2 border border-gray-300 rounded"
-              />
-              <input
-                type="text"
-                placeholder="1st Payment Terms"
+                placeholder="1ST PAYMENT TERMS"
                 name="billingFrom.billingFromCity"
                 value={formData?.billingFrom?.billingFromCity}
                 onChange={handleChange}
                 className="w-full p-2 mb-2 border border-gray-300 rounded"
               />
+            )}
+
+            {formData.paymentNumber === "2ND" && (
               <input
                 type="text"
-                placeholder="2nd Payment Terms"
+                placeholder="2ND PAYMENT TERMS"
                 name="billingFrom.billingFromCountry"
                 value={formData?.billingFrom?.billingFromCountry}
                 onChange={handleChange}
                 className="w-full p-2 mb-2 border border-gray-300 rounded"
               />
+            )}
+
+            {formData.paymentNumber === "3RD" && (
               <input
                 type="text"
-                placeholder="3rd Payment Terms"
+                placeholder="3RD PAYMENT TERMS"
                 name="billingFrom.billingFromPincode"
                 value={formData?.billingFrom?.billingFromPincode}
                 onChange={handleChange}
                 className="w-full p-2 mb-2 border border-gray-300 rounded"
               />
+            )}
+
+            {formData.paymentNumber === "4TH" && (
               <input
                 type="text"
-                placeholder="4th Payment Terms"
+                placeholder="4TH PAYMENT TERMS"
                 name="billingFrom.billingFromEmail"
                 value={formData?.billingFrom?.billingFromEmail}
                 onChange={handleChange}
                 className="w-full p-2 mt-2 border border-gray-300 rounded"
               />
-              {/* <input
+            )}
+
+            {formData.paymentNumber === "5TH" && (
+              <input
                 type="text"
-                placeholder="Phone Number"
+                placeholder="5TH PAYMENT TERMS"
                 name="billingFrom.billingFromPhoneNumber"
                 value={formData?.billingFrom?.billingFromPhoneNumber}
                 onChange={handleChange}
                 className="w-full p-2 mt-2 border border-gray-300 rounded"
-              /> */}
-            </div>
+              />
+            )}
+
+            {formData.paymentNumber === "6TH" && (
+              <input
+                type="text"
+                placeholder="6TH PAYMENT TERMS"
+                name="billingTo.billingToLandmark"
+                value={formData?.billingTo?.billingToLandmark}
+                onChange={handleChange}
+                className="w-full p-2 mb-2 border border-gray-300 rounded"
+              />
+            )}
+
+            {formData.paymentNumber === "7TH" && (
+              <input
+                type="text"
+                placeholder="7TH PAYMENT TERMS"
+                name="billingTo.billingToCity"
+                value={formData?.billingTo?.billingToCity}
+                onChange={handleChange}
+                className="w-full p-2 mb-2 border border-gray-300 rounded"
+              />
+            )}
+
+            {formData.paymentNumber === "8TH" && (
+              <input
+                type="text"
+                placeholder="8TH PAYMENT TERMS"
+                name="billingTo.billingToCountry"
+                value={formData?.billingTo?.billingToCountry}
+                onChange={handleChange}
+                className="w-full p-2 mb-2 border border-gray-300 rounded"
+              />
+            )}
+
+            {formData.paymentNumber === "9TH" && (
+              <input
+                type="number"
+                placeholder="9TH PAYMENT TERMS"
+                name="billingTo.billingToPincode"
+                value={formData?.billingTo?.billingToPincode}
+                onChange={handleChange}
+                className="w-full p-2 mb-2 border border-gray-300 rounded"
+              />
+            )}
+
+            {formData.paymentNumber === "10TH" && (
+              <input
+                type="email"
+                placeholder="10TH PAYMENT TERMS"
+                name="billingTo.billingToEmail"
+                value={formData?.billingTo?.billingToEmail}
+                onChange={handleChange}
+                className="w-full p-2 mt-2 border border-gray-300 rounded"
+              />
+            )}
+
+            {formData?.paymentNumber === "FINAL" &&
+              paymentStages.map((stage, index) => {
+                if (selectedIndex >= index) {
+                  return (
+                    <input
+                      key={stage.key}
+                      type={stage.type}
+                      placeholder={stage.placeholder}
+                      name={stage.name}
+                      value={stage.value}
+                      onChange={handleChange}
+                      className="w-full p-2 mb-2 border border-gray-300 rounded"
+                    />
+                  );
+                }
+                return null;
+              })}
           </div>
 
           <div className="bg-primary text-white mt-4 p-4 rounded mb-6">
@@ -458,6 +587,20 @@ console.log(formData,name,value)
               />
             </div>
           </div>
+
+          {formData.paymentNumber === "FINAL" && (
+            <div>
+              <h2 className="mb-2">Name For Sign</h2>
+              <input
+                type="text"
+                placeholder="Name for client sign"
+                name="billingTo.billingToCompanyName"
+                value={formData?.billingTo?.billingToCompanyName}
+                onChange={handleChange}
+                className="w-full p-2 mb-2 border border-gray-300 rounded"
+              />
+            </div>
+          )}
 
           {/* <ProductRow /> */}
           {/* Mode of Payment */}
