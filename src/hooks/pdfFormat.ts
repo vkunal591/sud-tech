@@ -109,14 +109,14 @@ export const handleDownloadPDF = async (formData: any) => {
   doc.setFont("helvetica", "semibold").text("Add", 20, 58);
   // const address =;
   doc.text(':', 40, 58)
-  doc.text(doc.splitTextToSize(`${formData.billingTo.billingToCompanyName}, ${formData.billingTo.billingToLandmark}, ${formData.billingTo.billingToStreetAddress}, ${formData.billingTo.billingToCity}, ${formData.billingTo.billingToCountry}`, (maxWidth - 20)), 42, 58);
+  doc.text(doc.splitTextToSize(`${formData.billingTo.billingToStreetAddress}, `, (maxWidth - 20)), 42, 58);
 
   formData?.paymentNumber === "FINAL" ? doc.setFont("helvetica", "semibol").setFontSize(11).text(`${formData?.paymentNumber || "FINAL"} AGREEMENT & INVOICE (INVOICE NO: SUD(HK)/${formData.invoiceNumber})`, 47, 73) : doc.setFont("helvetica", "semibol").setFontSize(11).text(`${formData?.paymentNumber || "1ST"} PAYMENT REQUEST & INVOICE (INVOICE NO: SUD(HK)/${formData.invoiceNumber})`, 47, 68);
   doc.setLineWidth(0.4).line(47, 70, 175, 70);
 
   doc.setFont("helvetica", "400").setFontSize(10).text(`INV DATE: ${dayjs(formData.invoiceDate).format("DD MMM YYYY")}`, 150, 80);
   doc.text("DEAR SIR,", 20, 85);
-  formData?.paymentNumber === "FINAL" ? doc.text(doc.splitTextToSize(`THE SHIP HAS BEEN REPAIRED IN ${formData?.billingFrom?.billingFromCompanyName?.toUpperCase()} LTD. THROUGH SUD GROUP H.K. CO., LTD. DURING, ${formData?.billingFrom?.billingFromStreetAddress?.toUpperCase()} To ${formData?.billingFrom?.billingFromLandmark?.toUpperCase()}`, maxWidth), 20, 90) : doc.text(doc.splitTextToSize(`CAPTIONED SHIP DRY DOCKING REPAIR IS IN PROGRESS IN ${formData?.billingFrom?.billingFromCompanyName?.toUpperCase()} LTD. THROUGH SUD GROUP H.K. CO., LTD.`, maxWidth), 20, 90);
+  formData?.paymentNumber === "FINAL" ? doc.text(doc.splitTextToSize(`THE SHIP HAS BEEN REPAIRED IN ${formData?.billingFrom?.billingFromCompanyName?.toUpperCase()}. THROUGH SUD GROUP H.K. CO., LTD. DURING, ${formData?.billingFrom?.billingFromStreetAddress?.toUpperCase()} To ${formData?.billingFrom?.billingFromLandmark?.toUpperCase()}`, maxWidth), 20, 90) : doc.text(doc.splitTextToSize(`CAPTIONED SHIP DRY DOCKING REPAIR IS IN PROGRESS IN ${formData?.billingFrom?.billingFromCompanyName?.toUpperCase()} LTD. THROUGH SUD GROUP H.K. CO., LTD.`, maxWidth), 20, 90);
   formData?.paymentNumber === "FINAL" ? "" : doc.text(doc.splitTextToSize(`VESEL ARRIVED SHIPYARD ON ${formData?.billingFrom?.billingFromStreetAddress?.toUpperCase()} AND ALL REPAIRING WORKS IN PROGRESS UPTO SATISFACTION OF SHIPOWNER’S REPRESENTATIVE, SHIP’S CREW, AND CLASS.`, maxWidth), 20, 99);
   formData?.paymentNumber === "FINAL" ? doc.text(doc.splitTextToSize(`ALL REPAIRING WORKS HAVE BEEN COMPLETED WITH SATISFACTION AND APPROVED BY SHIP OWNER’S REPRESENTATIVE, SHIP’S CREW AND CLASS.`, maxWidth), 20, 102) : doc.text(doc.splitTextToSize(`AS PER INITIAL AGREEMRNT WE REQUEST FOR PART PAYMENT OF ABOVE MENTIONED DRY DOCKING REPAIR.`, maxWidth), 20, 112);
   formData?.paymentNumber === "FINAL" ? doc.text(doc.splitTextToSize(`CONSIDERING QUAITY, REPAIR TIME, WEATHER CONDITIONS, ADDITIONAL WORKS, DEVIATION COMPENSATION, WHOLE PROCESS OF THE REPAIR AND OTHER FACTORS CONCERNED WITH BILLING, BOTH SIDES ACCEPTED AND SETTLED THE BILL AS FOLLOWS.`, maxWidth), 20, 114) : doc.text(doc.splitTextToSize(`FINAL YARD BILL WILL BE ON BASIS OF DISCUSSION AND AGREEMENT BY OWNER’S REPRESENTATIVE ON BASIS OF FINAL WORK DONE LIST.`, maxWidth), 20, 125);
@@ -167,9 +167,9 @@ PARTIES.`, maxWidth), 20, 128) : "";
 
 
   formData?.paymentNumber !== "FINAL" && doc.text("SUD GROUP BANK ACCOUNT.", 20, 175);
-  formData?.paymentNumber !== "Final" ? doc.text("PLEASE MAKE REMITTANCE TO OUR BELOW ACCOUNT.", 20, 210) : doc.text("PLEASE MAKE REMITTANCE TO OUR BELOW ACCOUNT.", 20, 180);
+  formData?.paymentNumber !== "Final" ? doc.text("PLEASE MAKE REMITTANCE TO OUR BELOW ACCOUNT.", 20, 180) : doc.text("PLEASE MAKE REMITTANCE TO OUR BELOW ACCOUNT.", 20, 180);
 
-
+doc.setFontSize(13)
   if (formData?.paymentNumber !== "FINAL") {
     doc.line(20, 182, 190, 182);
     doc.line(20, 182, 20, 210);
