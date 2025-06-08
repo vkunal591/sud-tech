@@ -13,35 +13,8 @@ const columns = [
   // { key: "_id", label: "Ship ID", sortable: false },
   { key: "vesselName", label: "Vessel Name", sortable: false },
   { key: "vesselImoNo", label: "Vessel (IMO NO)", sortable: false },
-  { key: "companyName", label: "Company Name", sortable: true },
   { key: "yardName", label: "Yard Name", sortable: true },
   { key: "repairedMonth", label: "Repaired Month", sortable: true },
-  { key: "invoiceNumber", label: "Invoice Number", sortable: true },
-  {
-    key: "sudInvoiceToOwners",
-    label: "SUD Invoice to Owners (USD) CR",
-    sortable: true,
-    isCurrency: "$",
-  },
-  { key: "dueDate", label: "Due Date", sortable: true, isDate: true },
-  {
-    key: "actualPayment",
-    label: "Actual Payment",
-    sortable: true,
-    isCurrency: "$",
-  },
-  {
-    key: "bankCharges",
-    label: "Bank Charges",
-    sortable: true,
-    isCurrency: "$",
-  },
-  {
-    key: "actualPaymentDate",
-    label: "Actual Payment Date",
-    sortable: true,
-    isDate: true,
-  },
   {
     key: "yardInvoiceToSUD",
     label: "Yard Invoice To SUD",
@@ -68,12 +41,12 @@ const filterOptions = [
 ];
 
 const Users: React.FC = () => {
-  const { data, loading, error } = useFetch(endpoints["Ships"].fetchAll);
+  const { data, loading, error } = useFetch(endpoints["Yards"].fetchAll);
   const updatedData = data?.data?.result;
   const paginationData = data?.data?.pagination;
 
   const { user } = useAuth();
-  const operationsAllowed = getAccessPoints(user, "Manage Ships");
+  const operationsAllowed = getAccessPoints(user, "Manage Yards");
 
   if (loading && !updatedData && !error) return <Loader />;
 
@@ -81,7 +54,7 @@ const Users: React.FC = () => {
     <AuthGuard>
       <Wrapper>
         <TableComponent
-          type="Yard & Vendor Details"
+          type="Yards"
           suffix=""
           columns={columns}
           data={updatedData}

@@ -89,6 +89,14 @@ export const endpoints: Record<
     fetchAll: "api/ships", // to fetch all partys
     operations: operations,
   },
+  Yards: {
+    create: "api/ships", // to create a party
+    delete: "api/ships/", // to delete a party
+    update: "api/ships/", // to update a party
+    read: "api/ships/", // to get a party
+    fetchAll: "api/ships", // to fetch all partys
+    operations: operations,
+  },
   Lead: {
     create: "api/lead", // to create a lead
     read: "api/lead/", // to get a lead

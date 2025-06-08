@@ -38,6 +38,16 @@ export const userPermissions = [
     },
   },
   {
+    module: "Manage Yards",
+    access: {
+      read: true,
+      update: true,
+      create: true,
+      invoice: true,
+      delete: true,
+    },
+  },
+  {
     module: "Manage Billing",
     access: {
       read: true,

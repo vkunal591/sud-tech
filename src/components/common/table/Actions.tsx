@@ -61,10 +61,11 @@ const Actions: React.FC<ActionsProps> = ({
 
   const handleEdit = async (id?: string) => {
     if (!id) return;
-
+    
     try {
       const endpoint = endpoints[type]?.read;
-
+      
+      console.log(endpoint)
       if (!endpoint) return;
 
       const response: any = await Fetch(`${endpoint}${id}`, {}, 5000, true);

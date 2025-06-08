@@ -5,7 +5,6 @@ import ManageRoleForm from "../crud/Roleform";
 import Productform from "../crud/ProductForm";
 import UOMForm from "../crud/product/UOMForm";
 import Packingform from "../crud/PackingForm";
-import BillingForm from "../crud/BillingForm";
 import PaymentForm from "../crud/PaymentForm";
 import PurchaseForm from "../crud/PurchaseForm";
 import QuotationForm from "../crud/QuotationForm";
@@ -16,6 +15,7 @@ import ConfirmationModal from "../crud/ConfirmationModal";
 import StockTransferForm from "../crud/StockTransferForm";
 import ShipForm from "../crud/ShipForm";
 import ViewInvoiceForm from "../crud/ViewInvoiceForm";
+import YardVendorForm from "../crud/YardVendorForm";
 
 interface FormRendererProps {
   data: any;
@@ -47,6 +47,8 @@ const FormRenderer: React.FC<FormRendererProps> = (props: any) => {
       return <LedgerForm {...props} />;
     case "Ships":
       return <ShipForm {...props} />;
+    case "Yards":
+      return <YardVendorForm {...props} />;
     case "Purchase":
       return <PurchaseForm {...props} />;
     case "Payment":

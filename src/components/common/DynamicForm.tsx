@@ -42,7 +42,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
   submitting,
   customFunc,
   setFormData,
-  makeApiCall
+  makeApiCall,
   // onQuotationDataChange
 }) => {
   const [errors, setErrors] = useState<{ [key: string]: string | null }>({});
@@ -69,13 +69,19 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
   //     }));
   // };
 
-
-  const handleInputChange = (e: any, groupIndex?: number, groupName?: string) => {
+  const handleInputChange = (
+    e: any,
+    groupIndex?: number,
+    groupName?: string
+  ) => {
     const { name, type, value } = e.target;
     if (groupName !== undefined && groupIndex !== undefined) {
       setFormData((prev: any) => {
         const updatedGroup = [...(prev[groupName] || [])];
-        updatedGroup[groupIndex] = { ...updatedGroup[groupIndex], [name]: value };
+        updatedGroup[groupIndex] = {
+          ...updatedGroup[groupIndex],
+          [name]: value,
+        };
         return { ...prev, [groupName]: updatedGroup };
       });
     } else {
@@ -86,7 +92,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
   const handleAddGroupItem = (groupName: string) => {
     setFormData((prev: any) => ({
       ...prev,
-      [groupName]: [...(prev[groupName] || []), {}]
+      [groupName]: [...(prev[groupName] || []), {}],
     }));
   };
 
@@ -151,8 +157,9 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
         fields.map((field: FormField) => (
           <div
             key={field.name}
-            className={`flex flex-col ${field?.widthFull && "col-span-3"} ${field?.type === "textarea" && "col-span-2"
-              } ${field?.type === "password" && "col-span-2"}`}
+            className={`flex flex-col ${field?.widthFull && "col-span-3"} ${
+              field?.type === "textarea" && "col-span-2"
+            } ${field?.type === "password" && "col-span-2"}`}
           >
             {field.type === "br" && (
               <h2 className="text-lg my-3 py-1 bg-secondary text-white font-bold text-center">
@@ -326,39 +333,71 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
               />
             )}
 
-
-
-
             {field.type === "group" && (
               <div className="space-y-4">
                 <h2 className="text-lg font-bold">{field.label}</h2>
-                {(formData[field.name] || []).map((item: any, index: number) => (
-                  <div key={index} className="grid grid-cols-3 gap-4 border p-4 rounded-md">
-                    {field.fields?.map((subField: any) => (
-                      <div key={subField.name} className="flex flex-col">
-                        {subField.type === "text" && (
-                          <Text
-                            field={{ ...subField, value: item[subField.name] || "" }}
-                            handleInputChange={(e) => handleInputChange(e, index, field.name)}
-                          />
-                        )}
-                        {subField.type === "number" && (
-                          <Number
-                            field={{ ...subField, value: item[subField.name] || "" }}
-                            handleInputChange={(e) => handleInputChange(e, index, field.name)}
-                          />
-                        )}
-                      </div>
-                    ))}
-                    <button type="button" onClick={() => handleRemoveGroupItem(field.name, index)} className="bg-red-500 text-white px-3 py-1 rounded">Delete</button>
-                  </div>
-                ))}
-                <button type="button" onClick={() => handleAddGroupItem(field.name)} className="bg-green-500 text-white px-4 py-2 rounded">Add More</button>
+                {(formData[field.name] || []).map(
+                  (item: any, index: number) => (
+                    <div
+                      key={index}
+                      className="grid grid-cols-3 gap-4 border p-4 rounded-md"
+                    >
+                      {field.fields?.map((subField: any) => (
+                        <div key={subField.name} className="flex flex-col">
+                          {subField.type === "text" && (
+                            <Text
+                              field={{
+                                ...subField,
+                                value: item[subField.name] || "",
+                              }}
+                              handleInputChange={(e) =>
+                                handleInputChange(e, index, field.name)
+                              }
+                            />
+                          )}
+                          {subField.type === "number" && (
+                            <Number
+                              field={{
+                                ...subField,
+                                value: item[subField.name] || "",
+                              }}
+                              handleInputChange={(e) =>
+                                handleInputChange(e, index, field.name)
+                              }
+                            />
+                          )}
+                          {subField.type === "date" && (
+                            <Date
+                              field={{
+                                ...subField,
+                                value: item[subField?.name] || "",
+                              }}
+                              handleInputChange={(e) =>
+                                handleInputChange(e, index, field.name)
+                              }
+                            />
+                          )}
+                        </div>
+                      ))}
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveGroupItem(field.name, index)}
+                        className="bg-red-500 text-white px-3 py-1 rounded"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  )
+                )}
+                <button
+                  type="button"
+                  onClick={() => handleAddGroupItem(field.name)}
+                  className="bg-green-500 text-white px-4 py-2 rounded"
+                >
+                  Add More
+                </button>
               </div>
             )}
-
-
-
           </div>
         ))}
 

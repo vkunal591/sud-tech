@@ -54,7 +54,7 @@ const Sidebar: React.FC = () => {
       },
     },
     {
-      module: "Yard and Vendor Detail",
+      module: "Manage Yard and Vendor",
       access: {
         read: true,
         create: true,

@@ -60,7 +60,7 @@ export const ShipType: FormField[] = [
   },
   {
     name: "actualPaymentDate",
-    type: "text",
+    type: "date",
 
     label: "Actual Payment Date",
     placeholder: "Select actual payment date",
@@ -95,23 +95,44 @@ export const ShipType: FormField[] = [
   {
     name: "yardInvoiceToSUD",
     type: "text",
-
     label: "Yard Invoice To SUD",
     placeholder: "Enter yard invoice to SUD",
   },
   {
     name: "yardActualPaymentDate",
-    type: "text",
-
+    type: "date",
     label: "Yard Actual Payment Date",
     placeholder: "Select yard actual payment date",
   },
   {
     name: "yardPaymentDueDate",
     type: "date",
-
     label: "Yard Payment Due Date",
-    placeholder: "Select yard payment due date",
+    placeholder: "Enter yard payment due date",
+  },
+  {
+    type: "br",
+    name: "protsDetails",
+    label: "Ports Details",
+    widthFull: true,
+  },
+  {
+    name: "portsNo",
+    type: "text",
+    label: "Ports No",
+    placeholder: "Enter ports no",
+  },
+  {
+    name: "portsName",
+    type: "text",
+    label: "Ports Name",
+    placeholder: "Enter ports name",
+  },
+  {
+    name: "portsWorkStartDate",
+    type: "date",
+    label: "Ports WorK Start Date",
+    placeholder: "Ports Work Start Date",
   },
   {
     type: "br",
@@ -128,22 +149,22 @@ export const ShipType: FormField[] = [
     widthFull: true,
     fields: [
       {
-        name: "vendorInvoiceToSUD",
+        name: "vendorDetails.vendorInvoiceToSUD",
         type: "text",
 
         label: "Vendor Invoice To SUD Amount",
         placeholder: "Enter vendor invoice to SUD",
       },
       {
-        name: "vendorActualPaymentDate",
-        type: "text",
+        name: "vendorDetails.vendorActualPaymentDate",
+        type: "date",
 
         label: "Vendor Actual Payment Date",
         placeholder: "Select vendor actual payment date",
       },
       {
-        name: "vendorPaymentDueDate",
-        type: "text",
+        name: "vendorDetails.vendorPaymentDueDate",
+        type: "date",
 
         label: "Vendor Payment Due Date",
         placeholder: "Select vendor payment due date",

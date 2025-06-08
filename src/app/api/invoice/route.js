@@ -2,54 +2,6 @@ import { NextResponse } from "next/server";
 import { dbConnect } from '@/app/lib/config/db';
 import InvoiceModel from "../../lib/models/InvoiceModel";
 
-// export async function GET(req) {
-//   await dbConnect();
-
-//   const { searchParams } = new URL(req.url);
-//   const page = parseInt(searchParams.get("page")) || 1;
-//   const limit = parseInt(searchParams.get("limit")) || 10;
-//   const searchField = searchParams.get("field");
-//   const searchValue = searchParams.get("value");
-
-//   // let query = {};
-//   // if (searchField && searchValue) {
-//   //   query[searchField] = { $regex: searchValue, $options: "i" };
-//   // }
-
-//   let query = {};
-
-
-//   for (const [key, value] of searchParams.entries()) {
-//     if (key === "page" || key === "limit") continue;
-
-//     // Special handling for dueDate
-//     if (key === "dueDate") {
-//       const date = new Date(value);
-//       if (!isNaN(date.getTime())) {
-//         // Create a range: from the start of the day to just before the next day
-//         const nextDate = new Date(date);
-//         nextDate.setDate(date.getDate() + 1);
-//         query[key] = { $gte: date, $lt: nextDate };
-//       }
-//     } else {
-//       // Default behavior: case-insensitive regex search for string fields
-//       query[key] = { $regex: value, $options: "i" };
-//     }
-//   }
-
-
-//   console.log("Query:", query);
-//   console.log("Request URL:", req.url);
-
-
-//   const invoices = await InvoiceModel.find(query)
-//     .skip((page - 1) * limit)
-//     .limit(limit);
-//   const total = await InvoiceModel.countDocuments(query);
-
-//   return NextResponse.json({ data: { result: invoices, pagination: { total, page, limit }, success: true } });
-// }
-
 export async function GET(req) {
   await dbConnect();
 
