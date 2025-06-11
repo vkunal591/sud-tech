@@ -177,7 +177,7 @@ const InvoiceForm = ({ responseData }: any) => {
           ...prevData,
           billingTo: {
             ...prevData.billingTo,
-            [name.split(".")[1]]: value,
+            [name.split(".")[1]]: value.toUpperCase(),
           },
         };
       }
@@ -186,7 +186,7 @@ const InvoiceForm = ({ responseData }: any) => {
           ...prevData,
           billingFrom: {
             ...prevData.billingFrom,
-            [name.split(".")[1]]: value,
+            [name.split(".")[1]]: value.toUpperCase(),
           },
         };
       }
@@ -195,7 +195,7 @@ const InvoiceForm = ({ responseData }: any) => {
           ...prevData,
           bankDetails: {
             ...prevData.bankDetails,
-            [name.split(".")[1]]: value,
+            [name.split(".")[1]]: value?.toUpperCase(),
           },
         };
       }
@@ -208,7 +208,7 @@ const InvoiceForm = ({ responseData }: any) => {
           [field]:
             field === "unitCost" || field === "quantity" || field === "value"
               ? Number(value) || 0
-              : value,
+              : value?.toUpperCase(),
         };
         return {
           ...prevData,
@@ -224,7 +224,7 @@ const InvoiceForm = ({ responseData }: any) => {
           const updatedPaymentStages = [...prevData.paymentStages];
           updatedPaymentStages[index] = {
             ...updatedPaymentStages[index],
-            [field]: value,
+            [field]: value?.toUpperCase(),
           };
           return {
             ...prevData,
@@ -235,7 +235,7 @@ const InvoiceForm = ({ responseData }: any) => {
       // Handle top-level fields
       return {
         ...prevData,
-        [name]: value,
+        [name]: value?.toUpperCase(),
       };
     });
   };
@@ -541,14 +541,21 @@ const InvoiceForm = ({ responseData }: any) => {
           <div className="mt-4">
             <h3 className="font-bold mb-2">Payment Details:</h3>
             {formData.paymentNumber !== "FINAL" &&
+              formData.invoiceType === "DOCK" &&
               formData.paymentStages
                 .filter((stage) => stage.key === formData.paymentNumber)
                 .map((stage, index) => (
                   <div key={stage.key} className="flex items-center gap-4 mb-2">
                     <input
-                      type={stage.key === "9TH" || stage.key === "10TH" ? "email" : "text"}
+                      type={
+                        stage.key === "9TH" || stage.key === "10TH"
+                          ? "email"
+                          : "text"
+                      }
                       placeholder={stage.key}
-                      name={`paymentStages[${formData.paymentStages.findIndex(s => s.key === stage.key)}].payment`}
+                      name={`paymentStages[${formData.paymentStages.findIndex(
+                        (s) => s.key === stage.key
+                      )}].payment`}
                       value={stage.payment}
                       onChange={handleChange}
                       className="w-full p-2 border border-gray-300 rounded"
@@ -556,7 +563,9 @@ const InvoiceForm = ({ responseData }: any) => {
                     <input
                       type="text"
                       placeholder="Pay By"
-                      name={`paymentStages[${formData.paymentStages.findIndex(s => s.key === stage.key)}].payBy`}
+                      name={`paymentStages[${formData.paymentStages.findIndex(
+                        (s) => s.key === stage.key
+                      )}].payBy`}
                       value={stage.payBy}
                       onChange={handleChange}
                       className="w-full p-2 border border-gray-300 rounded"
@@ -564,7 +573,9 @@ const InvoiceForm = ({ responseData }: any) => {
                     <input
                       type="date"
                       placeholder="Payment Date"
-                      name={`paymentStages[${formData.paymentStages.findIndex(s => s.key === stage.key)}].paymentDate`}
+                      name={`paymentStages[${formData.paymentStages.findIndex(
+                        (s) => s.key === stage.key
+                      )}].paymentDate`}
                       value={stage.paymentDate}
                       onChange={handleChange}
                       className="w-full p-2 border border-gray-300 rounded"
@@ -572,12 +583,20 @@ const InvoiceForm = ({ responseData }: any) => {
                   </div>
                 ))}
             {formData.paymentNumber === "FINAL" &&
+              formData.invoiceType === "DOCK" &&
               formData.paymentStages.map((stage, index) => {
                 if (selectedIndex >= index) {
                   return (
-                    <div key={stage.key} className="flex items-center gap-4 mb-2">
+                    <div
+                      key={stage.key}
+                      className="flex items-center gap-4 mb-2"
+                    >
                       <input
-                        type={stage.key === "9TH" || stage.key === "10TH" ? "email" : "text"}
+                        type={
+                          stage.key === "9TH" || stage.key === "10TH"
+                            ? "email"
+                            : "text"
+                        }
                         placeholder={stage.key}
                         name={`paymentStages[${index}].payment`}
                         value={stage.payment}
