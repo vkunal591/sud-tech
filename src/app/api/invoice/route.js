@@ -83,7 +83,7 @@ export async function GET(req) {
     const invoices = await InvoiceModel.find(query)
       .skip((page - 1) * limit)
       .limit(limit);
-
+console.log(invoices)
     const total = await InvoiceModel.countDocuments(query);
 
     return NextResponse.json({

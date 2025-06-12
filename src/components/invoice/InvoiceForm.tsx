@@ -132,43 +132,43 @@ const InvoiceForm = ({ responseData }: any) => {
       setFormData((prevData) => ({
         ...prevData,
         ...responseData,
-        billingTo: { ...prevData.billingTo, ...responseData.billingTo },
-        billingFrom: { ...prevData.billingFrom, ...responseData.billingFrom },
-        bankDetails: { ...prevData.bankDetails, ...responseData.bankDetails },
-        workDetails: responseData.workDetails || prevData.workDetails,
-        paymentStages: prevData.paymentStages.map((stage, index) => ({
+        billingTo: { ...prevData?.billingTo, ...responseData?.billingTo },
+        billingFrom: { ...prevData?.billingFrom, ...responseData?.billingFrom },
+        bankDetails: { ...prevData?.bankDetails, ...responseData?.bankDetails },
+        workDetails: responseData?.workDetails || prevData?.workDetails,
+        paymentStages: prevData?.paymentStages.map((stage, index) => ({
           ...stage,
           payment:
             index === 0
-              ? responseData?.billingFrom?.city || stage.payment
+              ? responseData?.billingFrom?.city || stage?.payment
               : index === 1
-              ? responseData?.billingFrom?.country || stage.payment
+              ? responseData?.billingFrom?.country || stage?.payment
               : index === 2
-              ? responseData?.billingFrom?.pincode || stage.payment
+              ? responseData?.billingFrom?.pincode || stage?.payment
               : index === 3
-              ? responseData?.billingFrom?.email || stage.payment
+              ? responseData?.billingFrom?.email || stage?.payment
               : index === 4
-              ? responseData?.billingFrom?.phoneNumber || stage.payment
+              ? responseData?.billingFrom?.phoneNumber || stage?.payment
               : index === 5
-              ? responseData?.billingTo?.landmark || stage.payment
+              ? responseData?.billingTo?.landmark || stage?.payment
               : index === 6
-              ? responseData?.billingTo?.city || stage.payment
+              ? responseData?.billingTo?.city || stage?.payment
               : index === 7
-              ? responseData?.billingTo?.country || stage.payment
+              ? responseData?.billingTo?.country || stage?.payment
               : index === 8
-              ? responseData?.billingTo?.pincode || stage.payment
+              ? responseData?.billingTo?.pincode || stage?.payment
               : index === 9
-              ? responseData?.billingTo?.email || stage.payment
+              ? responseData?.billingTo?.email || stage?.payment
               : index === 10
-              ? responseData?.bankDetails?.accountName || stage.payment
-              : stage.payment,
+              ? responseData?.bankDetails?.accountName || stage?.payment
+              : stage?.payment,
         })),
       }));
     }
   }, [responseData]);
 
   const handleChange = (e: any, workDetailIndex?: number) => {
-    const { name, value } = e.target;
+    const { name, value } = e?.target;
 
     setFormData((prevData) => {
       // Handle nested fields like billingTo, billingFrom, bankDetails
@@ -508,14 +508,14 @@ const InvoiceForm = ({ responseData }: any) => {
                     className="col-span-1 p-2 border border-gray-300 rounded"
                   />
                   <div className="col-span-1 flex items-center">
-                    <input
+                    {/* <input
                       type="number"
                       placeholder="Value"
                       name="workDetails.value"
                       value={work.value}
                       onChange={(e) => handleChange(e, index)}
                       className="w-full p-2 border border-gray-300 rounded"
-                    />
+                    /> */}
                     {formData.workDetails.length > 1 && (
                       <button
                         type="button"

@@ -97,7 +97,7 @@ console.log(data)
     fetchData(data?._id);
     // eslint-disable-next-line
   }, []);
-
+console.log(formData)
   return (
     <div>
       {!loading && (

@@ -293,14 +293,14 @@ PARTIES.`, maxWidth), 20, 128) : "";
     doc.setLineWidth(0.4).line(180, 100, 180, 120);
 
     doc.setFontSize(11).text(doc.splitTextToSize(`Item No.`, (maxWidth - 160)), 7, 105);
-    doc.setFontSize(11).text(doc.splitTextToSize(`Item Description.`, (maxWidth - 160)), 50, 105);
+    doc.setFontSize(11).text(doc.splitTextToSize(`Item Description.`, (maxWidth - 120)), 50, 105);
     doc.setFontSize(11).text(doc.splitTextToSize(`Unit`, (maxWidth - 160)), 120, 105);
     doc.setFontSize(11).text(doc.splitTextToSize(`Unit Cost (USD)`, (maxWidth - 158)), 138, 105);
     doc.setFontSize(11).text(doc.splitTextToSize(`Quantity`, (maxWidth - 155)), 157, 105);
     doc.setFontSize(11).text(doc.splitTextToSize(`Total Amount (USD)`, (maxWidth - 157)), 185, 105);
 
 
-
+    let totalAmount = 0;
     const formatAmountWithCommas = (amount: number): string => {
       return amount.toLocaleString('en-IN') + '/-';
     };
@@ -320,17 +320,17 @@ PARTIES.`, maxWidth), 20, 128) : "";
 
       // Vertical lines
       columnX.forEach((x) => {
-        doc.setLineWidth(0.4).line(x, startY, x, startY + (totalRows + 1) * rowHeight);
+        doc.setLineWidth(0.4).line(x, startY, x, startY + (totalRows) * rowHeight);
       });
 
       // Horizontal lines
-      for (let i = 1; i <= totalRows + 1; i++) {
+      for (let i = 1; i <= totalRows; i++) {
         const y = startY + i * rowHeight;
         doc.setLineWidth(0.4).line(startX, y, endX, y);
       }
 
       // Table values
-      let totalAmount = 0;
+      // let totalAmount = 0;
 
       for (let i = 0; i < totalRows; i++) {
         const y = startY + i * rowHeight + 7;
@@ -342,7 +342,7 @@ PARTIES.`, maxWidth), 20, 128) : "";
 
         doc.setFontSize(9);
         doc.text(`${i + 1}`, 7, y);
-        doc.text(item.description || '', 17, y);
+        doc.text(item.itemDesc || '', 17, y);
         doc.text(item.unit || '', 117, y);
         doc.text(item.unitCost.toString(), 137, y);
         doc.text(item.quantity.toString(), 157, y);
@@ -350,37 +350,64 @@ PARTIES.`, maxWidth), 20, 128) : "";
       }
 
       // Total row
-      const totalY = startY + totalRows * rowHeight + 7;
-      doc.setFontSize(9);
-      doc.text("TOTAL", 117, totalY);
-      doc.text(formatAmountWithCommas(totalAmount), 182, totalY);
+      // const totalY = startY + totalRows * rowHeight + 7;
+      // doc.setFontSize(9);
+      // doc.text("TOTAL", 117, totalY);
+      // doc.text(formatAmountWithCommas(totalAmount), 182, totalY);
     };
 
 
     const items = [
-      { description: 'Gold Necklace', unit: 'pcs', unitCost: '1200', quantity: '2' },
-      { description: 'Earrings', unit: 'pair', unitCost: '500', quantity: '1' },
-      { description: 'Bracelet', unit: 'pcs', unitCost: '700', quantity: '3' },
+      { itemDesc: 'Gold Necklace', unit: 'pcs', unitCost: '1200', quantity: '2' },
+      { itemDesc: 'Earrings', unit: 'pair', unitCost: '500', quantity: '1' },
+      { itemDesc: 'Bracelet', unit: 'pcs', unitCost: '700', quantity: '3' },
     ];
 
-    drawTable(doc, items);
+    drawTable(doc, formData?.workDetails);
 
 
 
 
     doc.setLineWidth(0.4).line(5, 217, 205, 217);
     doc.setLineWidth(0.4).line(5, 218, 205, 218);
+    doc.setLineWidth(0.4).line(170, 218, 170, 227);
     // Total Invoice amount (USD)
+    doc.setFontSize(18).text(doc.splitTextToSize(`Total Invoice amount (USD)`, (maxWidth - 70)), 7, 225);
+    doc.setFontSize(14).text(doc.splitTextToSize(`${formatAmountWithCommas(totalAmount)}`, (maxWidth - 150)), 174, 225);
+
+
 
     doc.setLineWidth(0.4).line(5, 227, 205, 227);
     doc.setLineWidth(0.4).line(5, 228, 205, 228);
+    doc.setLineWidth(0.4).line(60, 228, 60, 232);
+
     // Total Invoice amount in words:
+    doc.setFontSize(10.5).text(doc.splitTextToSize(`Total Invoice amount in words:`, (maxWidth - 70)), 7, 231.3);
+    doc.setFontSize(10.5).text(doc.splitTextToSize(`${formData?.totalAmountInWords}`, (maxWidth - 100)), 70, 231.3);
+
 
     doc.setLineWidth(0.4).line(5, 232, 205, 232);
     doc.setLineWidth(0.4).line(5, 233, 205, 233);
+    doc.setLineWidth(0.4).line(130, 233, 130, 239);
     // SUD Group Hong Kong Company Limited Bank Details
+    doc.setFontSize(14).text(doc.splitTextToSize(`SUD Group Hong Kong Company Limited Bank Details`, (maxWidth - 50)), 7, 238);
+    doc.setFontSize(11).text(doc.splitTextToSize(`Authorised signatory with Company Chop`, (maxWidth - 50)), 134, 238);
+
+
+    doc.setFontSize(12).text(doc.splitTextToSize(`Account Name: SUD Group Hong Kong Company Limited.`, (maxWidth - 50)), 7, 249);
+    doc.setFontSize(12).text(doc.splitTextToSize(`Account number: 582-634960-838`, (maxWidth - 50)), 7, 254);
+    doc.setFontSize(12).text(doc.splitTextToSize(`Beneficiary Bank name: HSBC (Hong Kong)`, (maxWidth - 50)), 7, 259);
+    doc.setFontSize(12).text(doc.splitTextToSize(`Beneficiary Bank Address: 1 Queen's Road Central, Hong Kong`, (maxWidth - 50)), 7, 264);
+    doc.setFontSize(12).text(doc.splitTextToSize(`Swift Address: HSBCHKHHHKH`, (maxWidth - 50)), 7, 269);
+
+    if (signBase64) {
+      doc.addImage(signBase64, "PNG", 137, 245, 55, 30);
+    }
+
     doc.setLineWidth(0.4).line(5, 239, 205, 239);
     doc.setLineWidth(0.4).line(5, 240, 205, 240);
+    doc.setLineWidth(0.4).line(130, 240, 130, 280);
+
 
     // END
 

@@ -9,7 +9,8 @@ const Schema = new mongoose.Schema({
   },
   status:{
     type:String,
-    enum:["Paid","Pending","Unpaid","Overdue"]
+    enum:["Paid","Pending","Unpaid","Overdue"],
+    default:"Unpaid"
   },
   invoiceDate: { type: Date },
   vesselName: { type: String },
