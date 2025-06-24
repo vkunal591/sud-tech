@@ -15,6 +15,7 @@ const InvoiceForm = ({ responseData }: any) => {
   const [formData, setFormData] = useState({
     invoiceNumber: responseData?.invoiceNumber || "",
     invoiceType: responseData?.invoiceType || "",
+    portsName: responseData?.portsName || "",
     invoiceDate: "",
     paymentNumber: "",
     to: responseData?.companyName || "",
@@ -27,6 +28,7 @@ const InvoiceForm = ({ responseData }: any) => {
     totalAmount: responseData?.sudInvoiceToOwners || "",
     totalAmountInWords: "",
     remarks: responseData?.remarks || "",
+    businessMail: "",
     billingTo: {
       companyName: responseData?.companyName || "",
       streetAddress: responseData?.street || "",
@@ -142,26 +144,26 @@ const InvoiceForm = ({ responseData }: any) => {
             index === 0
               ? responseData?.billingFrom?.city || stage?.payment
               : index === 1
-              ? responseData?.billingFrom?.country || stage?.payment
-              : index === 2
-              ? responseData?.billingFrom?.pincode || stage?.payment
-              : index === 3
-              ? responseData?.billingFrom?.email || stage?.payment
-              : index === 4
-              ? responseData?.billingFrom?.phoneNumber || stage?.payment
-              : index === 5
-              ? responseData?.billingTo?.landmark || stage?.payment
-              : index === 6
-              ? responseData?.billingTo?.city || stage?.payment
-              : index === 7
-              ? responseData?.billingTo?.country || stage?.payment
-              : index === 8
-              ? responseData?.billingTo?.pincode || stage?.payment
-              : index === 9
-              ? responseData?.billingTo?.email || stage?.payment
-              : index === 10
-              ? responseData?.bankDetails?.accountName || stage?.payment
-              : stage?.payment,
+                ? responseData?.billingFrom?.country || stage?.payment
+                : index === 2
+                  ? responseData?.billingFrom?.pincode || stage?.payment
+                  : index === 3
+                    ? responseData?.billingFrom?.email || stage?.payment
+                    : index === 4
+                      ? responseData?.billingFrom?.phoneNumber || stage?.payment
+                      : index === 5
+                        ? responseData?.billingTo?.landmark || stage?.payment
+                        : index === 6
+                          ? responseData?.billingTo?.city || stage?.payment
+                          : index === 7
+                            ? responseData?.billingTo?.country || stage?.payment
+                            : index === 8
+                              ? responseData?.billingTo?.pincode || stage?.payment
+                              : index === 9
+                                ? responseData?.billingTo?.email || stage?.payment
+                                : index === 10
+                                  ? responseData?.bankDetails?.accountName || stage?.payment
+                                  : stage?.payment,
         })),
       }));
     }
@@ -360,6 +362,21 @@ const InvoiceForm = ({ responseData }: any) => {
                   onChange={handleChange}
                 />
               </div>
+
+              {formData?.invoiceType === "PORTS" &&
+                <div className="flex mb-2">
+                  <label className="inline-block w-1/4 mb-1 text-sm">Port Name:</label>
+                  <input
+                    autoComplete="off"
+                    placeholder="Enter port name"
+                    className="w-3/4 text-primary outline text-sm outline-gray-100 px-4 py-1 placeholder:text-gray-400 bg-white rounded"
+                    type="text"
+                    name="portsName"
+                    value={formData.portsName}
+                    onChange={handleChange}
+                  />
+                </div>
+              }
             </div>
             <div className="lg:w-2/3">
               <div className="flex mb-2">
@@ -416,6 +433,19 @@ const InvoiceForm = ({ responseData }: any) => {
                   onChange={handleChange}
                 />
               </div>
+              {formData?.invoiceType === "PORTS" &&
+                <div className="flex mb-2">
+                  <label className="inline-block w-1/4 mb-1 text-sm">Email:</label>
+                  <input
+                    autoComplete="off"
+                    placeholder="Enter enter email"
+                    className="w-3/4 text-primary outline text-sm outline-gray-100 px-4 py-1 placeholder:text-gray-400 bg-white rounded"
+                    type="text"
+                    name="businessMail"
+                    value={formData.businessMail}
+                    onChange={handleChange}
+                  />
+                </div>}
             </div>
           </div>
 

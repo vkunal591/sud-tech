@@ -264,15 +264,16 @@ PARTIES.`, maxWidth), 20, 128) : "";
     // Invoice date: 07/Jan/2025
     doc.setFont("helvetica", "semibold").setFontSize(12).text(`Invoice date:${dayjs(formData?.invoiceDate).format("DD/MMM/YYYY")}`, 7, 65);
     doc.setFontSize(11).text(doc.splitTextToSize(`TO: ${formData?.to}`, (maxWidth - 90)), 117, 65);
-    doc.setFontSize(11).text(doc.splitTextToSize(`C/O: ${formData?.co}`, (maxWidth - 90)), 117, 79);
-    doc.setFontSize(11).text(doc.splitTextToSize(`Email: ${formData?.billingTo?.email}`, (maxWidth - 90)), 117, 84);
+    doc.setFontSize(11).text(doc.splitTextToSize(`C/O: ${formData?.co}`, (maxWidth - 90)), 117, 78);
+    doc.setFontSize(11).text(doc.splitTextToSize(`Add: ${formData?.billingTo?.streetAddress}`, (maxWidth - 90)), 117, 83);
+    doc.setFontSize(11).text(doc.splitTextToSize(`Email: ${formData?.businessMail?.toLowerCase()}`, (maxWidth - 90)), 117, 88);
 
 
     doc.setLineWidth(0.4).line(5, 66, 115, 66);
     doc.setFont("helvetica", "semibold").setFontSize(12).text(`Invoice date:${dayjs(formData?.dueDate).format("DD/MMM/YYYY")}`, 7, 70);
     // Invoice payment due date: 07/Feb/2025
     doc.setLineWidth(0.4).line(5, 72, 115, 72);
-    doc.setFontSize(11).text(doc.splitTextToSize(`Remark: ${formData?.billingTo.streetAddress}`, (maxWidth - 70)), 7, 77);
+    doc.setFontSize(11).text(doc.splitTextToSize(`Remark: PO NUMBER: ${formData?.portsName}`, (maxWidth - 70)), 7, 77);
 
     // Remark: PO Number: BCEC-OTS-O2400332
     // 2Winch Brake Test at Zhenjiang port on 17th Oct,2024.
