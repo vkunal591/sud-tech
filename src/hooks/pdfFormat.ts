@@ -85,6 +85,8 @@ export const handleDownloadPDF = async (formData: any) => {
     });
   };
 
+  let data = 0
+  formData?.paymentStages.forEach((d: any) => d?.payment ? data++ : "")
   const logoBase64 = await loadImageAsBase64("/assets/logo/logo.png");
   const signBase64 = await loadImageAsBase64("/assets/otp/sign.png");
   if (formData?.invoiceType === "DOCK") {
@@ -114,8 +116,8 @@ export const handleDownloadPDF = async (formData: any) => {
     doc.text(':', 40, 58)
     doc.text(doc.splitTextToSize(`${formData.billingTo.streetAddress}, `, (maxWidth - 20)), 42, 58);
 
-    formData?.paymentNumber === "FINAL" ? doc.setFont("helvetica", "semibol").setFontSize(10).text(`${formData?.paymentNumber || "FINAL"} AGREEMENT & INVOICE (INVOICE NO:${formData.invoiceNumber})`, 47, 73) : doc.setFont("helvetica", "semibol").setFontSize(10).text(`${formData?.paymentNumber || "1ST"} PAYMENT REQUEST & INVOICE (INVOICE NO: SUD(HK)/${formData.invoiceNumber})`, 47, 68);
-    formData?.paymentNumber === "FINAL" ? doc.setLineWidth(0.4).line(47, 75, 175, 75) : doc.setLineWidth(0.4).line(47, 70, 175, 70);
+    formData?.paymentNumber === "FINAL" ? doc.setFont("helvetica", "semibol").setFontSize(10).text(`${(data > 3 ? data + "TH" : (data == 3 ? data + "RD" : (data + "ND"))) || "FINAL"} AGREEMENT & INVOICE (INVOICE NO: ${formData.invoiceNumber})`, 47, 73) : doc.setFont("helvetica", "semibol").setFontSize(10).text(`${formData?.paymentNumber || "1ST"} PAYMENT REQUEST & INVOICE (INVOICE NO: ${formData.invoiceNumber})`, 47, 68);
+    formData?.paymentNumber === "FINAL" ? doc.setLineWidth(0.4).line(47, 75, 165, 75) : doc.setLineWidth(0.4).line(47, 70, 165, 70);
 
     doc.setFont("helvetica", "400").setFontSize(10).text(`INV DATE: ${dayjs(formData.invoiceDate).format("DD MMM YYYY")}`, 150, 80);
     doc.text("DEAR SIR,", 20, 85);
@@ -125,10 +127,10 @@ export const handleDownloadPDF = async (formData: any) => {
     formData?.paymentNumber === "FINAL" ? doc.text(doc.splitTextToSize(`CONSIDERING QUAITY, REPAIR TIME, WEATHER CONDITIONS, ADDITIONAL WORKS, DEVIATION COMPENSATION, WHOLE PROCESS OF THE REPAIR AND OTHER FACTORS CONCERNED WITH BILLING, BOTH SIDES ACCEPTED AND SETTLED THE BILL AS FOLLOWS.`, maxWidth), 20, 114) : doc.text(doc.splitTextToSize(`FINAL YARD BILL WILL BE ON BASIS OF DISCUSSION AND AGREEMENT BY OWNER’S REPRESENTATIVE ON BASIS OF FINAL WORK DONE LIST.`, maxWidth), 20, 125);
     formData?.paymentNumber === "FINAL" ? doc.text(doc.splitTextToSize(`THE AMOUNT OF THE BILL IN THIS AGREEMENT IS FINALLY SETTLED AFTER SIGNING BY BOTH
 PARTIES.`, maxWidth), 20, 128) : "";
+    console.log(data)
 
 
-
-    formData?.paymentNumber === "FINAL" ? doc.setFont("helvetica", "bold").text(`FINAL AGREED AMOUNT: USD ${formData.totalAmount}/-`, 20, 137) : doc.setFont("helvetica", "bold").text(`PART REMITTANCE AMOUNT IN FIGURE: USD ${formData.totalAmount}/-`, 20, 146);
+    formData?.paymentNumber === "FINAL" ? doc.setFont("helvetica", "bold").text(`${data}TH AGREED AMOUNT: USD ${formData.totalAmount}/-`, 20, 137) : doc.setFont("helvetica", "bold").text(`PART REMITTANCE AMOUNT IN FIGURE: USD ${formData.totalAmount}/-`, 20, 146);
     formData?.paymentNumber === "FINAL" ? doc.text(doc.splitTextToSize(`(IN WORDS: US DOLLAR ${formData.totalAmountInWords.toUpperCase()})`, maxWidth), 20, 141) : doc.text(doc.splitTextToSize(`PART REMITTANCE AMOUNT IN WORDS: US DOLLAR ${formData.totalAmountInWords.toUpperCase()}`, maxWidth), 20, 151);
     doc.setFont("helvetica", "semibold")
     formData?.paymentNumber !== "FINAL" && doc.line(20, 147, 110, 147);
@@ -151,7 +153,7 @@ PARTIES.`, maxWidth), 20, 128) : "";
 
       for (let i = 0; i < 11; i++) {
         const stage = formData?.paymentStages?.[i];
-        const label = i === 10 ? "FINAL USD" : `${i + 1}. USD`;
+        const label = i === 10 ? `${data}. USD` : `${i + 1}. USD`;
         const key = i === 10 ? "FINAL" : `${i + 1}TH`;
 
         if (stage?.payment) {
