@@ -114,7 +114,7 @@ export const handleDownloadPDF = async (formData: any) => {
     doc.text(':', 40, 58)
     doc.text(doc.splitTextToSize(`${formData.billingTo.streetAddress}, `, (maxWidth - 20)), 42, 58);
 
-    formData?.paymentNumber === "FINAL" ? doc.setFont("helvetica", "semibol").setFontSize(10).text(`${formData?.paymentNumber || "FINAL"} AGREEMENT & INVOICE (INVOICE NO: SUD(HK)/${formData.invoiceNumber})`, 47, 73) : doc.setFont("helvetica", "semibol").setFontSize(10).text(`${formData?.paymentNumber || "1ST"} PAYMENT REQUEST & INVOICE (INVOICE NO: SUD(HK)/${formData.invoiceNumber})`, 47, 68);
+    formData?.paymentNumber === "FINAL" ? doc.setFont("helvetica", "semibol").setFontSize(10).text(`${formData?.paymentNumber || "FINAL"} AGREEMENT & INVOICE (INVOICE NO:${formData.invoiceNumber})`, 47, 73) : doc.setFont("helvetica", "semibol").setFontSize(10).text(`${formData?.paymentNumber || "1ST"} PAYMENT REQUEST & INVOICE (INVOICE NO: SUD(HK)/${formData.invoiceNumber})`, 47, 68);
     formData?.paymentNumber === "FINAL" ? doc.setLineWidth(0.4).line(47, 75, 175, 75) : doc.setLineWidth(0.4).line(47, 70, 175, 70);
 
     doc.setFont("helvetica", "400").setFontSize(10).text(`INV DATE: ${dayjs(formData.invoiceDate).format("DD MMM YYYY")}`, 150, 80);

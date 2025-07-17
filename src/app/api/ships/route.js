@@ -22,7 +22,8 @@ export async function GET(req) {
   }
 
   try {
-    const ships = await Ship.find(filterConditions).skip(skip).limit(limit).sort({ createdAt: -1 });
+    const ships = await Ship.find(filterConditions).skip(skip).limit(limit)
+    // .sort({ createdAt: -1 });
     const totalShips = await Ship.countDocuments(filterConditions);
 
     return NextResponse.json({
