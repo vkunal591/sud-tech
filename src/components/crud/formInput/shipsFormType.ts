@@ -33,8 +33,19 @@ export const ShipType: FormField[] = [
   {
     name: "repairedMonth",
     type: "text",
-
     label: "Repaired Month",
+    placeholder: "Enter repaired month",
+  },
+  {
+    name: "arrival",
+    type: "date",
+    label: "Arrival Date",
+    placeholder: "Enter repaired month",
+  },
+  {
+    name: "departure",
+    type: "date",
+    label: "Departure Date",
     placeholder: "Enter repaired month",
   },
   {

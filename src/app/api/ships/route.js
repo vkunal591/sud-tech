@@ -12,29 +12,74 @@ export async function GET(req) {
   const search = searchParams.get("search") || "";
   const skip = (page - 1) * limit;
 
-  const filterConditions = {};
+  const matchConditions = {};
 
   if (search) {
-    filterConditions.$or = [
+    matchConditions.$or = [
       { vesselImoNo: { $regex: search, $options: "i" } },
       { companyName: { $regex: search, $options: "i" } }
     ];
   }
 
   try {
-    const ships = await Ship.find(filterConditions).skip(skip).limit(limit)
-    // .sort({ createdAt: -1 });
-    const totalShips = await Ship.countDocuments(filterConditions);
+    const totalShips = await Ship.countDocuments(matchConditions);
+
+    const ships = await Ship.aggregate([
+      { $match: matchConditions },
+      {
+        $addFields: {
+          isDepartureMissing: {
+            $or: [
+              { $eq: ["$departure", null] },
+              { $eq: ["$departure", ""] },
+              { $not: [{ $ifNull: ["$departure", false] }] }
+            ]
+          },
+          parsedDeparture: {
+            $cond: [
+              { $and: [
+                { $ne: ["$departure", null] },
+                { $ne: ["$departure", ""] }
+              ]},
+              { $toDate: "$departure" },
+              null
+            ]
+          }
+        }
+      },
+      {
+        $sort: {
+          isDepartureMissing: -1, // true (missing) = 1 → comes first
+          parsedDeparture: 1       // then sort by actual departure date
+        }
+      },
+      { $skip: skip },
+      { $limit: limit }
+    ]);
+
+    const resultWithIndex = ships.map((ship, index) => ({
+      serialNo: skip + index + 1,
+      ...ship
+    }));
 
     return NextResponse.json({
       data: {
-        result: ships,
-        pagination: { currentPage: page, totalPages: Math.ceil(totalShips / limit),itemsPerPage:limit, totalItems: totalShips }
+        result: resultWithIndex,
+        pagination: {
+          currentPage: page,
+          totalPages: Math.ceil(totalShips / limit),
+          itemsPerPage: limit,
+          totalItems: totalShips
+        }
       },
       success: true
     });
   } catch (error) {
-    return NextResponse.json({ message: "Error fetching ships" }, { status: 500 });
+    console.error("Error fetching ships:", error);
+    return NextResponse.json(
+      { message: "Error fetching ships" },
+      { status: 500 }
+    );
   }
 }
 

@@ -266,9 +266,19 @@ PARTIES.`, maxWidth), 20, 128) : "";
     // Invoice date: 07/Jan/2025
     doc.setFont("helvetica", "semibold").setFontSize(12).text(`Invoice date:${dayjs(formData?.invoiceDate).format("DD/MMM/YYYY")}`, 7, 65);
     doc.setFontSize(11).text(doc.splitTextToSize(`TO: ${formData?.to}`, (maxWidth - 90)), 117, 65);
-    doc.setFontSize(11).text(doc.splitTextToSize(`C/O: ${formData?.co}`, (maxWidth - 90)), 117, 78);
-    doc.setFontSize(11).text(doc.splitTextToSize(`Add: ${formData?.billingTo?.streetAddress}`, (maxWidth - 90)), 117, 83);
-    doc.setFontSize(11).text(doc.splitTextToSize(`Email: ${formData?.businessMail?.toLowerCase()}`, (maxWidth - 90)), 117, 88);
+    // Truncate function
+    const truncateText = (text: any, maxLength: any) => {
+      return text && text.length > maxLength ? text.substring(0, maxLength) + '...' : text || '';
+    };
+
+    // Truncate values
+    const truncatedCo = truncateText(formData?.co, 40);
+    const truncatedStreet = truncateText(formData?.billingTo?.streetAddress, 65);
+
+    // Add to PDF
+    doc.setFontSize(11).text(doc.splitTextToSize(`C/O: ${truncatedCo}`, (maxWidth - 80)), 117, 78);
+    doc.setFontSize(11).text(doc.splitTextToSize(`Add: ${truncatedStreet}`, (maxWidth - 80)), 117, 83);
+    doc.setFontSize(11).text(doc.splitTextToSize(`Email: ${formData?.businessMail?.toLowerCase()}`, (maxWidth - 90)), 117, 94);
 
 
     doc.setLineWidth(0.4).line(5, 66, 115, 66);

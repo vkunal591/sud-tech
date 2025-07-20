@@ -41,8 +41,8 @@ const InvoiceForm = ({ responseData }: any) => {
     },
     billingFrom: {
       companyName: "",
-      streetAddress: "",
-      landmark: "",
+      streetAddress: dayjs(responseData?.arrival).format('D MMMM YYYY') || "",
+      landmark: dayjs(responseData?.departure).format('D MMMM YYYY') || "",
       city: "",
       country: "",
       pincode: "",
@@ -365,10 +365,10 @@ const InvoiceForm = ({ responseData }: any) => {
 
               {formData?.invoiceType === "PORTS" &&
                 <div className="flex mb-2">
-                  <label className="inline-block w-1/4 mb-1 text-sm">Port Name:</label>
+                  <label className="inline-block w-1/4 mb-1 text-sm">Remark & PO Number:</label>
                   <input
                     autoComplete="off"
-                    placeholder="Enter port name"
+                    placeholder="Enter remarks & po number"
                     className="w-3/4 text-primary outline text-sm outline-gray-100 px-4 py-1 placeholder:text-gray-400 bg-white rounded"
                     type="text"
                     name="portsName"

@@ -62,6 +62,8 @@ const columns = [
     isDate: true,
   },
   { key: "remarks", label: "Remarks", sortable: true },
+  { key: "arrival", label: "Arrival Date", sortable: true, isDate: true },
+  { key: "departure", label: "Departure Date", sortable: true, isDate: true },
   { key: "createdAt", label: "Creation Date", sortable: true, isDate: true },
 ];
 const filterOptions = [

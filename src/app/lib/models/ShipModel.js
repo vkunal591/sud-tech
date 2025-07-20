@@ -19,6 +19,8 @@ const shipDetailsSchema = new mongoose.Schema(
     yardInvoiceToSUD: { type: String },
     yardActualPaymentDate: { type: String },
     yardPaymentDueDate: { type: String },
+    arrival: { type: String },
+    departure: { type: String },
     vendorDetails: [
       {
         vendorInvoiceToSUD: { type: String },
