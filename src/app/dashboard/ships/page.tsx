@@ -15,6 +15,7 @@ const columns = [
   { key: "vesselImoNo", label: "Vessel (IMO NO)", sortable: false },
   { key: "companyName", label: "Company Name", sortable: true },
   { key: "yardName", label: "Yard Name", sortable: true },
+  { key: "portsName", label: "Port Name", sortable: true },
   { key: "repairedMonth", label: "Repaired Month", sortable: true },
   { key: "invoiceNumber", label: "Invoice Number", sortable: true },
   {

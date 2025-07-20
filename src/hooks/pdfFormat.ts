@@ -116,7 +116,7 @@ export const handleDownloadPDF = async (formData: any) => {
     doc.text(':', 40, 58)
     doc.text(doc.splitTextToSize(`${formData.billingTo.streetAddress}, `, (maxWidth - 20)), 42, 58);
 
-    formData?.paymentNumber === "FINAL" ? doc.setFont("helvetica", "semibol").setFontSize(10).text(`${(data > 3 ? data + "TH" : (data == 3 ? data + "RD" : (data + "ND"))) || "FINAL"} AGREEMENT & INVOICE (INVOICE NO: ${formData.invoiceNumber})`, 47, 73) : doc.setFont("helvetica", "semibol").setFontSize(10).text(`${formData?.paymentNumber || "1ST"} PAYMENT REQUEST & INVOICE (INVOICE NO: ${formData.invoiceNumber})`, 47, 68);
+    formData?.paymentNumber === "FINAL" ? doc.setFont("helvetica", "semibol").setFontSize(10).text(`${formData?.paymentNumber || "FINAL"} AGREEMENT & INVOICE (INVOICE NO: ${formData.invoiceNumber})`, 47, 73) : doc.setFont("helvetica", "semibol").setFontSize(10).text(`${formData?.paymentNumber || "1ST"} PAYMENT REQUEST & INVOICE (INVOICE NO: ${formData.invoiceNumber})`, 47, 68);
     formData?.paymentNumber === "FINAL" ? doc.setLineWidth(0.4).line(47, 75, 165, 75) : doc.setLineWidth(0.4).line(47, 70, 165, 70);
 
     doc.setFont("helvetica", "400").setFontSize(10).text(`INV DATE: ${dayjs(formData.invoiceDate).format("DD MMM YYYY")}`, 150, 80);
@@ -130,7 +130,7 @@ PARTIES.`, maxWidth), 20, 128) : "";
     console.log(data)
 
 
-    formData?.paymentNumber === "FINAL" ? doc.setFont("helvetica", "bold").text(`${data}TH AGREED AMOUNT: USD ${formData.totalAmount}/-`, 20, 137) : doc.setFont("helvetica", "bold").text(`PART REMITTANCE AMOUNT IN FIGURE: USD ${formData.totalAmount}/-`, 20, 146);
+    formData?.paymentNumber === "FINAL" ? doc.setFont("helvetica", "bold").text(`${formData?.paymentNumber} AGREED AMOUNT: USD ${formData.totalAmount}/-`, 20, 137) : doc.setFont("helvetica", "bold").text(`PART REMITTANCE AMOUNT IN FIGURE: USD ${formData.totalAmount}/-`, 20, 146);
     formData?.paymentNumber === "FINAL" ? doc.text(doc.splitTextToSize(`(IN WORDS: US DOLLAR ${formData.totalAmountInWords.toUpperCase()})`, maxWidth), 20, 141) : doc.text(doc.splitTextToSize(`PART REMITTANCE AMOUNT IN WORDS: US DOLLAR ${formData.totalAmountInWords.toUpperCase()}`, maxWidth), 20, 151);
     doc.setFont("helvetica", "semibold")
     formData?.paymentNumber !== "FINAL" && doc.line(20, 147, 110, 147);

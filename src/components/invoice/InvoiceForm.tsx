@@ -569,7 +569,7 @@ const InvoiceForm = ({ responseData }: any) => {
           )}
 
           <div className="mt-4">
-            <h3 className="font-bold mb-2">Payment Details:</h3>
+            <h3 className="font-bold mb-2">Payment Terms:</h3>
             {formData.paymentNumber !== "FINAL" &&
               formData.invoiceType === "DOCK" &&
               formData.paymentStages
