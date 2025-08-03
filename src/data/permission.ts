@@ -28,7 +28,17 @@ export const userPermissions = [
     },
   },
   {
-    module: "Manage Ships",
+    module: "Manage Invoice",
+    access: {
+      read: true,
+      update: true,
+      create: true,
+      invoice: true,
+      delete: true,
+    },
+  },
+  {
+    module: "Manage Invoice",
     access: {
       read: true,
       update: true,
@@ -48,7 +58,7 @@ export const userPermissions = [
     },
   },
   {
-    module: "Manage Billing",
+    module: "Manage Invoice",
     access: {
       read: true,
       update: true,

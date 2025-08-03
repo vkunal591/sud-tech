@@ -32,9 +32,8 @@ const Sidebar: React.FC = () => {
         custom: true,
       },
     },
-
     {
-      module: "Manage Billing",
+      module: "Manage Invoice",
       access: {
         read: true,
         write: true,
@@ -43,26 +42,26 @@ const Sidebar: React.FC = () => {
         delete: true,
       },
     },
-    {
-      module: "Manage Ships",
-      access: {
-        read: true,
-        create: true,
-        invoice: true,
-        write: true,
-        delete: true,
-      },
-    },
-    {
-      module: "Manage Yard and Vendor",
-      access: {
-        read: true,
-        create: true,
-        invoice: true,
-        write: true,
-        delete: true,
-      },
-    },
+    //   {
+    //     module: "Manage Ships",
+    //     access: {
+    //       read: true,
+    //       create: true,
+    //       invoice: true,
+    //       write: true,
+    //       delete: true,
+    //     },
+    //   },
+    //   {
+    //     module: "Manage Yard and Vendor",
+    //     access: {
+    //       read: true,
+    //       create: true,
+    //       invoice: true,
+    //       write: true,
+    //       delete: true,
+    //     },
+    //   },
   ];
 
   let filteredTabs: any = [];
@@ -89,7 +88,7 @@ const Sidebar: React.FC = () => {
             unoptimized
             src={"/assets/logo/logo.jpg"}
           /> */}
-          <h1 className="text-3xl">SUD</h1>
+          <h1 className="text-3xl">SUD Tech</h1>
         </Link>
       </div>
       <nav className="flex flex-col gap-2 justify-center items-center mt-[72px] mb-40">
@@ -104,10 +103,9 @@ const Sidebar: React.FC = () => {
                   if (tab?.tabs && tab?.tabs.length > 0)
                     showList({ tab: tab?.permission, list: tab?.tabs });
                 }}
-                className={`py-3 pl-5 mr-auto w-[95%] pr-2 text-sm cursor-pointer hover:bg-secondary transition rounded-r-full text-info flex justify-between gap-2 items-center border-primary hover:text-white ${
-                  pathname === tab?.href &&
+                className={`py-3 pl-5 mr-auto w-[95%] pr-2 text-sm cursor-pointer hover:bg-secondary transition rounded-r-full text-info flex justify-between gap-2 items-center border-primary hover:text-white ${pathname === tab?.href &&
                   "bg-secondary rounded-r-full text-white font-semibold"
-                }`}
+                  }`}
               >
                 <span className="flex gap-2 items-center">
                   <Icon size={18} /> {tab?.label}

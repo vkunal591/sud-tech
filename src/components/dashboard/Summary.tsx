@@ -17,9 +17,9 @@ import Link from "next/link";
 
 const Summary = () => {
   const currentData = new Date();
-  const notificationRange = `?dueDateFrom=${dayjs(currentData).format(
+  const notificationRange = `?paymentDueDateFrom=${dayjs(currentData).format(
     "YYYY-MM-DD"
-  )}&dueDateTo=${dayjs(currentData)
+  )}&paymentDueDateTo=${dayjs(currentData)
     .add(4, "day")
     .format("YYYY-MM-DD")}&status=Unpaid`;
   const [notificationData, setNotificationData] = useState<any>();

@@ -1,102 +1,100 @@
 import { NextResponse } from "next/server";
-import { dbConnect } from '@/app/lib/config/db';
+import { dbConnect } from "@/app/lib/config/db";
 import InvoiceModel from "../../lib/models/InvoiceModel";
 
+// GET: Fetch Invoices with Filters, Date Ranges, and Pagination
 export async function GET(req) {
   await dbConnect();
 
-  // Use a base URL if req.url is relative
   const url = new URL(req.url, process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000");
   const searchParams = url.searchParams;
 
-  // Get pagination values
   const page = parseInt(searchParams.get("page")) || 1;
   const limit = parseInt(searchParams.get("limit")) || 10;
 
-  let query = {};
+  const query = {};
+  const dateRangeQueries = {};
 
-  // Object to hold grouped date range parameters
-  let dateRangeQueries = {};
-
-  // Loop through each query parameter
   for (const [key, value] of searchParams.entries()) {
-    if (key === "page" || key === "limit") continue;
+    if (["page", "limit"].includes(key)) continue;
 
-    // Check for date range parameters (ends with "From" or "To")
     if (key.endsWith("From") || key.endsWith("To")) {
-      // Determine base field name (e.g. "invoiceDate" from "invoiceDateFrom")
       const baseField = key.replace(/(From|To)$/, "");
-      if (!dateRangeQueries[baseField]) {
-        dateRangeQueries[baseField] = {};
-      }
-      if (key.endsWith("From")) {
-        dateRangeQueries[baseField].from = value;
+      dateRangeQueries[baseField] = dateRangeQueries[baseField] || {};
+      if (key.endsWith("From")) dateRangeQueries[baseField].from = value;
+      if (key.endsWith("To")) dateRangeQueries[baseField].to = value;
+    } else if (key.toLowerCase().includes("date")) {
+      const date = new Date(value);
+      if (!isNaN(date)) {
+        const nextDate = new Date(date);
+        nextDate.setDate(date.getDate() + 1);
+        query[key] = { $gte: date, $lt: nextDate };
       } else {
-        dateRangeQueries[baseField].to = value;
+        query[key] = value;
       }
     } else {
-      // For non-range parameters: if the field name indicates a date
-      if (key.toLowerCase().includes("date")) {
-        const date = new Date(value);
-        if (!isNaN(date.getTime())) {
-          // Single date: create a range that covers the entire day
-          const nextDate = new Date(date);
-          nextDate.setDate(date.getDate() + 1);
-          query[key] = { $gte: date, $lt: nextDate };
-        } else {
-          // If not a valid date, use an exact match
-          query[key] = value;
-        }
-      } else {
-        // For all other fields, use a case‑insensitive regex for partial matches
-        query[key] = { $regex: value, $options: "i" };
-      }
+      // Case-insensitive regex match for other fields
+      query[key] = { $regex: value, $options: "i" };
     }
   }
 
-  console.log(dateRangeQueries)
-  // Process any collected date range queries
+  // Merge date range filters
   for (const field in dateRangeQueries) {
-    const range = dateRangeQueries[field];
-    let rangeQuery = {};
-    if (range.from) {
-      const fromDate = new Date(range.from);
-      if (!isNaN(fromDate.getTime())) {
-        rangeQuery.$gte = fromDate;
-      }
+    const { from, to } = dateRangeQueries[field];
+    const range = {};
+    if (from) {
+      const fromDate = new Date(from);
+      if (!isNaN(fromDate)) range.$gte = fromDate;
     }
-    if (range.to) {
-      const toDate = new Date(range.to);
-      if (!isNaN(toDate.getTime())) {
-        rangeQuery.$lte = toDate;
-      }
+    if (to) {
+      const toDate = new Date(to);
+      if (!isNaN(toDate)) range.$lte = toDate;
     }
-    if (Object.keys(rangeQuery).length > 0) {
-      query[field] = rangeQuery;
+    if (Object.keys(range).length) {
+      query[field] = range;
     }
   }
-
-  console.log("Constructed Query:", query);
 
   try {
-    // Fetch invoices based on the dynamic query with pagination
-    const invoices = await InvoiceModel.find(query)
-      .skip((page - 1) * limit)
-      .limit(limit);
-console.log(invoices)
-    const total = await InvoiceModel.countDocuments(query);
+    const [invoices, total] = await Promise.all([
+      InvoiceModel.find(query)
+        .skip((page - 1) * limit)
+        .limit(limit)
+        .sort({ createdAt: 1 }), // Optional: latest first
+      InvoiceModel.countDocuments(query),
+    ]);
 
     return NextResponse.json({
       data: {
         result: invoices,
-        // pagination: { totalItems:total, page, limit },
-        // pagination: { currentPage:page, totalPages: Math.ceil(total / limit), totalItems: total },
-        pagination: { currentPage: page, totalPages: Math.ceil(total / limit),itemsPerPage:limit, totalItems: total }
+        pagination: {
+          currentPage: page,
+          totalPages: Math.ceil(total / limit),
+          itemsPerPage: limit,
+          totalItems: total,
+        },
       },
-      success: true,  
+      success: true,
     });
   } catch (error) {
     console.error("Error fetching invoices:", error);
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  }
+}
+export async function POST(req) {
+  try {
+    await dbConnect();
+
+    const body = await req.json();
+    const newInvoice = new InvoiceModel(body);
+    await newInvoice.save();
+
+    return NextResponse.json(
+      { data: { result: newInvoice }, success: true },
+      { status: 201 }
+    );
+  } catch (error) {
+    console.error("Error saving invoice:", error);
     return NextResponse.json(
       { success: false, error: error.message },
       { status: 500 }
@@ -105,10 +103,6 @@ console.log(invoices)
 }
 
 
-export async function POST(req) {
-  await dbConnect();
-  const body = await req.json();
-  const newInvoice = new InvoiceModel(body);
-  await newInvoice.save();
-  return NextResponse.json({ data: { result: newInvoice, success: true } }, { status: 201 });
-}
+
+
+// GET /api/invoices?page=1&limit=5&vesselName=Sea&invoiceDateFrom=2024-01-01&invoiceDateTo=2024-12-31

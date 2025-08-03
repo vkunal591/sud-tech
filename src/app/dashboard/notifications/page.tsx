@@ -10,18 +10,43 @@ import { getAccessPoints } from "@/hooks/general";
 import TableComponent from "@/components/common/Table";
 import dayjs from "dayjs";
 
-
 const columns = [
-  // { key: "_id", label: "Invoice ID", sortable: false },
+  { key: "serviceDate", label: "Service Date", sortable: true, isDate: true },
+  { key: "vesselName", label: "Vessel Name", sortable: true },
+  { key: "vesselImoNo", label: "Vessel IMO No", sortable: true },
+  { key: "jobDescription", label: "Job Description", sortable: true },
+  { key: "port", label: "Port", sortable: true },
+  { key: "mt", label: "MT", sortable: true },
+  { key: "subject", label: "Subject", sortable: true },
+  { key: "invoiceDate", label: "Invoice Date", sortable: true, isDate: true },
+  { key: "status", label: "Status", sortable: true, isStatus: true },
   { key: "invoiceNumber", label: "Invoice Number", sortable: true },
-  { key: "vesselImoNo", label: "Vessel IMO Number", sortable: true },
-  { key: "vesselName", label: "Invoice Name", sortable: true },
-  { key: "invoiceDate", label: "Invoice Date", sortable: true,isDate:true },
-  { key: "dueDate", label: "Due Date", sortable: true ,isDate:true},
-  { key: "totalAmount", label: "Total Amount", sortable: true, isCurrency:"$" },
-  { key: "status", label: "Status", sortable: true,status:true },
-  { key: "createdAt", label: "Created At", sortable: true,isDate:true },
-  { key: "updatedAt", label: "Updated At", sortable: true,isDate:true },
+  { key: "orderNumber", label: "Order Number", sortable: true },
+  { key: "invoiceTo", label: "Invoice To", sortable: true },
+  { key: "careOf", label: "Care Of", sortable: true },
+  { key: "address", label: "Address", sortable: true },
+  // Items field is likely a nested array and doesn't map to a single column
+  { key: "totalAmount", label: "Total Amount", sortable: true, isCurrency: "$" },
+  {
+    key: "paymentDueDate",
+    label: "Payment Due Date",
+    sortable: true,
+    isDate: true,
+  },
+  {
+    key: "actualPaymentAmount",
+    label: "Actual Payment Amount",
+    sortable: true,
+    isCurrency: "$",
+  },
+  {
+    key: "actualPaymentDate",
+    label: "Actual Payment Date",
+    sortable: true,
+    isDate: true,
+  },
+  { key: "remarks", label: "Remarks", sortable: true },
+  { key: "companyName", label: "Company Name", sortable: true },
 ];
 
 const filterOptions = [
@@ -34,7 +59,7 @@ const filterOptions = [
 ];
 
 const currentData = new Date();
-const notificationRange = `?dueDateFrom=${dayjs(currentData).format("YYYY-MM-DD")}&dueDateTo=${dayjs(currentData).add(3, 'day').format("YYYY-MM-DD")}&status=Unpaid`
+const notificationRange = `?paymentDueDateFrom=${dayjs(currentData).format("YYYY-MM-DD")}&paymentDueDateTo=${dayjs(currentData).add(3, 'day').format("YYYY-MM-DD")}&status=Unpaid`
 
 const Users: React.FC = () => {
   const { data, loading, error } = useFetch(`${endpoints["Notifications"].fetchAll}${notificationRange}`);

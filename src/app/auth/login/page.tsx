@@ -63,8 +63,8 @@ const Login: React.FC = () => {
     <>
       {!token && (
         <div className="bg-[url('/assets/bg/bgLogin.jpg')] bg-cover min-h-screen flex justify-center items-center">
-          <div className="container-sm m-5 mx-2 bg-white shadow rounded-md h-auto items-center lg:py-2 lg:flex lg:w-2/3 lg:mx-auto">
-            <div className="col mx-auto pt-6 px-10  text-center lg:mx-0 lg:flex-auto lg:py-4 lg:text-left lg:w-2/4 lg:pt-6 lg:px-2 lg:pl-10">
+          <div className="container-sm m-5 mx-2 bg-white shadow rounded-md h-auto items-center lg:py-2 lg:flex lg:w-2/6 lg:mx-auto">
+            <div className="col mx-auto pt-6 px-10  text-center lg:mx-0 lg:flex-auto lg:py-4 lg:text-left lg:w-2/4 lg:pt-6 lg:px-6">
               <form onSubmit={handleSubmit}>
                 <div className="mb-4">
                   <label
@@ -159,7 +159,7 @@ const Login: React.FC = () => {
                 Log in
               </button>
             </div>
-            <div className="col rounded m-4 py-4 bg-[#fff8ec] lg:w-2/4">
+            <div className="col rounded m-4 py-4 bg-[#fff8ec] lg:w-2/4 hidden">
               <Image
                 src={"/assets/otp/otp.png"}
                 alt="Illustration"

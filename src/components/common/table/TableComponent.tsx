@@ -1,11 +1,11 @@
 import dayjs from "dayjs";
 import Actions from "./Actions";
 import { useState } from "react";
-import { functionList } from "@/hooks/customFunction";
 import { FaSort, FaSortUp, FaSortDown } from "react-icons/fa";
 import MultiPurposeComponent from "../MultiPurposeComponentProps";
 import Modal from "../Modal";
-import ConfirmModal from "@/components/crud/ConfirmModal";
+import { functionList } from "../../../hooks/customFunction";
+import ConfirmModal from "../../crud/ConfirmModal";
 
 interface Column {
   key: string;
@@ -14,6 +14,8 @@ interface Column {
   sortable?: boolean;
   isCurrency?: string;
   status?: boolean;
+  isStatus?: boolean;
+  isClickable?: boolean;
 }
 
 interface OperationsAllowed {
@@ -51,6 +53,7 @@ const Table: React.FC<TableProps> = ({
 }) => {
   const [confirmation, setConfirmation] = useState(false);
   const [confirmationData, setConfirmationData] = useState<any>({});
+  const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
   const handleSort = (key: string) => {
     let direction: "asc" | "desc" | null = "asc";
     if (sort.key === key && sort.direction === "asc") {
@@ -65,6 +68,7 @@ const Table: React.FC<TableProps> = ({
     col: {
       key: string;
       isDate?: boolean;
+      isStatus?: boolean;
       isPercent?: string;
       isCurrency?: string;
       isMultiPurpose?: boolean;
@@ -118,7 +122,7 @@ const Table: React.FC<TableProps> = ({
             />
           </Modal>
           <MultiPurposeComponent
-            _id={row?._id}
+            id={row?.id}
             {...multiPurposeProps}
             text={value.toString()}
             onClick={handleConfirmation}
@@ -127,11 +131,13 @@ const Table: React.FC<TableProps> = ({
         </>
       );
     }
-    if (col.key === "_id") return null;
-    // if (col.key === "_id") return value?.slice(-8);
+
+    if (col.key === "id") return value;
+    // if (col.key === "id") return value?.slice(-8);
     if (col.isDate && value) return dayjs(value).format("YYYY-MM-DD");
     if (col.isCurrency && value) return `${col.isCurrency} ${value}`;
     if (col.isPercent) return `${value} ${col.isPercent}`;
+    if (col.isStatus) return `${value}`;
 
     if (typeof value === "number") return value;
     if (typeof value === "boolean") return value.toString();
@@ -145,17 +151,14 @@ const Table: React.FC<TableProps> = ({
 
   return (
     <div className="overflow-x-scroll no-scrollba">
-      <table className="min-w-full bg-white text-center">
+      <table className="min-w-full bg-whiteBg">
         <thead>
           <tr className="whitespace-nowrap">
-            <th className="p-4 border text-left text-iconBlack border-info font-bold">
-              Sr. No.
-            </th>
             {columns.map((col) => (
               <th
                 key={col.key}
                 style={{ maxWidth: `calc(100% / ${columns.length + 1})` }}
-                className="p-4 text-iconBlack font-bold border border-info text-left cursor-pointer"
+                className="p-4 text-iconBlack font-bold border border-infobg text-left cursor-pointer"
                 onClick={() => col.sortable && handleSort(col.key)}
               >
                 {col.label}
@@ -173,7 +176,7 @@ const Table: React.FC<TableProps> = ({
               </th>
             ))}
             {operationsAllowed?.read && (
-              <th className="p-4 border text-left text-iconBlack border-info font-bold">
+              <th className="p-4 border text-left text-iconBlack border-infobg font-bold">
                 Actions
               </th>
             )}
@@ -184,23 +187,33 @@ const Table: React.FC<TableProps> = ({
             filteredData.map((row: any, index: number) => (
               <tr
                 key={index}
-                className="border text-black border-info cursor-pointer"
+                className="border text-black border-infobg cursor-pointer"
               >
-                <th className="p-4 border text-left text-iconBlack border-info font-bold">
-                  {index + 1}
-                </th>
                 {columns.map((col) => (
                   <td
                     key={col.key}
-                    className="text-sm border text-iconBlack whitespace-nowrap border-info px-4 py-3"
+                    onClick={col?.isClickable ? () => setIsStatusModalOpen(true) : () => { }}
+                    className={`text-sm border  whitespace-nowrap border-infobg px-4 py-3${col?.isClickable ? "text-green-600 font-bold" : "text-iconBlack"}`}
                   >
                     {col.status ? (
                       <span
-                        className={`flex justify-center items-center rounded-md ${
-                          formatRowValue(row, col) === "true"
+                        className={`flex justify-center items-center rounded-md ${formatRowValue(row, col) === "true"
                             ? "bg-green-50 text-green-600"
-                            : "bg-red-50 text-info-600"
-                        } px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-gray-500/10 ring-inset`}
+                            : "bg-red-50 text-red-600"
+                          } px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-gray-500/10 ring-inset`}
+                      >
+                        {formatRowValue(row, col) === "true"
+                          ? "Active"
+                          : "InActive"}
+                      </span>
+                    ) : col.isStatus ? (
+                      <span
+                        className={`flex justify-center items-center rounded-md ${formatRowValue(row, col) === "Paid"
+                            ? "bg-green-50 text-green-600"
+                            : formatRowValue(row, col) === "Unpaid"
+                              ? "bg-yellow-50 text-yellow-600"
+                              : "bg-red-50 text-red-600"
+                          } px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-gray-500/10 ring-inset`}
                       >
                         {formatRowValue(row, col)}
                       </span>
@@ -210,7 +223,7 @@ const Table: React.FC<TableProps> = ({
                   </td>
                 ))}
                 {operationsAllowed?.read && (
-                  <td className="text-nowrap border border-info px-4 py-3">
+                  <td className="text-nowrap border border-infobg px-4 py-3">
                     <Actions
                       row={row}
                       type={type}
@@ -219,6 +232,8 @@ const Table: React.FC<TableProps> = ({
                       setFilteredData={setFilteredData}
                       setIsModalVisible={setIsModalVisible}
                       operationsAllowed={operationsAllowed}
+                      isStatusModalOpen={isStatusModalOpen}
+                      setIsStatusModalOpen={setIsStatusModalOpen}
                     />
                   </td>
                 )}

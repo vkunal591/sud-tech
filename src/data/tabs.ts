@@ -70,7 +70,7 @@ export const tabs = [
   {
     id: 15,
     tabs: [],
-    icon: MdCorporateFare ,
+    icon: MdCorporateFare,
     label: "Manage Ledger",
     href: "/dashboard/ledger",
     pageTitle: "Manage Ledger",
@@ -204,10 +204,10 @@ export const tabs = [
   {
     id: 10,
     icon: FaMoneyBillTransfer,
-    label: "Manage Billing",
-    pageTitle: "All Billing",
-    href: "/dashboard/billing",
-    permission: "Manage Billing",
+    label: "Manage Invoice",
+    pageTitle: "All Invoice",
+    href: "/dashboard/invoice",
+    permission: "Manage Invoice",
   },
   {
     id: 11,
@@ -226,13 +226,13 @@ export const tabs = [
     pageTitle: "Manage Notifications",
     permission: "Manage Notifications",
   },
-  {
-    id: 19,
-    tabs: [],
-    icon: MdNotificationImportant,
-    label: "Yard Notifications",
-    href: "/dashboard/yard-notifications",
-    pageTitle: "Manage Yard Notifications",
-    permission: "Manage Notifications",
-  },
+  //  {
+  //   id: 19,
+  //   tabs: [],
+  //   icon: MdNotificationImportant,
+  //   label: "Yard Notifications",
+  //   href: "/dashboard/yard-notifications", 
+  //   pageTitle: "Manage Yard Notifications",
+  //   permission: "Manage Notifications",
+  // },
 ];

@@ -85,23 +85,23 @@ const Actions: React.FC<ActionsProps> = ({
   // const notificationParams: Record<string, any> = {
   //   // page: data.current,
   //   // limit: data.limit,
-  //   dueDateFrom: dayjs(currentData).subtract(3, 'day').format("YYYY-MM-DD"),
-  //   dueDateTo: dayjs(currentData).format("YYYY-MM-DD"),
+  //   paymentDueDateFrom: dayjs(currentData).subtract(3, 'day').format("YYYY-MM-DD"),
+  //   paymentDueDateTo: dayjs(currentData).format("YYYY-MM-DD"),
   //   status: "Unpaid"
   // };
   const notificationRange =
     type === "Notifications"
-      ? `?dueDateFrom=${dayjs(currentData).format(
+      ? `?paymentDueDateFrom=${dayjs(currentData).format(
           "YYYY-MM-DD"
-        )}&dueDateTo=${dayjs(currentData)
+        )}&paymentDueDateTo=${dayjs(currentData)
           .add(4, "day")
           .format("YYYY-MM-DD")}&status=Unpaid`
       : "";
   const yardNotificationRange =
     type === "Notifications"
-      ? `?yardPaymentDueDateFrom=${dayjs(currentData).format(
+      ? `?yardPaymentpaymentDueDateFrom=${dayjs(currentData).format(
           "YYYY-MM-DD"
-        )}&yardPaymentDueDateTo=${dayjs(currentData)
+        )}&yardPaymentpaymentDueDateTo=${dayjs(currentData)
           .add(5, "day")
           .format("YYYY-MM-DD")}&status=Unpaid`
       : "";

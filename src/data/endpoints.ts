@@ -33,6 +33,14 @@ export const endpoints: Record<
     fetchAll: "api/invoice/", // to fetch all products
     operations: operations,
   },
+  Invoice: {
+    create: "api/invoice", // to create a product
+    read: "api/invoice/", // to get a product
+    update: `api/invoice/`, // to update a product
+    delete: "api/invoice/", // to delete a product
+    fetchAll: "api/invoice/", // to fetch all products
+    operations: operations,
+  },
   Notifications: {
     create: "api/invoice", // to create a product
     read: "api/invoice/", // to get a product
