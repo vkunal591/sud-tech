@@ -122,7 +122,7 @@ const Table: React.FC<TableProps> = ({
             />
           </Modal>
           <MultiPurposeComponent
-            id={row?.id}
+            _id={row?.id}
             {...multiPurposeProps}
             text={value.toString()}
             onClick={handleConfirmation}

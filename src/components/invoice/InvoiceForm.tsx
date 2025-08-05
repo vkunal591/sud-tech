@@ -17,7 +17,7 @@ const InvoiceForm = (props: any) => {
   const router = useRouter();
   const [submitting, setSubmitting] = useState(false);
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<any>({
     serviceDate: formatDate(responseData?.serviceDate),
     vesselName: responseData?.vesselName || "",
     vesselImoNo: responseData?.vesselImoNo || "",
@@ -72,7 +72,7 @@ const InvoiceForm = (props: any) => {
         // Calculate total amount for all items
         const newTotal = updatedItems.reduce((sum, item) => sum + (typeof item.amount === 'number' ? item.amount : 0), 0);
 
-        return setFormData((prev) => ({
+        return setFormData((prev: any) => ({
           ...prev,
           items: updatedItems,
           totalAmount: newTotal,
@@ -80,7 +80,7 @@ const InvoiceForm = (props: any) => {
       }
     }
 
-    setFormData((prev) => ({
+    setFormData((prev: any) => ({
       ...prev,
       [name]: name === "totalAmount" || name.includes("Amount")
         ? Number(value)
@@ -91,7 +91,7 @@ const InvoiceForm = (props: any) => {
 
 
   const handleAddItem = () => {
-    setFormData((prev) => {
+    setFormData((prev: any) => {
       const newItems = [...prev.items, { itemName: "", qty: 0, unit: "", price: 0, amount: 0 }];
       const newTotal = newItems.reduce((sum, item) => sum + item.amount, 0);
       return { ...prev, items: newItems, totalAmount: newTotal };
@@ -99,9 +99,9 @@ const InvoiceForm = (props: any) => {
   };
 
   const handleRemoveItem = (index: number) => {
-    setFormData((prev) => {
-      const newItems = prev.items.filter((_, i) => i !== index);
-      const newTotal = newItems.reduce((sum, item) => sum + item.amount, 0);
+    setFormData((prev: any) => {
+      const newItems = prev.items.filter((_: any, i: any) => i !== index);
+      const newTotal = newItems.reduce((sum: any, item: any) => sum + item.amount, 0);
       return { ...prev, items: newItems, totalAmount: newTotal };
     });
   };
@@ -184,7 +184,7 @@ const InvoiceForm = (props: any) => {
               <span>Price</span>
               <span>Amount</span>
             </div>
-            {formData.items.map((item, index) => (
+            {formData.items.map((item: any, index: any) => (
               <div key={index} className="grid grid-cols-5 gap-2 mb-2 items-center">
                 <input
                   type="text"

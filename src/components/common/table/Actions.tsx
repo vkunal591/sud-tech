@@ -39,7 +39,9 @@ interface ActionsProps {
   setFilteredData: (data: any) => void;
   operationsAllowed: OperationsAllowed;
   setPaginate: (pagination: any) => void;
+  isStatusModalOpen: any;
   setIsModalVisible: (isVisible: boolean) => void;
+  setIsStatusModalOpen: any
 }
 
 const Actions: React.FC<ActionsProps> = ({
@@ -49,7 +51,9 @@ const Actions: React.FC<ActionsProps> = ({
   setPaginate,
   setFilteredData,
   setIsModalVisible,
+  isStatusModalOpen,
   operationsAllowed,
+  setIsStatusModalOpen
 }) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -61,10 +65,10 @@ const Actions: React.FC<ActionsProps> = ({
 
   const handleEdit = async (id?: string) => {
     if (!id) return;
-    
+
     try {
       const endpoint = endpoints[type]?.read;
-      
+
       console.log(endpoint)
       if (!endpoint) return;
 
@@ -92,18 +96,18 @@ const Actions: React.FC<ActionsProps> = ({
   const notificationRange =
     type === "Notifications"
       ? `?paymentDueDateFrom=${dayjs(currentData).format(
-          "YYYY-MM-DD"
-        )}&paymentDueDateTo=${dayjs(currentData)
-          .add(4, "day")
-          .format("YYYY-MM-DD")}&status=Unpaid`
+        "YYYY-MM-DD"
+      )}&paymentDueDateTo=${dayjs(currentData)
+        .add(4, "day")
+        .format("YYYY-MM-DD")}&status=Unpaid`
       : "";
   const yardNotificationRange =
     type === "Notifications"
       ? `?yardPaymentpaymentDueDateFrom=${dayjs(currentData).format(
-          "YYYY-MM-DD"
-        )}&yardPaymentpaymentDueDateTo=${dayjs(currentData)
-          .add(5, "day")
-          .format("YYYY-MM-DD")}&status=Unpaid`
+        "YYYY-MM-DD"
+      )}&yardPaymentpaymentDueDateTo=${dayjs(currentData)
+        .add(5, "day")
+        .format("YYYY-MM-DD")}&status=Unpaid`
       : "";
 
   const handleDelete = async (id: string) => {
@@ -114,11 +118,10 @@ const Actions: React.FC<ActionsProps> = ({
       if (!showDeleteModal) return setShowDeleteModal(true);
 
       const deleteEndpoint = endpoints[type]?.delete;
-      const fetchEndpoint = `${endpoints[type]?.fetchAll}${
-        pathname === "/dashboard/notifications"
-          ? notificationRange
-          : yardNotificationRange
-      }`;
+      const fetchEndpoint = `${endpoints[type]?.fetchAll}${pathname === "/dashboard/notifications"
+        ? notificationRange
+        : yardNotificationRange
+        }`;
 
       if (deleteEndpoint && fetchEndpoint) {
         await Delete(`${deleteEndpoint}${id}`);
