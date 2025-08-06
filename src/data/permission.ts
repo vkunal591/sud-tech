@@ -33,7 +33,8 @@ export const userPermissions = [
       read: true,
       update: true,
       create: true,
-      invoice: true,
+      print: true,
+      updateStatus:true,
       delete: true,
     },
   },
@@ -45,6 +46,7 @@ export const userPermissions = [
       create: true,
       invoice: true,
       delete: true,
+      print:true
     },
   },
   {
@@ -64,7 +66,7 @@ export const userPermissions = [
       update: true,
       delete: true,
       view: true,
-      updateStatus: true,
+      // updateStatus: true,
       print: true,
     },
   },

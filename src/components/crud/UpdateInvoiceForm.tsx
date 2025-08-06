@@ -36,7 +36,7 @@ export default function UpdateInvoiceForm({
       const res = await fetch(`/api/invoice/${invoiceId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status, dueDate, yardPaymentDueDate }),
+        body: JSON.stringify({ status, paymentDueDate: dueDate, yardPaymentDueDate }),
       });
 
       const data = await res.json();
@@ -73,7 +73,6 @@ export default function UpdateInvoiceForm({
           value={status}
           onChange={(e) => setStatus(e.target.value)}
         >
-          <option value="Pending">Pending</option>
           <option value="Paid">Paid</option>
           <option value="Unpaid">Unpaid</option>
           <option value="Overdue">Overdue</option>
@@ -84,7 +83,7 @@ export default function UpdateInvoiceForm({
           </label>
           <input
             type="date"
-            name="dueDate"
+            name="paymentDueDate"
             value={dueDate}
             onChange={(e) => setDueDate(e.target.value)}
             className=""

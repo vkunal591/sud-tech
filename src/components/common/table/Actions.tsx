@@ -19,7 +19,7 @@ import dayjs from "dayjs";
 interface RowData {
   _id: string;
   status?: string;
-  dueDate?: string;
+  paymentDueDate?: string;
   yardPaymentDueDate?: string;
 }
 
@@ -210,7 +210,7 @@ const Actions: React.FC<ActionsProps> = ({
       {operationsAllowed?.updateStatus && (
         <button
           onClick={() => {
-            setDueDate(row?.dueDate);
+            setDueDate(row?.paymentDueDate);
             setYardPaymentDueDate(row?.yardPaymentDueDate);
             setIsOpen(true);
           }}

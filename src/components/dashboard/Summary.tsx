@@ -14,6 +14,7 @@ import { endpoints } from "@/data/endpoints";
 import useFetch from "@/hooks/useFetch";
 import dayjs from "dayjs";
 import Link from "next/link";
+import TableData from "./TableData";
 
 const Summary = () => {
   const currentData = new Date();
@@ -202,83 +203,7 @@ const Summary = () => {
             View All
           </Link>
         </div>
-        <div className="overflow-x-auto no-scrpllebar">
-          <table className="w-full mt-4 text-sm">
-            <thead className="text-base text-iconBlack text-left">
-              <tr>
-                <th className="p-4 border border-infobg">Sr. No.</th>
-                <th className="p-4 border border-infobg">Invoice Number</th>
-                <th className="p-4 border border-infobg">Vessel IMO Number</th>
-                <th className="p-4 border border-infobg">Invoice Name</th>
-                <th className="p-4 border border-infobg">Invoice Date</th>
-                <th className="p-4 border border-infobg">Due Date</th>
-                <th className="p-4 border border-infobg">Total Amount</th>
-                <th className="p-4 border border-infobg">Status</th>
-                <th className="p-4 border border-infobg">Created At</th>
-                <th className="p-4 border border-infobg">Updated At</th>
-                <th className="p-4 border border-infobg">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {updatedData &&
-                updatedData.map((deal: any, index: any) => (
-                  <tr
-                    key={deal._id}
-                    className="border-b border-infobg text-iconBlack hover:bg-infobg cursor-pointer"
-                  >
-                    <td className="p-4 border border-infobg">{index + 1}</td>
-                    {/* <td className="p-4 border border-infobg">{deal._id.slice(8)}</td> */}
-                    <td className="p-4 border border-infobg">
-                      {deal.invoiceNumber}
-                    </td>
-                    <td className="p-4 border border-infobg">
-                      {deal.vesselImoNo}
-                    </td>
-                    <td className="p-4 border border-infobg">
-                      {deal.vesselName}
-                    </td>
-                    <td className="p-4 border border-infobg">
-                      {dayjs(deal.invoiceDate).format("dd-MM-YYYY")}
-                    </td>
-
-                    <td className="p-4 border border-infobg">
-                      {dayjs(deal.dueDate).format("dd-MM-YYYY")}
-                    </td>
-                    <td className="p-4 border border-infobg">
-                      {deal.totalAmount}
-                    </td>
-                    <td className="p-4 border border-infobg">
-                      <span
-                        className={`px-2 py-1 text-xs text-white rounded ${
-                          deal.dealStatus === "Unpaid"
-                            ? "bg-green-400"
-                            : deal.status === "Paid"
-                            ? "bg-yellow-400"
-                            : "bg-red-400"
-                        }`}
-                      >
-                        {deal.status}
-                      </span>
-                    </td>
-                    <td className="p-4 border border-infobg">
-                      {deal.createdAt}
-                    </td>
-                    <td className="p-4 border border-infobg">
-                      {deal.updatedAt}
-                    </td>
-                    <td className="p-4 border border-infobg">
-                      <button
-                        onClick={() => handleDownloadPDF(deal)}
-                        className="bg-green-400 text-white rounded text-lg p-1 hover:text-green-800"
-                      >
-                        <FaFilePdf />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-        </div>
+        <TableData updatedData={updatedData} handleDownloadPDF={handleDownloadPDF} />
       </section>
     </>
   );

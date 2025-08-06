@@ -40,6 +40,7 @@ const Sidebar: React.FC = () => {
         create: true,
         update: true,
         delete: true,
+        print:true
       },
     },
     //   {
