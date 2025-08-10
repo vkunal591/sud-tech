@@ -1,8 +1,8 @@
-[@echo off
+@echo off
 SETLOCAL
 
 :: Set the Next.js project path
-SET PROJECT_PATH=D:\Kunal-WorkSpace\ReadDev\base-api-server
+SET PROJECT_PATH= D:\Development\Dashboard\sud-tech
 
 :: Navigate to project directory
 cd /d "%PROJECT_PATH%" || (
@@ -18,7 +18,7 @@ start /min cmd /c "npm run start >nul 2>&1"
 timeout /t 10 /nobreak >nul
 
 :: Open the app in Edge (or Chrome)
-SET URL=http://localhost:3000
+SET URL=http://localhost:3001
 
 :: Open in Edge App Mode
 start msedge --new-window --app=%URL%
