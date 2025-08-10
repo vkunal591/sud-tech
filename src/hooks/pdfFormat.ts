@@ -52,9 +52,9 @@ export const handleDownloadPDF = async (formData: any) => {
   doc.text(doc.splitTextToSize(`${formData?.address}`, (maxWidth - 100)), 10, 84  );
   // doc.text(`Great World City West Tower`, 10, 85);
   // doc.text(`#10-11/12, 237994, Singapore`, 10, 90);
-  doc.text(`M.T.: ${formData?.mt}`, 10, 95);
+  doc.text(`${formData?.vesselName}`, 10, 95);
   doc.text(`Date: ${formData?.invoiceDate}`, 105, 95);
-  doc.text(`Port: ${formData?.Port}`, 10, 100);
+  doc.text(`Port: ${formData?.port}`, 10, 100);
   doc.text(`Order No.: ${formData?.orderNumber}`, 105, 100);
   doc.text(`Subject: ${formData?.vesselName}(${formData?.vesselImoNo})`, 10, 105);
   doc.text(`Invoice No.: ${formData?.invoiceNumber}`, 105, 105);
@@ -75,9 +75,9 @@ export const handleDownloadPDF = async (formData: any) => {
 
   doc.setFontSize(10).text(doc.splitTextToSize(`NO.`, (maxWidth - 160)), 7, 115);
   doc.setFontSize(10).text(doc.splitTextToSize(`DESCRIPTION.`, (maxWidth - 120)), 50, 115);
-  doc.setFontSize(10).text(doc.splitTextToSize(`QTY`, (maxWidth - 155)), 157, 115);
+  doc.setFontSize(10).text(doc.splitTextToSize(`QTY`, (maxWidth - 155)), 160, 115);
   doc.setFontSize(10).text(doc.splitTextToSize(`UNIT`, (maxWidth - 160)), 120, 115);
-  doc.setFontSize(10).text(doc.splitTextToSize(`PRICE`, (maxWidth - 158)), 138, 115);
+  doc.setFontSize(10).text(doc.splitTextToSize(`PRICE`, (maxWidth - 158)), 140, 115);
   doc.setFontSize(10).text(doc.splitTextToSize(`AMOUNT`, (maxWidth - 150)), 185, 115);
 
   doc.setFont("helvetica", "normal");
@@ -128,8 +128,8 @@ export const handleDownloadPDF = async (formData: any) => {
       doc.text(`${i + 1}`, 7, y);
       doc.text(doc.splitTextToSize(item?.itemName, 80), 17, y); // Adjust max width if needed
       doc.text(item.unit || '', 117, y);
-      doc.text(item.price.toString(), 137, y);
-      doc.text(item.qty.toString(), 157, y);
+      doc.text(item.price.toString(), 143, y);
+      doc.text(item.qty.toString(), 160, y);
       doc.text(amount.toLocaleString('en-IN'), 182, y);
     }
 

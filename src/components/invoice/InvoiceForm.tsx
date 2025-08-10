@@ -42,9 +42,57 @@ const InvoiceForm = (props: any) => {
     companyName: responseData?.companyName || "",
   });
 
-  const handleChange = (e: any, index?: number) => {
-    const { name, value } = e.target;
+  // const handleChange = (e: any, index?: number) => {
+  //   const { name, value } = e.target;
 
+  //   if (name.startsWith("items[")) {
+  //     const match = name.match(/items\[(\d+)\]\.(\w+)/);
+  //     if (match) {
+  //       const idx = parseInt(match[1], 10);
+  //       const field = match[2];
+  //       const updatedItems = [...formData.items];
+
+  //       // Allow empty string for qty and price so user can backspace
+  //       if (field === "qty" || field === "price") {
+  //         updatedItems[idx][field] = value === "" ? "" : Number(value);
+  //       } else {
+  //         updatedItems[idx][field] = value.toUpperCase();
+  //       }
+
+  //       // Calculate amount only if qty and price are valid numbers
+  //       const qty = Number(updatedItems[idx].qty);
+  //       const price = Number(updatedItems[idx].price);
+
+  //       if (!isNaN(qty) && !isNaN(price) && updatedItems[idx].qty !== "" && updatedItems[idx].price !== "") {
+  //         updatedItems[idx].amount = qty * price;
+  //       } else {
+  //         updatedItems[idx].amount = 0;
+  //       }
+
+  //       // Calculate total amount for all items
+  //       const newTotal = updatedItems.reduce((sum, item) => sum + (typeof item.amount === 'number' ? item.amount : 0), 0);
+
+  //       return setFormData((prev: any) => ({
+  //         ...prev,
+  //         items: updatedItems,
+  //         totalAmount: newTotal,
+  //       }));
+  //     }
+  //   }
+
+  //   setFormData((prev: any) => ({
+  //     ...prev,
+  //     [name]: name === "totalAmount" || name.includes("Amount")
+  //       ? Number(value)
+  //       : value.toUpperCase?.() || value,
+  //   }));
+  // };
+
+
+  const handleChange = (e: any, index?: number) => {
+    const { name, value, type } = e.target;
+
+    // --- Handle line item changes ---
     if (name.startsWith("items[")) {
       const match = name.match(/items\[(\d+)\]\.(\w+)/);
       if (match) {
@@ -52,42 +100,61 @@ const InvoiceForm = (props: any) => {
         const field = match[2];
         const updatedItems = [...formData.items];
 
-        // Allow empty string for qty and price so user can backspace
         if (field === "qty" || field === "price") {
           updatedItems[idx][field] = value === "" ? "" : Number(value);
         } else {
           updatedItems[idx][field] = value.toUpperCase();
         }
 
-        // Calculate amount only if qty and price are valid numbers
-        const qty = Number(updatedItems[idx].qty);
-        const price = Number(updatedItems[idx].price);
+        // Recalculate amount only when qty and price are valid
+        const qty = updatedItems[idx].qty === "" ? NaN : Number(updatedItems[idx].qty);
+        const price = updatedItems[idx].price === "" ? NaN : Number(updatedItems[idx].price);
 
-        if (!isNaN(qty) && !isNaN(price) && updatedItems[idx].qty !== "" && updatedItems[idx].price !== "") {
+        if (!isNaN(qty) && !isNaN(price)) {
           updatedItems[idx].amount = qty * price;
         } else {
           updatedItems[idx].amount = 0;
         }
 
-        // Calculate total amount for all items
-        const newTotal = updatedItems.reduce((sum, item) => sum + (typeof item.amount === 'number' ? item.amount : 0), 0);
+        // Update total
+        const newTotal = updatedItems.reduce(
+          (sum, item) => sum + (typeof item.amount === "number" ? item.amount : 0),
+          0
+        );
 
         return setFormData((prev: any) => ({
           ...prev,
           items: updatedItems,
-          totalAmount: newTotal,
+          totalAmount: prev.totalAmount === null ? null : newTotal,
         }));
       }
     }
 
-    setFormData((prev: any) => ({
-      ...prev,
-      [name]: name === "totalAmount" || name.includes("Amount")
-        ? Number(value)
-        : value.toUpperCase?.() || value,
-    }));
-  };
+    // --- Handle top-level numeric fields ---
+    setFormData((prev: any) => {
+      // If actualPaymentAmount or totalAmount → null when empty
+      if (name === "actualPaymentAmount" || name === "totalAmount") {
+        return {
+          ...prev,
+          [name]: value === "" ? null : Number(value),
+        };
+      }
 
+      // Other numeric fields → "" when empty
+      if (type === "number") {
+        return {
+          ...prev,
+          [name]: value === "" ? "" : Number(value),
+        };
+      }
+
+      // Non-numeric fields
+      return {
+        ...prev,
+        [name]: value.toUpperCase?.() || value,
+      };
+    });
+  };
 
 
   const handleAddItem = () => {
@@ -150,7 +217,6 @@ const InvoiceForm = (props: any) => {
               { label: "Vessel IMO No", name: "vesselImoNo" },
               { label: "Job Description", name: "jobDescription" },
               { label: "Port", name: "port" },
-              { label: "MT", name: "mt" },
               { label: "Subject", name: "subject" },
               { label: "Invoice To", name: "invoiceTo" },
               { label: "Care Of", name: "careOf" },
@@ -159,8 +225,8 @@ const InvoiceForm = (props: any) => {
               { label: "Company Name", name: "companyName" },
               { label: "Payment Due Date", name: "paymentDueDate", type: "date" },
               { label: "Actual Payment Date", name: "actualPaymentDate", type: "date" },
-              { label: "Actual Payment Amount", name: "actualPaymentAmount", type: "number" },
-              { label: "Total Amount (USD)", name: "totalAmount", type: "number" },
+              // { label: "Actual Payment Amount", name: "actualPaymentAmount", type: "number" },
+              // { label: "Total Amount (USD)", name: "totalAmount", type: "number" },
             ].map(({ label, name, type = "text" }) => (
               <div key={name}>
                 <label className="block text-sm mb-1">{label}</label>
@@ -173,6 +239,27 @@ const InvoiceForm = (props: any) => {
                 />
               </div>
             ))}
+            <div>
+              <label className="block text-sm mb-1">{"Actual Payment Amount"}</label>
+              <input
+                type="number"
+                name="actualPaymentAmount"
+                className="w-full p-2 border border-gray-300 rounded" 
+                value={formData.actualPaymentAmount ?? ""} // show empty if null
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <label className="block text-sm mb-1">{'Toatl Amount'}</label>
+              <input
+                type="number"
+                name="totalAmount"
+                className="w-full p-2 border border-gray-300 rounded"
+                value={formData.totalAmount ?? ""} // show empty if null
+                onChange={handleChange}
+              />
+            </div>
+
           </div>
 
           <div className="mt-6">

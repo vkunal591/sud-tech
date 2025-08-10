@@ -15,7 +15,6 @@ const columns = [
   { key: "vesselImoNo", label: "Vessel IMO No", sortable: true },
   { key: "jobDescription", label: "Job Description", sortable: true },
   { key: "port", label: "Port", sortable: true },
-  { key: "mt", label: "MT", sortable: true },
   { key: "subject", label: "Subject", sortable: true },
   { key: "invoiceDate", label: "Invoice Date", sortable: true, isDate: true },
   { key: "status", label: "Status", sortable: true, isStatus: true },
