@@ -56,7 +56,7 @@ export const handleDownloadPDF = async (formData: any) => {
   doc.text(`Date: ${formData?.invoiceDate}`, 105, 95);
   doc.text(`Port: ${formData?.port}`, 10, 100);
   doc.text(`Order No.: ${formData?.orderNumber}`, 105, 100);
-  doc.text(`Subject: ${formData?.vesselName}(${formData?.vesselImoNo})`, 10, 105);
+  doc.text(`Subject: ${formData?.subject}`, 10, 105);
   doc.text(`Invoice No.: ${formData?.invoiceNumber}`, 105, 105);
 
 
