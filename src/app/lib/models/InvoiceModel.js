@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 
 const lineItemSchema = new mongoose.Schema({
-  itemName: { type: String, required: true },      // Item name / description
-  qty: { type: Number, required: true },
-  unit: { type: String, required: true },          // e.g., pcs, hrs, kg
-  price: { type: Number, required: true },
-  amount: { type: Number, required: true },        // qty * price
+  itemName: { type: String },      // Item name / description
+  qty: { type: Number },
+  unit: { type: String },          // e.g., pcs, hrs, kg
+  price: { type: Number },
+  amount: { type: Number },        // qty * price
 });
 
 const shipInvoiceSchema = new mongoose.Schema(

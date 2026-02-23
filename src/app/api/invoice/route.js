@@ -6,7 +6,7 @@ import InvoiceModel from "../../lib/models/InvoiceModel";
 export async function GET(req) {
   await dbConnect();
 
-  const url = new URL(req.url, process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000");
+  const url = new URL(req.url, process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3001");
   const searchParams = url.searchParams;
 
   const page = parseInt(searchParams.get("page")) || 1;

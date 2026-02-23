@@ -78,7 +78,7 @@ const handleToast = (
     render: message,
     type: toastType,
     isLoading: status === "loading",
-    autoClose: status !== "loading" ? 3000 : false,
+    autoClose: status !== "loading" ? 3001 : false,
     closeOnClick: true,
     pauseOnHover: true,
     draggable: true,

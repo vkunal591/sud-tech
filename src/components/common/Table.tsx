@@ -190,7 +190,7 @@ const TableComponent = <T extends { [key: string]: any }>({
     if (fetchEndpoint) {
       try {
         const response: any = await Fetch(
-          `http://localhost:3000/${fetchEndpoint}`,
+          `http://localhost:3001/${fetchEndpoint}`,
           operationsAllowed?.custome
             ? path === "/dashboard/notifications"
               ? notificationParams

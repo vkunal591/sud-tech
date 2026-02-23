@@ -53,7 +53,7 @@ export const handleDownloadPDF = async (formData: any) => {
   // doc.text(`Great World City West Tower`, 10, 85);
   // doc.text(`#10-11/12, 237994, Singapore`, 10, 90);
   doc.text(`${formData?.vesselName}`, 10, 95);
-  doc.text(`Date: ${formData?.invoiceDate}`, 105, 95);
+  doc.text(`Date: ${dayjs(formData?.invoiceDate).format("DD MMMM YYYY")}`, 105, 95);
   doc.text(`Port: ${formData?.port}`, 10, 100);
   doc.text(`Order No.: ${formData?.orderNumber}`, 105, 100);
   doc.text(`Subject: ${formData?.subject}`, 10, 105);
