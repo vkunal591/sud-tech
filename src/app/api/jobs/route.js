@@ -79,8 +79,9 @@ export async function GET() {
             <td style="padding:8px;border:1px solid #ddd;">${index + 1}</td>
             <td style="padding:8px;border:1px solid #ddd;">${inv.invoiceNumber || "N/A"}</td>
             <td style="padding:8px;border:1px solid #ddd;">${inv.vesselName} (${inv.vesselImoNo})</td>
+            <td style="padding:8px;border:1px solid #ddd;">${inv.invoiceTo || "N/A"}</td>
             <td style="padding:8px;border:1px solid #ddd;">${paymentDueDate}</td>
-            <td style="padding:8px;border:1px solid #ddd;">₹${amount}</td>
+            <td style="padding:8px;border:1px solid #ddd;">$${amount}</td>
             <td style="padding:8px;border:1px solid #ddd;">${inv.status}</td>
           </tr>
         `;
@@ -99,6 +100,7 @@ export async function GET() {
             <tr style="background-color: #f2f2f2;">
               <th style="padding:8px;border:1px solid #ddd;">#</th>
               <th style="padding:8px;border:1px solid #ddd;">Invoice No</th>
+              <th style="padding:8px;border:1px solid #ddd;">Vessel Name</th>
               <th style="padding:8px;border:1px solid #ddd;">Company</th>
               <th style="padding:8px;border:1px solid #ddd;">Due Date</th>
               <th style="padding:8px;border:1px solid #ddd;">Amount</th>
@@ -111,16 +113,9 @@ export async function GET() {
         </table>
 
         <h3 style="margin-top:20px;">
-          Total Due Amount: ₹${totalAmountSum.toFixed(2)}
+          Total Due Amount: $${totalAmountSum.toFixed(2)}
         </h3>
 
-        <p style="margin-top:20px;">
-          Kindly ensure timely payment to avoid service interruption.
-        </p>
-
-        <p style="margin-top:30px;font-size:12px;color:#777;">
-          This is an automated system generated email.
-        </p>
       </div>
     `;
 
@@ -137,10 +132,9 @@ Please check the HTML version for detailed breakdown.
 
     // ✅ Send to multiple recipients
     const recipients = [
-      // "rana@sudgroup.cn",
-      // "biz1@sudgroup.cn",
-      // "union@188.com",
-      'vkunal591@gmail.com'
+      "rana@sudgroup.cn",
+      "biz1@sudgroup.cn",
+      "union@188.com",
     ];
 
     const emailSent = await sendEmailAlert(
