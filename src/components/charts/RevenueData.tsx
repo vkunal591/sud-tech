@@ -1,5 +1,5 @@
 import React from "react";
-import { bigShoulders } from "@/font/font";
+// import { bigShoulders } from "@/font/font";
 
 const RevenueData = ({ data }: { data: any }) => {
   const monthNames = [
@@ -22,7 +22,7 @@ const RevenueData = ({ data }: { data: any }) => {
       {/* Total Revenue */}
       <div className="bg-blue-100 p-6 rounded-xl">
         <h3
-          className={`text-2xl pb-2 font-black uppercase text-blue-700 ${bigShoulders.className}`}
+          className={`text-2xl pb-2 font-black uppercase text-blue-700 ${"bigShoulders.className"}`}
         >
           Total Revenue
         </h3>
@@ -35,7 +35,7 @@ const RevenueData = ({ data }: { data: any }) => {
       {/* Current Month Revenue */}
       <div className="bg-green-100 p-6 rounded-xl">
         <h3
-          className={`text-2xl pb-2 font-black uppercase text-green-700 ${bigShoulders.className}`}
+          className={`text-2xl pb-2 font-black uppercase text-green-700 ${"bigShoulders.className"}`}
         >
           Current Month Revenue
         </h3>
@@ -48,7 +48,7 @@ const RevenueData = ({ data }: { data: any }) => {
       {/* Monthly Revenue Data */}
       <div className="bg-yellow-100 p-6 rounded-xl">
         <h3
-          className={`text-2xl pb-2 font-black uppercase text-yellow-700 ${bigShoulders.className}`}
+          className={`text-2xl pb-2 font-black uppercase text-yellow-700 ${"bigShoulders.className"}`}
         >
           Monthly Revenue
         </h3>
